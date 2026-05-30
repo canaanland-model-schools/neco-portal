@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="fav_icon2.ico">
+    <title>NECO BECE CBT Portal - Junior & Senior Secondary</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            position: relative;
+            z-index: 1;
+            font-family: 'Times New Roman', Times, serif;
+            background: #d4c9a8;
+            line-height: 1.6;
+        }
+
+        /* NECO Watermark Background */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('img/neco-logo.png') no-repeat center center;
+            background-size: 350px 350px;
+            opacity: 0.08;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        :root {
+            --primary-color: #1a472a;
+            --secondary-color: #ffd700;
+            --accent-color: #2d6a4f;
+            --background-color: #d4c9a8;
+            --text-color: #1a472a;
+            --card-bg: #fef9e6;
+            --header-bg: linear-gradient(135deg, #1a472a, #2d6a4f);
+            --header-text: #ffd700;
+            --nav-bg: #1a472a;
+            --input-border: #d4a843;
+            --border-color: #d4a843;
+        }
+
+        .dark-theme {
+            --primary-color: #4CAF50;
+            --secondary-color: #ffd700;
+            --accent-color: #2d6a4f;
+            --background-color: #2c2c2c;
+            --text-color: #f0f0f0;
+            --card-bg: #3c3c3c;
+            --header-bg: linear-gradient(135deg, #1a472a, #0d3320);
+            --header-text: #ffd700;
+            --nav-bg: #1b5e20;
+            --input-border: #555;
+            --border-color: #555;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Navigation Bar - NECO Style */
+        nav {
+            background: linear-gradient(135deg, #1a472a, #2d6a4f);
+            padding: 15px 0;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            border-bottom: 3px solid #ffd700;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        .nav-links li {
+            margin-right: 20px;
+        }
+
+        .nav-links a {
+            color: #ffd700;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            padding: 8px 15px;
+            border-radius: 30px;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 15px;
+        }
+
+        .nav-links a:hover {
+            background-color: rgba(255, 215, 0, 0.2);
+            color: white;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: 2px solid #ffd700;
+            color: #ffd700;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 8px 15px;
+            border-radius: 30px;
+            transition: all 0.3s;
+        }
+
+        .theme-toggle:hover {
+            background: #ffd700;
+            color: #1a472a;
+        }
+
+        /* Header - NECO Style */
+        header {
+            background: linear-gradient(135deg, #1a472a, #2d6a4f);
+            color: var(--header-text);
+            padding: 25px;
+            text-align: center;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            border: 1px solid #ffd700;
+        }
+
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        .logo-container img {
+            max-width: 80px;
+            height: auto;
+            border-radius: 50%;
+            border: 2px solid #ffd700;
+            background: white;
+            padding: 5px;
+        }
+
+        .council-badge {
+            font-size: 18px;
+            letter-spacing: 2px;
+            font-weight: bold;
+            margin-top: 10px;
+            color: #ffd700;
+        }
+
+        header p {
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        /* Welcome Message - NECO Style */
+        .welcome-message {
+            background: linear-gradient(135deg, #fef9e6, #fffef7);
+            padding: 25px;
+            border-left: 6px solid #ffd700;
+            margin: 20px 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            border: 1px solid #d4a843;
+        }
+
+        .welcome-message h2 {
+            color: #1a472a;
+            margin-top: 10px;
+            font-size: 24px;
+        }
+
+        #userImage {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 3px solid #ffd700;
+            object-fit: cover;
+            margin-bottom: 10px;
+            background: white;
+        }
+
+        /* Exam Sections - NECO Style */
+        .exam-sections {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .exam-section {
+            background: #fef9e6;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            flex: 1;
+            min-width: 280px;
+            overflow: hidden;
+            border: 1px solid #d4a843;
+            transition: transform 0.3s;
+        }
+
+        .exam-section:hover {
+            transform: translateY(-5px);
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, #1a472a, #2d6a4f);
+            color: #ffd700;
+            padding: 18px 20px;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+
+        .section-body {
+            padding: 30px 25px;
+            text-align: center;
+        }
+
+        .instructions {
+            margin-bottom: 20px;
+            color: #1a472a;
+            font-weight: bold;
+            font-size: 16px;
+            background: #f5f0e0;
+            padding: 10px;
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px 0;
+        }
+
+        input[type="password"] {
+            width: 100%;
+            max-width: 300px;
+            padding: 14px 20px;
+            border: 2px solid #d4a843;
+            border-radius: 40px;
+            font-size: 16px;
+            margin-bottom: 15px;
+            text-align: center;
+            background: #fffef7;
+            color: #1a472a;
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        input[type="password"]:focus {
+            border-color: #ffd700;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #2d6a4f, #1a472a);
+            color: #ffd700;
+            border: none;
+            padding: 12px 35px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s;
+            font-family: 'Times New Roman', Times, serif;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            background: linear-gradient(135deg, #1a472a, #0d3320);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Footer */
+        .windows-activate {
+            text-align: center;
+            margin-top: 30px;
+            color: #6b5a3e;
+            font-size: 13px;
+            padding: 20px;
+            background: #fef9e6;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border: 1px solid #d4a843;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .exam-sections {
+                flex-direction: column;
+            }
+           
+            .nav-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+           
+            .nav-links {
+                justify-content: center;
+            }
+           
+            .nav-links li {
+                margin-bottom: 8px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .logo-container {
+                flex-direction: column;
+            }
+           
+            input[type="password"] {
+                width: 90%;
+            }
+            
+            .section-header {
+                font-size: 16px;
+            }
+        }
+
+        /* NECO Seal Decoration */
+        .neco-seal {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 14px;
+            color: #b8860b;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <ul class="nav-links">
+                <li><a href="https://canaanland-model-schools.github.io/home/"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="https://canaanland-model-schools.github.io/home/"><i class="fas fa-info-circle"></i> About NECO</a></li>
+                <li><a href="https://canaanland-model-schools.github.io/home/"><i class="fas fa-question-circle"></i> Help</a></li>
+                <li><a href="Exam_Reset_Validation.html"><i class="fas fa-cogs"></i> Reset</a></li>
+                <li><a href="https://canaanland-model-schools.github.io/home/"><i class="fas fa-envelope"></i> Contact</a></li>
+                <li><a href="Show_records.html"><i class="fas fa-chart-line"></i> Records</a></li>
+                <li><a href="index.html"><i class="fas fa-sign-out-alt"></i> Sign Out</a></li>
+            </ul>
+            <div>
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i> 🌙
+                </button>
+            </div>
+        </div>
+    </nav>
+   
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <img src="img/neco-logo.png" alt="NECO Logo" onerror="this.style.display='none'">
+                <div>
+                    <h1>🏛️ NATIONAL EXAMINATIONS COUNCIL</h1>
+                    <div class="council-badge">🔰 Excellence in Assessment 🔰</div>
+                </div>
+                <img src="img/neco-logo.png" alt="NECO Logo" onerror="this.style.display='none'">
+            </div>
+            <p>COMPUTER BASED TEST (CBT) PORTAL | BECE & SSCE PRACTICE</p>
+        </header>
+       
+        <div class="welcome-message">
+            <img id="userImage" src="img/default_user.jpg" alt="Student Image">
+            <h2>👋 WELCOME, <span id="user">Student</span></h2>
+            <p style="color: #2d6a4f; margin-top: 5px;">You are accessing the NECO CBT Practice Portal</p>
+        </div>
+
+        <div class="exam-sections">
+            <!-- JUNIOR SECONDARY SECTION (BECE) -->
+            <div class="exam-section">
+                <div class="section-header">
+                    <i class="fas fa-graduation-cap"></i> BASIC EDUCATION (BECE) - JUNIOR
+                </div>
+                <div class="section-body">
+                    <p class="instructions"><i class="fas fa-key"></i> JUNIOR CATEGORY (JSS3)</p>
+                    <p style="margin-bottom: 15px; color: #6b5a3e;">Enter your access code for BECE Practice</p>
+                    <div class="input-group">
+                        <input type="password" id="input1" placeholder="Enter Junior Access Code">
+                        <button onclick="checkInput1()" class="btn"><i class="fas fa-arrow-right"></i> Enter BECE Portal</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SENIOR SECONDARY SECTION (SSCE) -->
+            <div class="exam-section">
+                <div class="section-header">
+                    <i class="fas fa-university"></i> SENIOR SCHOOL CERTIFICATE (SSCE) - SENIOR
+                </div>
+                <div class="section-body">
+                    <p class="instructions"><i class="fas fa-key"></i> SENIOR CATEGORY (SS3)</p>
+                    <p style="margin-bottom: 15px; color: #6b5a3e;">Enter your access code for SSCE Practice</p>
+                    <div class="input-group">
+                        <input type="password" id="input2" placeholder="Enter Senior Access Code">
+                        <button onclick="checkInput2()" class="btn"><i class="fas fa-arrow-right"></i> Enter SSCE Portal</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="neco-seal">
+            <i class="fas fa-certificate"></i> NECO BECE | NECO SSCE | Computer Based Test
+        </div>
+       
+        <div class="windows-activate">
+            <p>© National Examinations Council (NECO) - CBT Portal | canaanlandmodelschools.org</p>
+            <p style="margin-top: 8px; font-size: 11px;">Integrity, Excellence, and Fairness in Assessment</p>
+        </div>
+    </div>
+
+    <script>
+        // Get student info from sessionStorage
+        const username = sessionStorage.getItem('username');
+        const userImage = sessionStorage.getItem('image');
+        
+        // Update user info
+        if (username) {
+            document.getElementById('user').innerText = username;
+        } else {
+            document.getElementById('user').innerText = 'Student';
+        }
+        
+        if (userImage) {
+            document.getElementById('userImage').src = userImage;
+        } else {
+            document.getElementById('userImage').src = 'img/default_user.jpg';
+        }
+        
+        // Check if user is logged in, redirect if not
+        if (!username) {
+            alert("Session expired. Please login again.");
+            window.location.href = 'index.html';
+        }
+        
+        // Junior Category Access - NECO BECE
+        function checkInput1() {
+            const inputValue = document.getElementById('input1').value.trim().toLowerCase();
+            
+            if (inputValue === 'junior' || inputValue === 'bece' || inputValue === 'jss3') {
+                sessionStorage.setItem('userType', 'junior');
+                sessionStorage.setItem('examLevel', 'BECE');
+                alert("✅ Access Granted for NECO BECE Practice Portal.\n\nProceeding to examination selection...");
+                window.location.href = 'index_juniors.html';
+            } else {
+                alert("❌ Invalid Access Code for Junior Category.\n\nPlease contact your examination officer for the correct code.");
+                document.getElementById('input1').value = '';
+                document.getElementById('input1').focus();
+            }
+        }
+        
+        // Senior Category Access - NECO SSCE
+        function checkInput2() {
+            const inputValue = document.getElementById('input2').value.trim().toLowerCase();
+            
+            if (inputValue === 'senior' || inputValue === 'ssce' || inputValue === 'ss3') {
+                sessionStorage.setItem('userType', 'senior');
+                sessionStorage.setItem('examLevel', 'SSCE');
+                alert("✅ Access Granted for NECO SSCE Practice Portal.\n\nProceeding to examination selection...");
+                window.location.href = 'index_seniors.html';
+            } else {
+                alert("❌ Invalid Access Code for Senior Category.\n\nPlease contact your examination officer for the correct code.");
+                document.getElementById('input2').value = '';
+                document.getElementById('input2').focus();
+            }
+        }
+        
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = themeToggle.querySelector('i');
+        
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-theme');
+           
+            if (document.body.classList.contains('dark-theme')) {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i> ☀️';
+            } else {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i> 🌙';
+            }
+        });
+        
+        // Button hover animations
+        const buttons = document.querySelectorAll('.btn');
+        buttons.forEach(button => {
+            button.addEventListener('mouseenter', () => {
+                button.style.transform = 'translateY(-2px)';
+            });
+           
+            button.addEventListener('mouseleave', () => {
+                button.style.transform = 'translateY(0)';
+            });
+        });
+        
+        // Enter key support for inputs
+        document.getElementById('input1').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                checkInput1();
+            }
+        });
+        
+        document.getElementById('input2').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                checkInput2();
+            }
+        });
+        
+        // Logout function
+        function logout() {
+            if (confirm("Are you sure you want to logout?")) {
+                sessionStorage.clear();
+                window.location.href = 'index.html';
+            }
+        }
+        
+        // Display welcome message with time-based greeting
+        const hour = new Date().getHours();
+        let greeting = "";
+        if (hour < 12) greeting = "Good Morning";
+        else if (hour < 17) greeting = "Good Afternoon";
+        else greeting = "Good Evening";
+        
+        const welcomeDiv = document.querySelector('.welcome-message h2');
+        if (welcomeDiv) {
+            welcomeDiv.innerHTML = `👋 ${greeting}, <span id="user">${username || 'Student'}</span>`;
+        }
+    </script>
+</body>
+</html>

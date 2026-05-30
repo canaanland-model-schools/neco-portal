@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>NECO BECE Examination Instructions</title>
+    <link rel="icon" type="image/x-icon" href="fav_icon2.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #d4c9a8;
+            font-family: 'Times New Roman', Times, serif;
+            display: flex;
+            justify-content: center;
+            padding: 40px 20px;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* NECO Watermark Background */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('img/neco-logo.png') no-repeat center center;
+            background-size: 350px 350px;
+            opacity: 0.08;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Paper container - mimics exam booklet */
+        .exam-paper {
+            max-width: 950px;
+            width: 100%;
+            background: #fef9e6;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+            border: 1px solid #d4a843;
+        }
+
+        /* Each page of the booklet */
+        .page {
+            padding: 40px 35px;
+            border-bottom: 1px solid #e0d5b0;
+            background: #fef9e6;
+            position: relative;
+        }
+
+        .page:last-child {
+            border-bottom: none;
+        }
+
+        /* NECO Logo on each page */
+        .page-logo {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            width: 70px;
+            height: 70px;
+            opacity: 0.6;
+        }
+
+        .page-logo img {
+            width: 100%;
+            height: auto;
+        }
+
+        /* Student Info Header - NECO Green */
+        .student-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(135deg, #1a472a, #2d6a4f);
+            padding: 15px 25px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            color: white;
+            border: 1px solid #ffd700;
+        }
+
+        .student-info-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .student-avatar {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            border: 2px solid #ffd700;
+            background: white;
+            object-fit: cover;
+        }
+
+        .student-details h4 {
+            font-size: 16px;
+            margin: 0;
+            color: #ffd700;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        .student-details p {
+            font-size: 13px;
+            margin: 3px 0 0;
+            color: #e0d5b0;
+        }
+
+        .exam-badge {
+            background: #ffd700;
+            color: #1a472a;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 14px;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        /* Cover styling - NECO Theme */
+        .cover {
+            text-align: center;
+        }
+
+        .exam-title {
+            font-size: 22px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-top: 20px;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            color: #1a472a;
+        }
+
+        .council-name {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            margin-top: 30px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            border-top: 3px solid #1a472a;
+            border-bottom: 3px solid #1a472a;
+            display: inline-block;
+            padding: 12px 0;
+            color: #1a472a;
+        }
+
+        .exam-year {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 20px 0 10px;
+            color: #2d6a4f;
+        }
+
+        .exam-code {
+            font-size: 28px;
+            font-weight: bold;
+            margin: 20px 0;
+            letter-spacing: 2px;
+            color: #1a472a;
+        }
+
+        .subject {
+            font-size: 36px;
+            font-weight: 800;
+            margin: 25px 0;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #2d6a4f;
+        }
+
+        .duration {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 15px 0;
+            color: #1a472a;
+        }
+
+        .paper-type {
+            font-size: 22px;
+            font-weight: bold;
+            margin: 10px 0 25px;
+            color: #b8860b;
+        }
+
+        .warning-box {
+            border: 2px solid #1a472a;
+            padding: 20px;
+            margin: 30px 0;
+            background: #fff8e7;
+            text-align: left;
+            border-radius: 8px;
+        }
+
+        .warning-text {
+            font-weight: bold;
+            font-size: 15px;
+            margin-bottom: 15px;
+            color: #8b0000;
+        }
+
+        .note-box {
+            margin: 25px 0;
+            padding: 15px;
+            border-left: 4px solid #ffd700;
+            background: #f5f0e0;
+            font-style: italic;
+            color: #1a472a;
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 35px;
+            font-size: 12px;
+            font-weight: 500;
+            padding-top: 15px;
+            border-top: 1px solid #d4a843;
+            color: #6b5a3e;
+        }
+
+        .turn-over {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+            font-weight: bold;
+            font-style: italic;
+            color: #1a472a;
+        }
+
+        /* Instructions styling - NECO Style */
+        .section-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 25px 0 20px;
+            text-transform: uppercase;
+            text-align: center;
+            color: #1a472a;
+            border-bottom: 2px solid #ffd700;
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+
+        .title-wrapper {
+            text-align: center;
+        }
+
+        .paper-header {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 20px 0;
+            text-align: center;
+            color: #2d6a4f;
+        }
+
+        .instructions-list {
+            margin: 20px 0;
+            padding-left: 30px;
+        }
+
+        .instructions-list li {
+            margin-bottom: 12px;
+            font-size: 15px;
+            line-height: 1.5;
+            color: #1a472a;
+        }
+
+        .diagram-note {
+            background: #fff3cd;
+            padding: 10px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: bold;
+            border: 1px solid #ffd700;
+            margin: 15px 0;
+            border-radius: 8px;
+            color: #8b0000;
+        }
+
+        /* Rules and Regulations Section - NECO Style */
+        .rules-section {
+            margin: 25px 0;
+            padding: 20px;
+            background: #fffef7;
+            border-radius: 8px;
+            border: 1px solid #d4a843;
+        }
+
+        .rules-section h3 {
+            color: #1a472a;
+            margin: 20px 0 10px;
+            border-left: 4px solid #ffd700;
+            padding-left: 12px;
+        }
+
+        .rules-section h3:first-child {
+            margin-top: 0;
+        }
+
+        .rules-section ul {
+            padding-left: 30px;
+            margin: 10px 0;
+        }
+
+        .rules-section ul li {
+            margin-bottom: 8px;
+            color: #2d6a4f;
+            line-height: 1.5;
+        }
+
+        .rules-section .warning-list li {
+            color: #8b0000;
+            font-weight: bold;
+        }
+
+        /* Checkbox and Button - NECO Style */
+        .checkbox-area {
+            margin: 30px 0 20px;
+            text-align: center;
+            padding: 20px;
+            background: #f5f0e0;
+            border-radius: 8px;
+            border: 1px solid #d4a843;
+        }
+
+        .checkbox-area label {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            color: #1a472a;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        .checkbox-area input {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #2d6a4f;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #2d6a4f, #1a472a);
+            color: #ffd700;
+            border: none;
+            padding: 14px 35px;
+            border-radius: 40px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+            font-family: 'Times New Roman', Times, serif;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            background: linear-gradient(135deg, #1a472a, #0d3320);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Logout Button */
+        .logout-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #8b0000;
+            color: #ffd700;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            font-family: 'Times New Roman', Times, serif;
+            z-index: 10;
+        }
+
+        .logout-btn:hover {
+            background-color: #6b0000;
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #ffd700;
+            color: #1a472a;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 16px;
+            z-index: 10;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 15px;
+            color: #6b5a3e;
+            font-size: 12px;
+            border-top: 1px solid #d4a843;
+            background: #fef9e6;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page {
+                padding: 25px 20px;
+            }
+            
+            .student-header {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+            
+            .student-info-left {
+                flex-direction: column;
+            }
+            
+            .section-title {
+                font-size: 16px;
+            }
+            
+            .btn {
+                font-size: 16px;
+                padding: 12px 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="exam-paper">
+        <!-- PAGE 1: COVER with council header and main info -->
+        <div class="page cover">
+            <div class="page-logo">
+                <img src="img/neco-logo.png" alt="NECO Logo" onerror="this.style.display='none'">
+            </div>
+            
+            <!-- Student Info Section on Cover -->
+            <div class="student-header" style="margin-top: 10px;">
+                <div class="student-info-left">
+                    <img id="studentAvatar" class="student-avatar" src="img/default_user.jpg" alt="Student">
+                    <div class="student-details">
+                        <h4 id="studentName">Student Name</h4>
+                        <p id="studentRegNo">Registration: NECO/2023/XXXX</p>
+                    </div>
+                </div>
+                <div class="exam-badge">
+                    BECE 2023
+                </div>
+            </div>
+            
+            <div class="exam-title">NATIONAL EXAMINATIONS COUNCIL</div>
+            <div class="exam-year">2023 BASIC EDUCATION CERTIFICATE EXAMINATION</div>
+            
+            <div class="exam-code">B1021 & B1022</div>
+            <div class="subject">MATHEMATICS</div>
+            <div class="duration">2 hours 40 minutes</div>
+            <div class="paper-type">PAPER I & II (Objective & Theory)</div>
+
+            <div class="warning-box">
+                <div class="warning-text">⚠️ Please do not open this question booklet until you are told to do so.</div>
+                <div>While waiting, read the following instructions carefully.</div>
+            </div>
+
+            <div class="note-box">
+                There are two papers of <strong>sixty (60) multiple-choice questions each</strong>. 
+                <strong>Paper I</strong> will last for <strong>1 hour 20 minutes</strong> after which the OMR sheet will be collected. 
+                <strong>Paper II</strong> will also last for <strong>1 hour 20 minutes</strong>.
+            </div>
+
+            <div class="diagram-note">
+                📐 ALL DIAGRAMS ARE NOT DRAWN TO SCALE
+            </div>
+
+            <div class="copyright">
+                © 2023 National Examinations Council
+            </div>
+            <div class="turn-over">
+                Turn Over to Instructions
+            </div>
+        </div>
+
+        <!-- PAGE 2: PAPER I Header + detailed instructions -->
+        <div class="page">
+            <div class="page-logo">
+                <img src="img/neco-logo.png" alt="NECO Logo" onerror="this.style.display='none'">
+            </div>
+            
+            <div class="title-wrapper"><div class="section-title">PAPER I</div></div>
+            <div class="paper-header">Time Allowed: 1 hour 20 minutes</div>
+
+            <div class="title-wrapper"><div class="section-title" style="font-size: 18px; margin-top: 10px;">INSTRUCTIONS TO CANDIDATES</div></div>
+            
+            <ol class="instructions-list" style="list-style-type: decimal; font-weight: 500;">
+                <li>Answer <strong>all</strong> questions.</li>
+                <li>Use <strong>HB pencil</strong> only.</li>
+                <li>Write your <strong>Name</strong> and <strong>School Name</strong> on the answer sheet provided. Also, write and shade appropriately your <strong>Registration Number</strong> in the spaces provided.</li>
+                <li>Answer each question by shading the box that corresponds to the option you have chosen.</li>
+                <li>Do <strong>not</strong> waste time on any question. If you find any difficult, go to the others and finish them before you come back to the difficult one(s).</li>
+                <li>There must <strong>not</strong> be more than one shading for an answer. Any answer with shading of more than one box will be marked wrong.</li>
+                <li>If you change your mind about an answer, completely erase the first shading.</li>
+                <li>Use of calculator is allowed.</li>
+                <li>Do <strong>not</strong> start until the Supervisor tells you to do so.</li>
+            </ol>
+
+            <div class="copyright" style="margin-top: 35px;">
+                © 2023 National Examinations Council
+            </div>
+            
+            <div class="turn-over">
+                Turn Over to Rules & Regulations
+            </div>
+        </div>
+
+        <!-- PAGE 3: RULES AND REGULATIONS SECTION (NECO Style) -->
+        <div class="page">
+            <div class="page-logo">
+                <img src="img/neco-logo.png" alt="NECO Logo" onerror="this.style.display='none'">
+            </div>
+            
+            <div class="title-wrapper"><div class="section-title">EXAMINATION RULES & REGULATIONS</div></div>
+            
+            <div class="rules-section">
+                <h3>📌 General Rules</h3>
+                <ul>
+                    <li>Ensure you have a stable internet connection before starting.</li>
+                    <li>Complete the exam within the allocated time.</li>
+                    <li>All answers will be auto-submitted when time runs out.</li>
+                    <li>Only one attempt is allowed per student per subject.</li>
+                    <li>Leaving or refreshing the exam page may result in disqualification.</li>
+                </ul>
+
+                <h3>🚫 Prohibited Actions</h3>
+                <ul>
+                    <li><strong>No inspecting the page source or using developer tools.</strong></li>
+                    <li><strong>No multiple tabs or duplicate exam pages.</strong></li>
+                    <li><strong>No using external help or other devices.</strong></li>
+                    <li><strong>No tab-switching, minimizing, or resizing the exam window.</strong></li>
+                </ul>
+
+                <h3>⚠️ Warnings & Penalties</h3>
+                <ul class="warning-list">
+                    <li><strong>First Warning:</strong> A warning alert will be displayed.</li>
+                    <li><strong>Second Violation:</strong> The exam session may be terminated.</li>
+                    <li><strong>Final Penalty:</strong> Your exam submission may be voided.</li>
+                </ul>
+            </div>
+
+            <div class="diagram-note" style="background: #fef9e6;">
+                💡 By proceeding with this examination, you agree to abide by all NECO examination rules and regulations.
+            </div>
+
+            <!-- Checkbox and Proceed Button -->
+            <div class="checkbox-area">
+                <label>
+                    <input type="checkbox" id="agreeTerms">
+                    <span>✓ I have read, understood, and agree to abide by all examination rules and regulations.</span>
+                </label>
+                <br>
+                <button class="btn" onclick="proceedToExam()">
+                    <i class="fa-solid fa-arrow-right"></i> PROCEED TO EXAMINATION
+                </button>
+            </div>
+
+            <div class="copyright">
+                © 2023 National Examinations Council
+            </div>
+            
+            <div class="turn-over">
+                Click Proceed to begin your examination
+            </div>
+        </div>
+
+        <!-- PAGE 4: PAPER II section -->
+        <div class="page">
+            <div class="page-logo">
+                <img src="img/neco-logo.png" alt="NECO Logo" onerror="this.style.display='none'">
+            </div>
+            
+            <div class="title-wrapper"><div class="section-title">PAPER II</div></div>
+            <div class="paper-header">Time Allowed: 1 hour 20 minutes</div>
+            
+            <div class="title-wrapper"><div class="section-title" style="font-size: 18px; margin-top: 10px;">INSTRUCTIONS TO CANDIDATES</div></div>
+            
+            <ol class="instructions-list" style="list-style-type: decimal;">
+                <li>This paper consists of <strong>two sections</strong>: Section A and Section B.</li>
+                <li>Answer <strong>all</strong> questions in Section A and <strong>any three</strong> questions in Section B.</li>
+                <li>All workings must be clearly shown on the answer booklet provided.</li>
+                <li>Marks are allocated for clear and logical steps.</li>
+                <li>Non-programmable calculators are allowed.</li>
+                <li>Mathematical tables may be used where necessary.</li>
+            </ol>
+            
+            <div class="note-box" style="margin-top: 20px;">
+                <span class="bold">Note:</span> All diagrams are not drawn to scale. Write all your answers in the answer booklet provided.
+            </div>
+            
+            <div class="copyright" style="margin-top: 35px;">
+                © 2023 National Examinations Council
+            </div>
+            
+            <div class="turn-over">
+                Best of luck with your examination!
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get student info from sessionStorage
+        const studentUsername = sessionStorage.getItem('username') || 'Student Name';
+        const studentImage = sessionStorage.getItem('image') || 'img/default_user.jpg';
+        
+        // Update student info on the page
+        function updateStudentInfo() {
+            const nameElement = document.getElementById('studentName');
+            const avatarElement = document.getElementById('studentAvatar');
+            
+            if (nameElement) {
+                nameElement.innerText = studentUsername;
+            }
+            
+            if (avatarElement) {
+                avatarElement.src = studentImage;
+            }
+        }
+        
+        // Proceed to exam function
+        function proceedToExam() {
+            const agreeCheckbox = document.getElementById('agreeTerms');
+            
+            if (!agreeCheckbox.checked) {
+                alert("⚠️ You must agree to the examination rules and regulations before proceeding.");
+                return;
+            }
+            
+            // Show confirmation
+            alert("✅ You have agreed to the NECO examination rules.\n\nProceeding to your examination page...");
+            
+            // Redirect to the exam page (update with your actual exam page URL)
+            window.location.href = 'dashboard.html';/*'2021_mathematics_neco_exam_page1.html';*/
+        }
+        
+        // Logout function
+        function logout() {
+            if (confirm("Are you sure you want to logout? Your progress will be lost.")) {
+                sessionStorage.clear();
+                window.location.href = 'index.html';
+            }
+        }
+        
+        // Theme toggle function
+        function toggleTheme() {
+            document.body.classList.toggle('dark-theme');
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateStudentInfo();
+            
+            // Check if user is logged in
+            if (!sessionStorage.getItem('username')) {
+                alert("Session expired. Please login again.");
+                window.location.href = 'index.html';
+            }
+        });
+    </script>
+</body>
+</html>

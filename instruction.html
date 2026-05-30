@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NECO BECE Mathematics Examination 2023</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #d4c9a8;
+            font-family: 'Times New Roman', Times, serif;
+            display: flex;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        /* Paper container - mimics exam booklet */
+        .exam-paper {
+            max-width: 900px;
+            width: 100%;
+            background: #fef9e6;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        /* Each page of the booklet */
+        .page {
+            padding: 40px 35px;
+            border-bottom: 1px dashed #ccc;
+            background: #fef9e6;
+        }
+
+        .page:last-child {
+            border-bottom: none;
+        }
+
+        /* Cover styling */
+        .cover {
+            text-align: center;
+        }
+
+        .exam-title {
+            font-size: 22px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-top: 20px;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+
+        .council-name {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            margin-top: 30px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            border-top: 3px solid #000;
+            border-bottom: 3px solid #000;
+            display: inline-block;
+            padding: 12px 0;
+        }
+
+        .exam-year {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 20px 0 10px;
+        }
+
+        .exam-code {
+            font-size: 28px;
+            font-weight: bold;
+            margin: 20px 0;
+            letter-spacing: 2px;
+        }
+
+        .subject {
+            font-size: 36px;
+            font-weight: 800;
+            margin: 25px 0;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .duration {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .paper-type {
+            font-size: 22px;
+            font-weight: bold;
+            margin: 10px 0 25px;
+        }
+
+        .warning-box {
+            border: 2px solid #000;
+            padding: 20px;
+            margin: 30px 0;
+            background: #fff8e7;
+            text-align: left;
+        }
+
+        .warning-text {
+            font-weight: bold;
+            font-size: 15px;
+            margin-bottom: 15px;
+        }
+
+        .warning-list {
+            padding-left: 25px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .warning-list li {
+            margin-bottom: 5px;
+        }
+
+        /* Instructions styling */
+        .section-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 25px 0 20px;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .paper-header {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .instructions-list {
+            margin: 20px 0;
+            padding-left: 30px;
+        }
+
+        .instructions-list li {
+            margin-bottom: 12px;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        .note-box {
+            margin: 25px 0;
+            padding: 15px;
+            border-left: 4px solid #333;
+            background: #f5f0e0;
+            font-style: italic;
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 35px;
+            font-size: 13px;
+            font-weight: 500;
+            padding-top: 15px;
+            border-top: 1px solid #aaa;
+        }
+
+        .turn-over {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+            font-weight: bold;
+            font-style: italic;
+        }
+
+        hr {
+            margin: 20px 0;
+            border: none;
+            border-top: 1px dashed #aaa;
+        }
+
+        /* Spacing helpers */
+        .mt-4 { margin-top: 20px; }
+        .mb-4 { margin-bottom: 20px; }
+        .text-center { text-align: center; }
+        .bold { font-weight: bold; }
+
+        /* Diagram note */
+        .diagram-note {
+            background: #fff3cd;
+            padding: 8px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: bold;
+            border: 1px solid #e6c300;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="exam-paper">
+        <!-- PAGE 1: COVER with council header and main info -->
+        <div class="page cover">
+            <div class="exam-title">NATIONAL EXAMINATIONS COUNCIL</div>
+            <div class="exam-year">2023 BASIC EDUCATION CERTIFICATE EXAMINATION</div>
+            
+            <div class="exam-code">B1021 & B1022</div>
+            <div class="subject">MATHEMATICS</div>
+            <div class="duration">2 hours 40 minutes</div>
+            <div class="paper-type">I & II</div>
+
+            <div class="warning-box">
+                <div class="warning-text">⚠️ Please do not open this question booklet until you are told to do so.</div>
+                <div>While waiting, read the following instructions carefully.</div>
+            </div>
+
+            <div class="note-box">
+                There are two papers of <strong>sixty (60) multiple-choice questions each</strong>. 
+                <strong>Paper I</strong> will last for <strong>1 hour 20 minutes</strong> after which the OMR sheet will be collected. 
+                <strong>Paper II</strong> will also last for <strong>1 hour 20 minutes</strong>.
+            </div>
+
+            <div class="diagram-note">
+                📐 ALL DIAGRAMS ARE NOT DRAWN TO SCALE
+            </div>
+
+            <div class="copyright">
+                © 2023 National Examinations Council
+            </div>
+        </div>
+
+        <!-- PAGE 2: PAPER I Header + detailed instructions -->
+        <div class="page">
+            <div class="section-title">PAPER I</div>
+            <div class="paper-header">Time Allowed: 1 hour 20 minutes</div>
+
+            <div class="section-title" style="font-size: 18px; margin-top: 10px;">INSTRUCTIONS TO CANDIDATES</div>
+            
+            <ol class="instructions-list" style="list-style-type: decimal; font-weight: 500;">
+                <li>Answer <strong>all</strong> questions.</li>
+                <li>Use <strong>HB pencil</strong> only.</li>
+                <li>Write your <strong>Name</strong> and <strong>School Name</strong> on the answer sheet provided. Also, write and shade appropriately your <strong>Registration Number</strong> in the spaces provided.</li>
+                <li>Answer each question by shading the box that corresponds to the option you have chosen.</li>
+                <li>Do <strong>not</strong> waste time on any question. If you find any difficult, go to the others and finish them before you come back to the difficult one(s).</li>
+                <li>There must <strong>not</strong> be more than one shading for an answer. Any answer with shading of more than one box will be marked wrong.</li>
+                <li>If you change your mind about an answer, completely erase the first shading.</li>
+                <li>Use of calculator is allowed.</li>
+                <li>Do <strong>not</strong> start until the Supervisor tells you to do so.</li>
+            </ol>
+
+            <div class="copyright" style="margin-top: 35px;">
+                © 2023 National Examinations Council
+            </div>
+            
+            <div class="turn-over">
+                Turn Over.
+            </div>
+        </div>
+
+        <!-- PAGE 3: Additional paper details - repeat of PAPER I header but second part as shown in neco2 image -->
+        <div class="page">
+            <div class="section-title">PAPER I</div>
+            <div class="paper-header">Time Allowed: 1 hour 20 minutes</div>
+            
+            <div class="section-title" style="font-size: 18px; margin-top: 10px;">INSTRUCTIONS TO CANDIDATES</div>
+            
+           <!--<ul class="instructions-list" style="list-style-type: none; padding-left: 0;">
+                <li>1. Answer <strong>all</strong> questions.</li>
+                <li>2. Use <strong>HB pencil</strong> only.</li>
+                <li>3. Write your <strong>Name</strong> and <strong>School Name</strong> on the answer sheet provided. Also, write and shade appropriately your <strong>Registration Number</strong> in the spaces provided.</li>
+                <li>4. Answer each question by shading the box that corresponds to the option you have chosen.</li>
+                <li>5. Do <strong>not</strong> waste time on any question. If you find any difficult, go to the others and finish them before you come back to the difficult one(s).</li>
+                <li>6. There must <strong>not</strong> be more than one shading for an answer. Any answer with shading of more than one box will be marked wrong.</li>
+                <li>7. If you change your mind about an answer, completely erase the first shading.</li>
+                <li>8. Use of calculator is allowed.</li>
+                <li>9. Do <strong>not</strong> start until the Supervisor tells you to do so.</li>
+            </ul>-->
+
+            <div class="copyright">
+                © 2023 National Examinations Council
+            </div>
+            
+            <div class="turn-over">
+                Turn Over.
+            </div>
+        </div>
+
+        <!-- PAGE 4: Additional consistent layout to mimic real exam booklet (optional sample question area to resemble actual paper) -->
+        <div class="page">
+            <div class="section-title" style="font-size: 18px;">SECTION A (Objective)</div>
+            <div class="paper-header">Answer ALL questions in this section.</div>
+            
+            <div style="margin: 25px 0; font-family: 'Times New Roman', Times, serif;">
+                <p><strong>1.</strong> What is the value of \( 3^2 + 4^2 \)?</p>
+                <p style="margin-left: 20px;">A. 5<br>B. 7<br>C. 12<br>D. 25</p>
+                
+                <p style="margin-top: 20px;"><strong>2.</strong> Express 0.025 in standard form.</p>
+                <p style="margin-left: 20px;">A. \( 2.5 \times 10^{-2} \)<br>B. \( 2.5 \times 10^{-1} \)<br>C. \( 2.5 \times 10^{1} \)<br>D. \( 2.5 \times 10^{2} \)</p>
+                
+                <p style="margin-top: 20px;"><strong>3.</strong> Solve for \( x \): \( 2x + 5 = 15 \).</p>
+                <p style="margin-left: 20px;">A. 5<br>B. 10<br>C. 20<br>D. 25</p>
+            </div>
+            
+            <div class="diagram-note" style="background: #fef9e6;">
+                💡 Use HB pencil and shade carefully on your answer sheet.
+            </div>
+            
+            <div class="copyright" style="margin-top: 40px;">
+                © 2023 National Examinations Council
+            </div>
+        </div>
+
+        <!-- PAGE 5: PAPER II section to complete the exam look -->
+        <div class="page">
+            <div class="section-title">PAPER II</div>
+            <div class="paper-header">Time Allowed: 1 hour 20 minutes</div>
+            
+            <div class="section-title" style="font-size: 18px; margin-top: 10px;">INSTRUCTIONS TO CANDIDATES</div>
+            
+            <ol class="instructions-list" style="list-style-type: decimal;">
+                <li>This paper consists of <strong>two sections</strong>: Section A and Section B.</li>
+                <li>Answer <strong>all</strong> questions in Section A and <strong>any three</strong> questions in Section B.</li>
+                <li>All workings must be clearly shown on the answer booklet provided.</li>
+                <li>Marks are allocated for clear and logical steps.</li>
+                <li>Non-programmable calculators are allowed.</li>
+                <li>Mathematical tables may be used where necessary.</li>
+            </ol>
+            
+            <div class="note-box" style="margin-top: 20px;">
+                <span class="bold">Note:</span> All diagrams are not drawn to scale. Write all your answers in the answer booklet provided.
+            </div>
+            
+            <div class="copyright" style="margin-top: 35px;">
+                © 2023 National Examinations Council
+            </div>
+            
+            <div class="turn-over">
+                End of Paper II — Do not turn until instructed.
+            </div>
+        </div>
+    </div>
+</body>
+</html>

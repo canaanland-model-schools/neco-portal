@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WAEC CBT Portal - Login</title>
+    <title>NECO BECE CBT Portal - Login</title>
     <link rel="icon" type="image/x-icon" href="fav_icon2.ico">
     <style>
         * {
@@ -20,11 +20,11 @@
             align-items: center;
             min-height: 100vh;
             font-family: 'Times New Roman', Times, serif;
-            background: linear-gradient(135deg, #003399, #002266, #001133);
+            background: linear-gradient(135deg, #1a472a, #2d6a4f, #1a472a);
             position: relative;
         }
 
-        /* WAEC Watermark Background */
+        /* NECO Watermark Background */
         body::before {
             content: "";
             position: fixed;
@@ -32,9 +32,9 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: url('img/waec2.jpg') no-repeat center center;
+            background: url('img/neco-logo.png') no-repeat center center;
             background-size: 350px 350px;
-            opacity: 0.06;
+            opacity: 0.08;
             z-index: 0;
             pointer-events: none;
         }
@@ -48,7 +48,7 @@
             padding: 20px;
         }
 
-        /* Logo Section - WAEC Style */
+        /* Logo Section */
         .logo-section {
             margin-bottom: 25px;
             display: flex;
@@ -65,7 +65,7 @@
 
         .council-name {
             text-align: center;
-            color: #ffcc00;
+            color: #ffd700;
             font-size: 18px;
             font-weight: bold;
             letter-spacing: 2px;
@@ -73,42 +73,33 @@
             text-transform: uppercase;
         }
 
-        .waec-motto {
-            text-align: center;
-            color: #ffcc00;
-            font-size: 12px;
-            font-style: italic;
-            margin-top: 5px;
-            letter-spacing: 1px;
-        }
-
-        /* Login Container - WAEC Style */
+        /* Login Container - NECO Style */
         .login-container {
-            background: white;
+            background: #fef9e6;
             border-radius: 12px;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
             width: 100%;
             padding: 35px 30px;
             text-align: center;
-            border: 1px solid #ffcc00;
+            border: 1px solid #ffd700;
             position: relative;
         }
 
-        /* WAEC Header Decoration */
+        /* NECO Header Decoration */
         .login-container::before {
-            content: "🏛️";
+            content: "🔰";
             position: absolute;
             top: -15px;
             left: 50%;
             transform: translateX(-50%);
-            background: white;
-            color: #003399;
+            background: #fef9e6;
+            color: #ffd700;
             font-size: 28px;
             padding: 0 15px;
         }
 
         h1 {
-            color: #003399;
+            color: #1a472a;
             margin-bottom: 5px;
             font-size: 28px;
             font-weight: 800;
@@ -116,18 +107,18 @@
         }
 
         .subtitle {
-            color: #002266;
+            color: #2d6a4f;
             margin-bottom: 25px;
             font-size: 14px;
             font-weight: bold;
-            border-bottom: 2px solid #ffcc00;
+            border-bottom: 2px solid #ffd700;
             display: inline-block;
             padding-bottom: 5px;
         }
 
         .exam-badge {
-            background: linear-gradient(135deg, #003399, #002266);
-            color: #ffcc00;
+            background: #1a472a;
+            color: #ffd700;
             padding: 8px 16px;
             border-radius: 30px;
             font-size: 14px;
@@ -145,7 +136,7 @@
         label {
             display: block;
             margin-bottom: 8px;
-            color: #003399;
+            color: #1a472a;
             font-weight: bold;
             font-size: 14px;
             font-family: 'Times New Roman', Times, serif;
@@ -154,18 +145,18 @@
         input {
             width: 100%;
             padding: 12px 15px;
-            border: 2px solid #ddd;
+            border: 2px solid #d4a843;
             border-radius: 8px;
             font-size: 16px;
             transition: all 0.3s;
-            background: #fefefe;
+            background: #fffef7;
             font-family: 'Times New Roman', Times, serif;
         }
 
         input:focus {
-            border-color: #ffcc00;
+            border-color: #2d6a4f;
             outline: none;
-            box-shadow: 0 0 0 3px rgba(255, 204, 0, 0.2);
+            box-shadow: 0 0 0 3px rgba(45, 106, 79, 0.2);
         }
 
         .checkbox-group {
@@ -178,19 +169,19 @@
             align-items: center;
             gap: 8px;
             cursor: pointer;
-            color: #003399;
+            color: #2d6a4f;
             font-size: 14px;
         }
 
         .checkbox-group input {
             width: 18px;
             height: 18px;
-            accent-color: #003399;
+            accent-color: #2d6a4f;
         }
 
         .login-btn {
-            background: linear-gradient(135deg, #003399, #002266);
-            color: #ffcc00;
+            background: linear-gradient(135deg, #2d6a4f, #1a472a);
+            color: #ffd700;
             border: none;
             padding: 14px 20px;
             border-radius: 40px;
@@ -205,13 +196,13 @@
         }
 
         .login-btn:hover {
-            background: linear-gradient(135deg, #002266, #001133);
+            background: linear-gradient(135deg, #1a472a, #0d3320);
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
         .error-message {
-            color: #cc0000;
+            color: #8b0000;
             margin-top: 15px;
             font-size: 14px;
             font-weight: bold;
@@ -219,32 +210,32 @@
             background: #ffe6e6;
             padding: 10px;
             border-radius: 8px;
-            border-left: 4px solid #cc0000;
+            border-left: 4px solid #8b0000;
         }
 
         .portal-footer {
             margin-top: 20px;
             padding-top: 15px;
-            border-top: 1px solid #ddd;
+            border-top: 1px solid #d4a843;
             font-size: 12px;
-            color: #666;
+            color: #6b5a3e;
         }
 
         .portal-footer a {
-            color: #003399;
+            color: #2d6a4f;
             text-decoration: none;
             font-weight: bold;
         }
 
         .portal-footer a:hover {
-            color: #ffcc00;
+            color: #ffd700;
             text-decoration: underline;
         }
 
         .cbt-label {
             font-size: 20px;
             font-weight: bold;
-            color: #003399;
+            color: #ffd700;
             margin: 15px 0 5px;
             letter-spacing: 2px;
         }
@@ -276,26 +267,23 @@
 </head>
 <body oncontextmenu="return false;">
     <div class="container">
-        <!-- WAEC Logo Section -->
+        <!-- NECO Logo Section -->
         <div class="logo-section">
-            <img src="img/waec2.jpg" alt="WAEC Logo" onerror="this.src='https://upload.wikimedia.org/wikipedia/en/thumb/2/29/WAEC_logo.png/200px-WAEC_logo.png'">
+            <img src="img/neco-logo.png" alt="NECO Logo" onerror="this.style.display='none'">
         </div>
         <div class="council-name">
-            WEST AFRICAN EXAMINATIONS COUNCIL
-        </div>
-        <div class="waec-motto">
-            "Excellence, Integrity, Fairness"
+            NATIONAL EXAMINATIONS COUNCIL
         </div>
         
         <div class="login-container">
-            <h1>🏛️ WAEC CBT PORTAL</h1>
-            <div class="subtitle">West African Senior School Certificate Examination</div>
-            <div class="exam-badge">2025/2026 SESSION</div>
+            <h1>🏛️ BECE CBT PORTAL</h1>
+            <div class="subtitle">Basic Education Certificate Examination</div>
+            <div class="exam-badge">2023/2024 SESSION</div>
             
             <form id="loginForm">
                 <div class="input-group">
                     <label for="username">📌 ENTER YOUR REGISTRATION NUMBER / USERNAME</label>
-                    <input type="text" id="username" placeholder="e.g., WAEC001 or abdullah kehinde" required>
+                    <input type="text" id="username" placeholder="e.g., CMGS301 or abdullah kehinde" required>
                 </div>
                
                 <div class="input-group">
@@ -306,7 +294,7 @@
                 <div class="checkbox-group">
                     <label>
                         <input type="checkbox" id="altLoginCheck">
-                        <span>✓ I confirm that I have read and understood the examination rules and regulations</span>
+                        <span>✓ I confirm that I have read and understood the examination rules</span>
                     </label>
                 </div>
                
@@ -316,20 +304,20 @@
                     ❌ Invalid username or password. Please check your credentials and try again.
                 </div>
                 
-                <div class="cbt-label">COMPUTER BASED TEST (CBT)</div>
+                <div class="cbt-label">COMPUTER BASED TEST</div>
                 
                 <div class="portal-footer">
                     <a href="https://canaanland-model-schools.github.io/home/">🏠 Return to School Portal</a>
-                    <p style="margin-top: 10px;">© West African Examinations Council (WAEC) | WAEC CBT</p>
+                    <p style="margin-top: 10px;">© National Examinations Council (NECO) | BECE CBT</p>
                 </div>
             </form>
         </div>
     </div>
 
     <script>
-        // User database with WAEC-style credentials
+        // User database with NECO-style credentials
         const users = [
-            // WAEC CANDIDATES (JSS3/SS3 Students)
+            // JSS3 STUDENTS
             {username: "abdullah kehinde", password: "cmgs301", image: "cmgs301.jpg", paid: true},
             {username: "abiodun paul", password: "cmgs302", image: "cmgs302.jpg", paid: true},
             {username: "aluko taiwo", password: "cmgs303", image: "cmgs303.jpg", paid: true},
@@ -351,10 +339,7 @@
             {username: "sesan ojo wisdom", password: "cmgs319", image: "cmgs319.jpg", paid: true},
             
             // ADMIN
-            {username: "admin", password: "admin", image: "admin.png", paid: true},
-            
-            // WAEC Admin
-            {username: "waec_admin", password: "waec2025", image: "admin.png", paid: true}
+            {username: "admin", password: "admin", image: "admin.png", paid: true}
         ];
 
         // Handle form submission
@@ -404,8 +389,8 @@
                 errorMessage.style.display = 'block';
                 errorMessage.textContent = "❌ Invalid username or password. Please check your credentials and try again.";
                 errorMessage.style.backgroundColor = "#ffe6e6";
-                errorMessage.style.color = "#cc0000";
-                errorMessage.style.borderLeftColor = "#cc0000";
+                errorMessage.style.color = "#8b0000";
+                errorMessage.style.borderLeftColor = "#8b0000";
                
                 // Clear password field
                 document.getElementById('password').value = '';
@@ -447,19 +432,6 @@
         
         document.getElementById('password').addEventListener('input', function() {
             document.getElementById('errorMessage').style.display = 'none';
-        });
-        
-        // Enter key support
-        document.getElementById('username').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                document.getElementById('loginForm').dispatchEvent(new Event('submit'));
-            }
-        });
-        
-        document.getElementById('password').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                document.getElementById('loginForm').dispatchEvent(new Event('submit'));
-            }
         });
     </script>
 </body>

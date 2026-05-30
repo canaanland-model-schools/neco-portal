@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NECO BECE Mathematics Examination 2023</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #d4c9a8;
+            font-family: 'Times New Roman', Times, serif;
+            display: flex;
+            justify-content: center;
+            padding: 40px 20px;
+            position: relative;
+        }
+
+        /* NECO Watermark Background */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('img/neco-logo.png') no-repeat center center;
+            background-size: 350px 350px;
+            opacity: 0.08;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Paper container - mimics exam booklet */
+        .exam-paper {
+            max-width: 950px;
+            width: 100%;
+            background: #fef9e6;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+            border: 1px solid #d4a843;
+        }
+
+        /* Each page of the booklet */
+        .page {
+            padding: 40px 35px;
+            border-bottom: 1px solid #e0d5b0;
+            background: #fef9e6;
+            position: relative;
+        }
+
+        .page:last-child {
+            border-bottom: none;
+        }
+
+        /* NECO Logo on each page */
+        .page-logo {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            width: 70px;
+            height: 70px;
+            opacity: 0.6;
+        }
+
+        .page-logo img {
+            width: 100%;
+            height: auto;
+        }
+
+        /* Student Info Header - NECO Green */
+        .student-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(135deg, #1a472a, #2d6a4f);
+            padding: 15px 25px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            color: white;
+            border: 1px solid #ffd700;
+        }
+
+        .student-info-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .student-avatar {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            border: 2px solid #ffd700;
+            background: white;
+            object-fit: cover;
+        }
+
+        .student-details h4 {
+            font-size: 16px;
+            margin: 0;
+            color: #ffd700;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        .student-details p {
+            font-size: 13px;
+            margin: 3px 0 0;
+            color: #e0d5b0;
+        }
+
+        .exam-badge {
+            background: #ffd700;
+            color: #1a472a;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 14px;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        /* Cover styling - NECO Theme */
+        .cover {
+            text-align: center;
+        }
+
+        .exam-title {
+            font-size: 22px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-top: 20px;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            color: #1a472a;
+        }
+
+        .council-name {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            margin-top: 30px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            border-top: 3px solid #1a472a;
+            border-bottom: 3px solid #1a472a;
+            display: inline-block;
+            padding: 12px 0;
+            color: #1a472a;
+        }
+
+        .exam-year {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 20px 0 10px;
+            color: #2d6a4f;
+        }
+
+        .exam-code {
+            font-size: 28px;
+            font-weight: bold;
+            margin: 20px 0;
+            letter-spacing: 2px;
+            color: #1a472a;
+        }
+
+        .subject {
+            font-size: 36px;
+            font-weight: 800;
+            margin: 25px 0;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #2d6a4f;
+        }
+
+        .duration {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 15px 0;
+            color: #1a472a;
+        }
+
+        .paper-type {
+            font-size: 22px;
+            font-weight: bold;
+            margin: 10px 0 25px;
+            color: #b8860b;
+        }
+
+        .warning-box {
+            border: 2px solid #1a472a;
+            padding: 20px;
+            margin: 30px 0;
+            background: #fff8e7;
+            text-align: left;
+            border-radius: 8px;
+        }
+
+        .warning-text {
+            font-weight: bold;
+            font-size: 15px;
+            margin-bottom: 15px;
+            color: #8b0000;
+        }
+
+        .note-box {
+            margin: 25px 0;
+            padding: 15px;
+            border-left: 4px solid #ffd700;
+            background: #f5f0e0;
+            font-style: italic;
+            color: #1a472a;
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 35px;
+            font-size: 12px;
+            font-weight: 500;
+            padding-top: 15px;
+            border-top: 1px solid #d4a843;
+            color: #6b5a3e;
+        }
+
+        .turn-over {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+            font-weight: bold;
+            font-style: italic;
+            color: #1a472a;
+        }
+
+        /* Question styling with radio buttons - NECO Style */
+        .question-container {
+            margin: 25px 0;
+            padding: 15px;
+            border-bottom: 1px solid #e0d5b0;
+            font-family: 'Times New Roman', Times, serif;
+            background: #fffef7;
+            border-radius: 8px;
+        }
+
+        .question-text {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 12px;
+            color: #1a472a;
+        }
+
+        .options {
+            margin-left: 25px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            color: #2d6a4f;
+        }
+
+        .option input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #2d6a4f;
+        }
+
+        .option label {
+            cursor: pointer;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        .diagram-note {
+            background: #fff3cd;
+            padding: 10px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: bold;
+            border: 1px solid #ffd700;
+            margin: 15px 0;
+            border-radius: 8px;
+            color: #8b0000;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 25px 0 20px;
+            text-transform: uppercase;
+            text-align: center;
+            color: #1a472a;
+            border-bottom: 2px solid #ffd700;
+            display: inline-block;
+            width: auto;
+            padding-bottom: 5px;
+        }
+
+        .paper-header {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 20px 0;
+            text-align: center;
+            color: #2d6a4f;
+        }
+
+        .instructions-list {
+            margin: 20px 0;
+            padding-left: 30px;
+        }
+
+        .instructions-list li {
+            margin-bottom: 12px;
+            font-size: 15px;
+            line-height: 1.5;
+            color: #1a472a;
+        }
+
+        /* Page navigation - NECO Colors */
+        .page-navigation {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin: 30px 0 20px;
+            padding: 15px;
+            background: #e8e0c8;
+            border-radius: 8px;
+            border: 1px solid #d4a843;
+        }
+
+        .nav-btn {
+            background: #2d6a4f;
+            color: #ffd700;
+            border: none;
+            padding: 10px 25px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        .nav-btn:hover {
+            background: #1a472a;
+        }
+
+        .nav-btn.disabled {
+            background: #9a8a6a;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .page-info {
+            text-align: center;
+            font-size: 15px;
+            font-weight: bold;
+            margin: 10px 0;
+            color: #1a472a;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        hr {
+            margin: 20px 0;
+            border: none;
+            border-top: 1px dashed #d4a843;
+        }
+
+        /* Submit Button NECO Style */
+        .submit-btn {
+            background: #2d6a4f;
+            color: #ffd700;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        .submit-btn:hover {
+            background: #1a472a;
+        }
+
+        /* Center align section title wrapper */
+        .title-wrapper {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="exam-paper" id="examPaper">
+        <!-- PAGE 1: COVER with council header and main info -->
+        <div class="page cover" id="coverPage">
+            <div class="page-logo">
+                <img src="img/neco-logo.png" alt="NECO Logo" onerror="this.style.display='none'">
+            </div>
+            
+            <!-- Student Info Section on Cover -->
+            <div class="student-header" style="margin-top: 10px;">
+                <div class="student-info-left">
+                    <img id="studentAvatar" class="student-avatar" src="img/default_user.jpg" alt="Student">
+                    <div class="student-details">
+                        <h4 id="studentName">Student Name</h4>
+                        <p id="studentRegNo">Registration: NECO/2023/XXXX</p>
+                    </div>
+                </div>
+                <div class="exam-badge">
+                    BECE 2023
+                </div>
+            </div>
+            
+            <div class="exam-title">NATIONAL EXAMINATIONS COUNCIL</div>
+            <div class="exam-year">2023 BASIC EDUCATION CERTIFICATE EXAMINATION</div>
+            
+            <div class="exam-code">B1021 & B1022</div>
+            <div class="subject">MATHEMATICS</div>
+            <div class="duration">2 hours 40 minutes</div>
+            <div class="paper-type">PAPER I (Objective)</div>
+
+            <div class="warning-box">
+                <div class="warning-text">⚠️ Please do not open this question booklet until you are told to do so.</div>
+                <div>While waiting, read the following instructions carefully.</div>
+            </div>
+
+            <div class="note-box">
+                This paper consists of <strong>sixty (60) multiple-choice questions</strong>. 
+                Answer <strong>ALL</strong> questions. Time allowed: <strong>1 hour 20 minutes</strong>.
+            </div>
+
+            <div class="diagram-note">
+                📐 ALL DIAGRAMS ARE NOT DRAWN TO SCALE
+            </div>
+
+            <div class="copyright">
+                © 2023 National Examinations Council
+            </div>
+            <div class="turn-over">
+                Turn Over to Begin
+            </div>
+        </div>
+
+        <!-- PAGE 2: INSTRUCTIONS PAGE -->
+        <div class="page" id="instructionsPage">
+            <div class="page-logo">
+                <img src="img/neco-logo.png" alt="NECO Logo" onerror="this.style.display='none'">
+            </div>
+            
+            <div class="title-wrapper"><div class="section-title">PAPER I</div></div>
+            <div class="paper-header">Time Allowed: 1 hour 20 minutes</div>
+
+            <div class="title-wrapper"><div class="section-title" style="font-size: 18px; margin-top: 10px;">INSTRUCTIONS TO CANDIDATES</div></div>
+            
+            <ol class="instructions-list" style="list-style-type: decimal; font-weight: 500;">
+                <li>Answer <strong>all</strong> sixty (60) questions.</li>
+                <li>Use <strong>HB pencil</strong> only to shade your answers on the answer sheet.</li>
+                <li>Write your <strong>Name</strong> and <strong>School Name</strong> on the answer sheet provided. Also, write and shade appropriately your <strong>Registration Number</strong> in the spaces provided.</li>
+                <li>Answer each question by selecting the option you have chosen and mark your answer sheet accordingly.</li>
+                <li>Do <strong>not</strong> waste time on any question. If you find any difficult, go to the others and finish them before you come back to the difficult one(s).</li>
+                <li>There must <strong>not</strong> be more than one shading for an answer. Any answer with shading of more than one box will be marked wrong.</li>
+                <li>If you change your mind about an answer, completely erase the first shading.</li>
+                <li>Use of calculator is allowed.</li>
+                <li>Do <strong>not</strong> start until the Supervisor tells you to do so.</li>
+            </ol>
+
+            <div class="diagram-note" style="background: #fef9e6; margin-top: 20px;">
+                💡 Use HB pencil and shade carefully on your answer sheet.
+            </div>
+
+            <div class="copyright" style="margin-top: 35px;">
+                © 2023 National Examinations Council
+            </div>
+            
+            <div class="turn-over">
+                Turn Over to Questions
+            </div>
+        </div>
+
+        <!-- QUESTION PAGES WILL BE DYNAMICALLY GENERATED HERE -->
+        <div id="questionPagesContainer"></div>
+
+        <!-- PAGE NAVIGATION -->
+        <div class="page-navigation" id="navContainer">
+            <button class="nav-btn" id="prevPageBtn" onclick="changePage(-1)">◀ Previous Page</button>
+            <span class="page-info" id="pageInfo">Page 1 of 6</span>
+            <button class="nav-btn" id="nextPageBtn" onclick="changePage(1)">Next Page ▶</button>
+        </div>
+    </div>
+
+    <script>
+        // ==================== GET STUDENT INFO FROM SESSION ====================
+        const studentUsername = sessionStorage.getItem('username') || 'Student Name';
+        const studentImage = sessionStorage.getItem('image') || 'img/default_user.jpg';
+        
+        // Update student info on all pages
+        function updateStudentInfo() {
+            const nameElements = document.querySelectorAll('#studentName');
+            nameElements.forEach(el => {
+                if (el) el.innerText = studentUsername;
+            });
+            
+            const avatarElements = document.querySelectorAll('#studentAvatar');
+            avatarElements.forEach(el => {
+                if (el) el.src = studentImage;
+            });
+        }
+        
+        // ==================== QUESTION BANK (60 Questions) ====================
+        const allQuestions = [
+            { id: 1, text: "What is the value of 3² + 4²?", options: ["5", "7", "12", "25"], correct: "D" },
+            { id: 2, text: "Express 0.025 in standard form.", options: ["2.5 × 10⁻²", "2.5 × 10⁻¹", "2.5 × 10¹", "2.5 × 10²"], correct: "A" },
+            { id: 3, text: "Solve for x: 2x + 5 = 15", options: ["5", "10", "20", "25"], correct: "A" },
+            { id: 4, text: "What is the product of 12 and 8?", options: ["96", "20", "4", "96"], correct: "A" },
+            { id: 5, text: "Simplify: 3(2x - 4) - 2(x + 1)", options: ["4x - 14", "4x - 10", "6x - 12", "2x - 6"], correct: "A" },
+            { id: 6, text: "Find the value of 20% of 250", options: ["50", "25", "100", "75"], correct: "A" },
+            { id: 7, text: "What is the square root of 144?", options: ["10", "11", "12", "13"], correct: "C" },
+            { id: 8, text: "If a = 5 and b = 3, find a² - b²", options: ["16", "25", "9", "34"], correct: "A" },
+            { id: 9, text: "Convert 0.75 to a fraction in its simplest form", options: ["3/4", "1/2", "2/3", "4/5"], correct: "A" },
+            { id: 10, text: "What is the perimeter of a rectangle with length 8cm and width 5cm?", options: ["26cm", "13cm", "40cm", "30cm"], correct: "A" },
+            { id: 11, text: "The sum of angles in a triangle is _____", options: ["90°", "180°", "270°", "360°"], correct: "B" },
+            { id: 12, text: "Simplify: 5/8 + 3/4", options: ["1 3/8", "1 1/4", "1 1/2", "1 5/8"], correct: "A" },
+            { id: 13, text: "What is the value of 2⁵?", options: ["10", "16", "25", "32"], correct: "D" },
+            { id: 14, text: "Find the LCM of 6 and 8", options: ["24", "12", "48", "36"], correct: "A" },
+            { id: 15, text: "If 3x = 27, then x = ?", options: ["3", "6", "9", "12"], correct: "C" },
+            { id: 16, text: "What is 15% of 200?", options: ["15", "20", "25", "30"], correct: "D" },
+            { id: 17, text: "Simplify: (2³)²", options: ["32", "64", "128", "256"], correct: "B" },
+            { id: 18, text: "The area of a circle with radius 7cm is (π = 22/7)", options: ["154cm²", "44cm²", "88cm²", "308cm²"], correct: "A" },
+            { id: 19, text: "If 4y - 7 = 9, find y", options: ["4", "5", "6", "7"], correct: "A" },
+            { id: 20, text: "What is the median of: 5, 8, 3, 9, 2?", options: ["3", "5", "8", "9"], correct: "B" },
+            { id: 21, text: "Express 1/5 as a percentage", options: ["10%", "15%", "20%", "25%"], correct: "C" },
+            { id: 22, text: "Simplify: 6a + 3b - 2a + b", options: ["4a + 4b", "8a + 4b", "4a + 2b", "8a + 2b"], correct: "A" },
+            { id: 23, text: "What is the value of 7² - 5²?", options: ["24", "49", "25", "74"], correct: "A" },
+            { id: 24, text: "Find the HCF of 12 and 18", options: ["3", "6", "9", "12"], correct: "B" },
+            { id: 25, text: "If a pen costs ₦50, how much will 12 pens cost?", options: ["₦600", "₦500", "₦550", "₦650"], correct: "A" },
+            { id: 26, text: "Solve: x/4 = 7", options: ["21", "24", "28", "32"], correct: "C" },
+            { id: 27, text: "What is the mode of: 2, 3, 4, 3, 5, 3?", options: ["2", "3", "4", "5"], correct: "B" },
+            { id: 28, text: "Simplify: 3/4 × 2/5", options: ["3/10", "5/9", "6/20", "8/15"], correct: "A" },
+            { id: 29, text: "The probability of getting a head when a coin is tossed once is", options: ["0", "1/4", "1/2", "1"], correct: "C" },
+            { id: 30, text: "What is the value of 10³?", options: ["100", "1000", "10000", "10"], correct: "B" },
+            { id: 31, text: "Find the area of a square of side 9cm", options: ["81cm²", "36cm²", "18cm²", "72cm²"], correct: "A" },
+            { id: 32, text: "Simplify: 2x + 3x - x", options: ["4x", "5x", "6x", "3x"], correct: "A" },
+            { id: 33, text: "What is 0.6 as a fraction?", options: ["3/5", "2/3", "1/2", "4/5"], correct: "A" },
+            { id: 34, text: "If 5x = 45, what is x?", options: ["7", "8", "9", "10"], correct: "C" },
+            { id: 35, text: "The volume of a cube with side 4cm is", options: ["64cm³", "16cm³", "48cm³", "32cm³"], correct: "A" },
+            { id: 36, text: "Express 45 minutes as a fraction of 1 hour", options: ["3/4", "1/2", "2/3", "1/4"], correct: "A" },
+            { id: 37, text: "Simplify: 8 + 6 ÷ 2", options: ["7", "11", "10", "14"], correct: "B" },
+            { id: 38, text: "What is the smallest prime number?", options: ["0", "1", "2", "3"], correct: "C" },
+            { id: 39, text: "Find the simple interest on ₦500 at 10% for 2 years", options: ["₦100", "₦50", "₦200", "₦150"], correct: "A" },
+            { id: 40, text: "What is the complement of 35°?", options: ["145°", "55°", "65°", "45°"], correct: "B" },
+            { id: 41, text: "Solve: 3(x + 2) = 15", options: ["3", "4", "5", "6"], correct: "A" },
+            { id: 42, text: "What is the value of √169?", options: ["11", "12", "13", "14"], correct: "C" },
+            { id: 43, text: "The ratio 6:9 simplified is", options: ["2:3", "3:2", "1:2", "2:1"], correct: "A" },
+            { id: 44, text: "If 2/3 of a number is 12, the number is", options: ["8", "18", "24", "36"], correct: "B" },
+            { id: 45, text: "What is the perimeter of a circle of radius 7cm? (π = 22/7)", options: ["44cm", "22cm", "88cm", "154cm"], correct: "A" },
+            { id: 46, text: "Simplify: 2⁴ × 2³", options: ["2⁷", "2¹²", "4⁷", "8⁷"], correct: "A" },
+            { id: 47, text: "The mean of 4, 6, 8, 10 is", options: ["6", "7", "8", "9"], correct: "B" },
+            { id: 48, text: "What is 30% of ₦500?", options: ["₦100", "₦150", "₦200", "₦250"], correct: "B" },
+            { id: 49, text: "If a = 3 and b = 2, find a² + b²", options: ["5", "13", "10", "25"], correct: "B" },
+            { id: 50, text: "Convert 1011₂ to base ten", options: ["9", "10", "11", "12"], correct: "C" },
+            { id: 51, text: "The value of 5! is", options: ["20", "60", "120", "24"], correct: "C" },
+            { id: 52, text: "Simplify: (a²)³", options: ["a⁵", "a⁶", "a⁹", "a⁸"], correct: "B" },
+            { id: 53, text: "What is the supplement of 110°?", options: ["70°", "80°", "90°", "100°"], correct: "A" },
+            { id: 54, text: "If 4x - 3 = 13, find x", options: ["4", "5", "6", "7"], correct: "A" },
+            { id: 55, text: "The area of a triangle with base 10cm and height 6cm is", options: ["30cm²", "60cm²", "16cm²", "40cm²"], correct: "A" },
+            { id: 56, text: "Express 0.125 as a fraction", options: ["1/8", "1/4", "1/5", "1/6"], correct: "A" },
+            { id: 57, text: "What is the value of 3⁰?", options: ["0", "1", "3", "9"], correct: "B" },
+            { id: 58, text: "The perimeter of a square of side 6cm is", options: ["36cm", "24cm", "12cm", "18cm"], correct: "B" },
+            { id: 59, text: "Simplify: 7/9 - 2/3", options: ["1/9", "2/9", "5/9", "4/9"], correct: "A" },
+            { id: 60, text: "What is the next number in sequence: 2, 4, 8, 16, ___?", options: ["20", "24", "32", "64"], correct: "C" }
+        ];
+
+        // Split questions into groups of 10
+        const QUESTIONS_PER_PAGE = 10;
+        let currentPage = 1;
+        let totalPages = Math.ceil(allQuestions.length / QUESTIONS_PER_PAGE);
+        
+        // Store user answers
+        let userAnswers = new Array(allQuestions.length).fill(null);
+        
+        // Render function
+        function renderQuestions() {
+            const container = document.getElementById('questionPagesContainer');
+            container.innerHTML = '';
+            
+            // Calculate start and end index for current page
+            const startIdx = (currentPage - 1) * QUESTIONS_PER_PAGE;
+            const endIdx = Math.min(startIdx + QUESTIONS_PER_PAGE, allQuestions.length);
+            const pageQuestions = allQuestions.slice(startIdx, endIdx);
+            
+            // Create question page
+            const questionPage = document.createElement('div');
+            questionPage.className = 'page';
+            
+            // Add NECO logo
+            const logoDiv = document.createElement('div');
+            logoDiv.className = 'page-logo';
+            logoDiv.innerHTML = '<img src="img/neco-logo.png" alt="NECO Logo" onerror="this.style.display=\'none\'">';
+            questionPage.appendChild(logoDiv);
+            
+            // Add student header
+            const header = document.createElement('div');
+            header.className = 'student-header';
+            header.style.marginBottom = '20px';
+            header.innerHTML = `
+                <div class="student-info-left">
+                    <img class="student-avatar" src="${studentImage}" alt="Student" style="width:50px;height:50px;border-radius:50%;border:2px solid #ffd700;">
+                    <div class="student-details">
+                        <h4 style="color:#ffd700;margin:0;">${studentUsername}</h4>
+                        <p style="margin:3px 0 0;font-size:12px;">Registration: NECO/2023/XXXX</p>
+                    </div>
+                </div>
+                <div class="exam-badge">
+                    BECE 2023
+                </div>
+            `;
+            questionPage.appendChild(header);
+            
+            // Add header text
+            const headerText = document.createElement('div');
+            headerText.innerHTML = `
+                <div class="title-wrapper"><div class="section-title" style="font-size: 18px;">SECTION A (Objective)</div></div>
+                <div class="paper-header">Answer ALL questions in this section.</div>
+                <div class="diagram-note" style="background: #fef9e6; margin-bottom: 15px;">
+                    📝 Select the correct option for each question. Shade the corresponding circle on your answer sheet.
+                </div>
+            `;
+            questionPage.appendChild(headerText);
+            
+            // Add questions
+            pageQuestions.forEach((q, idx) => {
+                const globalIndex = startIdx + idx;
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question-container';
+                questionDiv.innerHTML = `
+                    <div class="question-text"><strong>${globalIndex + 1}.</strong> ${q.text}</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" name="q${globalIndex}" id="q${globalIndex}_A" value="A" ${userAnswers[globalIndex] === 'A' ? 'checked' : ''}>
+                            <label for="q${globalIndex}_A">A. ${q.options[0]}</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q${globalIndex}" id="q${globalIndex}_B" value="B" ${userAnswers[globalIndex] === 'B' ? 'checked' : ''}>
+                            <label for="q${globalIndex}_B">B. ${q.options[1]}</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q${globalIndex}" id="q${globalIndex}_C" value="C" ${userAnswers[globalIndex] === 'C' ? 'checked' : ''}>
+                            <label for="q${globalIndex}_C">C. ${q.options[2]}</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" name="q${globalIndex}" id="q${globalIndex}_D" value="D" ${userAnswers[globalIndex] === 'D' ? 'checked' : ''}>
+                            <label for="q${globalIndex}_D">D. ${q.options[3]}</label>
+                        </div>
+                    </div>
+                `;
+                
+                // Add event listener to save answer
+                const radios = questionDiv.querySelectorAll('input[type="radio"]');
+                radios.forEach(radio => {
+                    radio.addEventListener('change', (e) => {
+                        userAnswers[globalIndex] = e.target.value;
+                        updateAnsweredStatus();
+                    });
+                });
+                
+                questionPage.appendChild(questionDiv);
+            });
+            
+            // Add submit button at the bottom of last page
+            if (currentPage === totalPages) {
+                const submitDiv = document.createElement('div');
+                submitDiv.style.textAlign = 'center';
+                submitDiv.style.marginTop = '30px';
+                submitDiv.style.padding = '20px';
+                submitDiv.innerHTML = `
+                    <button onclick="submitExam()" class="submit-btn">✓ SUBMIT EXAMINATION</button>
+                `;
+                questionPage.appendChild(submitDiv);
+            }
+            
+            // Add copyright
+            const copyrightDiv = document.createElement('div');
+            copyrightDiv.className = 'copyright';
+            copyrightDiv.innerHTML = '© 2023 National Examinations Council';
+            questionPage.appendChild(copyrightDiv);
+            
+            container.appendChild(questionPage);
+            
+            // Update page info
+            document.getElementById('pageInfo').innerHTML = `Page ${currentPage} of ${totalPages}`;
+            
+            // Update navigation buttons state
+            const prevBtn = document.getElementById('prevPageBtn');
+            const nextBtn = document.getElementById('nextPageBtn');
+            
+            if (currentPage === 1) {
+                prevBtn.classList.add('disabled');
+            } else {
+                prevBtn.classList.remove('disabled');
+            }
+            
+            if (currentPage === totalPages) {
+                nextBtn.classList.add('disabled');
+            } else {
+                nextBtn.classList.remove('disabled');
+            }
+            
+            updateAnsweredStatus();
+        }
+        
+        function updateAnsweredStatus() {
+            const answeredCount = userAnswers.filter(a => a !== null).length;
+            const total = allQuestions.length;
+            const pageInfo = document.getElementById('pageInfo');
+            if (pageInfo) {
+                pageInfo.innerHTML = `📄 Page ${currentPage} of ${totalPages} | ✅ Answered: ${answeredCount}/${total}`;
+            }
+        }
+        
+        function changePage(direction) {
+            const newPage = currentPage + direction;
+            if (newPage >= 1 && newPage <= totalPages) {
+                currentPage = newPage;
+                renderQuestions();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+        
+        function submitExam() {
+            let score = 0;
+            for (let i = 0; i < allQuestions.length; i++) {
+                if (userAnswers[i] === allQuestions[i].correct) {
+                    score++;
+                }
+            }
+            
+            const answeredCount = userAnswers.filter(a => a !== null).length;
+            const unansweredCount = allQuestions.length - answeredCount;
+            
+            localStorage.setItem('examScore', score);
+            localStorage.setItem('totalQuestions', allQuestions.length);
+            localStorage.setItem('examSubject', 'Mathematics');
+            localStorage.setItem('examYear', '2023');
+            localStorage.setItem('studentName', studentUsername);
+            localStorage.setItem('examPercentage', ((score / allQuestions.length) * 100).toFixed(1));
+            localStorage.setItem('answeredCount', answeredCount);
+            localStorage.setItem('unansweredCount', unansweredCount);
+            
+            alert(`═══════════════════════════════════\n` +
+                  `      NECO EXAMINATION SUBMITTED\n` +
+                  `═══════════════════════════════════\n` +
+                  `📊 Total Questions: ${allQuestions.length}\n` +
+                  `✓ Answered: ${answeredCount}\n` +
+                  `✗ Unanswered: ${unansweredCount}\n` +
+                  `🎯 Score: ${score} / ${allQuestions.length}\n` +
+                  `📈 Percentage: ${((score / allQuestions.length) * 100).toFixed(1)}%\n` +
+                  `═══════════════════════════════════\n` +
+                  `Thank you for participating!\n`);
+            
+            window.location.href = "results.html";
+        }
+        
+        // Initialize the exam on load
+        document.addEventListener('DOMContentLoaded', () => {
+            const coverPage = document.getElementById('coverPage');
+            const instructionsPage = document.getElementById('instructionsPage');
+            
+            if (coverPage) coverPage.style.display = 'none';
+            if (instructionsPage) instructionsPage.style.display = 'none';
+            
+            renderQuestions();
+            updateStudentInfo();
+        });
+    </script>
+</body>
+</html>

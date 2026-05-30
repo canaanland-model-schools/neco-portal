@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>NECO BECE Mathematics Examination 2021</title>
+    <style>
+        /* RESET & GLOBAL */
+        * {
+            box-sizing: border-box;
+            user-select: none;
+        }
+        
+        body {
+            position: relative;
+            z-index: 1;
+            font-family: 'Times New Roman', Times, serif;
+            margin: 0;
+            padding: 0;
+            background-color: #d4c9a8;
+        }
+        
+        /* NECO Watermark Background */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('img/neco-logo.png') no-repeat center center;
+            background-size: 350px 350px;
+            opacity: 0.08;
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        /* LAYOUT: main wrapper with feedback panel on left */
+        .exam-main-layout {
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+            max-width: 1400px;
+            margin: 20px auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* LEFT SIDEBAR - FEEDBACK PANEL (NECO Style) */
+        .feedback-panel {
+            width: 320px;
+            background: #fef9e6;
+            border-radius: 8px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            padding: 18px;
+            position: sticky;
+            top: 20px;
+            height: fit-content;
+            border-left: 6px solid #ffd700;
+            transition: all 0.2s;
+        }
+        
+        .feedback-panel h3 {
+            margin: 0 0 10px 0;
+            color: #1a472a;
+            border-bottom: 2px solid #ffd700;
+            display: inline-block;
+            font-size: 1.3rem;
+        }
+        
+        .feedback-status {
+            font-size: 1rem;
+            margin: 12px 0;
+            font-weight: bold;
+            color: #1a472a;
+            background: #e8f0e8;
+            padding: 8px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .explanation-box {
+            background: #fffef7;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 15px 0;
+            border: 1px solid #d4a843;
+            max-height: 280px;
+            overflow-y: auto;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #1e1e2a;
+        }
+        
+        .explanation-title {
+            font-weight: bold;
+            color: #1a472a;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .tts-button {
+            background: #2d6a4f;
+            border: none;
+            color: #ffd700;
+            padding: 6px 12px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 13px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: 0.2s;
+            margin-top: 8px;
+        }
+        
+        .tts-button:hover {
+            background: #1a472a;
+        }
+        
+        .answer-feedback {
+            margin-top: 12px;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+        
+        .answer-feedback.correct {
+            background: #d4edda;
+            color: #1a472a;
+            border-left: 5px solid #2d6a4f;
+        }
+        
+        .answer-feedback.wrong {
+            background: #f8d7da;
+            color: #8b0000;
+            border-left: 5px solid #8b0000;
+        }
+        
+        /* Right content area */
+        .exam-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        /* Header Styles - NECO Colors */
+        #logout-container {
+            text-align: right;
+            padding: 10px;
+            background: #1a472a;
+        }
+        
+        #datetime {
+            color: #ffd700;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            margin: 10px 0;
+        }
+        
+        #logout {
+            background-color: #8b0000;
+            color: #ffd700;
+            border: none;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        
+        #logout:hover {
+            background-color: #6b0000;
+        }
+        
+        #header {
+            padding: 20px;
+            background: linear-gradient(135deg, #1a472a, #2d6a4f);
+            color: white;
+            border-bottom: 5px solid #ffd700;
+        }
+        
+        #logo img {
+            max-width: 100px;
+            height: auto;
+            display: inline-block;
+            margin: 0 10px;
+            vertical-align: middle;
+        }
+        
+        .logo-wrapper {
+            text-align: center;
+        }
+        
+        #student-info {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        #welcome-message {
+            color: #ffd700;
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        #userAnswerCount {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: rgba(26, 71, 42, 0.9);
+            padding: 15px;
+            border-radius: 8px;
+            color: #ffd700;
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            width: 200px;
+            z-index: 100;
+            border: 1px solid #ffd700;
+        }
+        
+        .container {
+            margin: 20px auto;
+            width: 100%;
+            padding: 20px;
+            background-color: #fef9e6;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border: 1px solid #d4a843;
+        }
+        
+        #questionText {
+            width: 98%;
+            min-height: 100px;
+            resize: none;
+            padding: 15px;
+            font-size: 18px;
+            color: #1a472a;
+            background-color: #fffef7;
+            border-radius: 5px;
+            border: 2px solid #d4a843;
+            margin-bottom: 15px;
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: bold;
+        }
+        
+        .option-group {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            padding: 12px;
+            background-color: #fffef7;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            border: 1px solid #e0d5b0;
+        }
+        
+        .option-group:hover {
+            background-color: #f5f0e0;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .btn-cool {
+            padding: 12px 25px;
+            font-size: 16px;
+            border: none;
+            border-radius: 30px;
+            background: #2d6a4f;
+            color: #ffd700;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        
+        .btn-cool:hover {
+            background: #1a472a;
+        }
+        
+        .questionButtons {
+            margin: 15px 0;
+            text-align: center;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 5px;
+        }
+        
+        .question-btn {
+            margin: 3px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid #d4a843;
+            cursor: pointer;
+            font-weight: bold;
+            background-color: #fef9e6;
+            min-width: 40px;
+            font-family: 'Times New Roman', Times, serif;
+        }
+        
+        #timer {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ffd700;
+            text-align: center;
+            margin: 10px 0;
+            background-color: #1a472a;
+            padding: 10px;
+            border-radius: 8px;
+        }
+        
+        .section-toggle {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .section-btn {
+            padding: 12px 24px;
+            margin: 0 10px;
+            font-weight: bold;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            background: #fef9e6;
+            color: #1a472a;
+            font-family: 'Times New Roman', Times, serif;
+        }
+        
+        .section-btn.active {
+            background-color: #2d6a4f;
+            color: #ffd700;
+        }
+        
+        #theorySection {
+            display: none;
+            background: #fef9e6;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border: 1px solid #d4a843;
+        }
+        
+        .marquee-container {
+            width: 100%;
+            overflow: hidden;
+            background: #1a472a;
+            padding: 10px 0;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+        
+        .marquee-text {
+            display: inline-block;
+            color: #ffd700;
+            font-size: 20px;
+            font-weight: bold;
+            animation: marquee 15s linear infinite;
+            font-family: 'Times New Roman', Times, serif;
+        }
+        
+        @keyframes marquee {
+            from { transform: translateX(100%); }
+            to { transform: translateX(-100%); }
+        }
+        
+        .windows-activate {
+            text-align: center;
+            margin: 20px;
+            font-size: 12px;
+            color: #5a4a2a;
+        }
+        
+        .theory-nav-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        
+        .theory-btn {
+            padding: 8px 16px;
+            border-radius: 30px;
+            border: none;
+            font-weight: bold;
+            background: #2d6a4f;
+            color: #ffd700;
+            cursor: pointer;
+        }
+        
+        .theory-btn:hover {
+            background: #1a472a;
+        }
+        
+        /* Student image styling */
+        #userImage {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 3px solid #ffd700;
+            object-fit: cover;
+        }
+        
+        #username {
+            color: #ffd700;
+        }
+        
+        h3 {
+            color: #ffd700;
+        }
+        
+        .exam-info {
+            color: #ffd700;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 780px) {
+            .exam-main-layout { flex-direction: column; }
+            .feedback-panel { width: 100%; position: relative; }
+        }
+    </style>
+</head>
+<body oncontextmenu="return false">
+<div id="header">
+    <div id="logout-container">
+        <button id="logout" onclick="logout()">🚪 Logout</button>
+        <div class="marquee-container"><span class="marquee-text">NATIONAL EXAMINATIONS COUNCIL - BECE MATHEMATICS 2021 - INTEGRITY & EXCELLENCE</span></div>
+    </div>
+    <div class="logo-wrapper">
+        <img src="img/neco-logo.png" alt="NECO Logo" style="max-width: 80px; vertical-align: middle;">
+        <span style="font-size: 24px; font-weight: bold; vertical-align: middle;">NATIONAL EXAMINATIONS COUNCIL</span>
+        <img src="img/neco-logo.png" alt="NECO Logo" style="max-width: 80px; vertical-align: middle;">
+    </div>
+    <div id="student-info">
+        <center><strong style="color: #ffd700;">⚠️ CLICK ON SUBMIT BEFORE TIME ELAPSES ⚠️</strong></center>
+        <center><p id="datetime"></p></center>
+        <div id="welcome-message"><label id="usernameDisplay"></label></div>
+        <div><img id="userImage" src="img/default_user.jpg" alt="Student"></div>
+        <h2 id="username">Student Name</h2>
+        <center><h3>CANAANLAND GROUP OF SCHOOLS - EKUTE QUARTERS, ADO EKITI</h3></center>
+        <center><h3>BECE JUNIOR WAEC EXAMINATION 2021</h3></center>
+        <div class="section-toggle">
+            <button id="objectivesBtn" class="section-btn active" onclick="showSection('objectives')">OBJECTIVE QUESTIONS</button>
+            <button id="theoryBtn" class="section-btn" onclick="showSection('theory')">THEORY QUESTIONS</button>
+        </div>
+        <div class="exam-info">Exam: <span id="examInfo" style="color: #ffd700;">MATHEMATICS - 2021 (BECE EXAMINATION)</span></div>
+        <div id="timer"></div>
+    </div>
+</div>
+
+<!-- NEW LAYOUT: sidebar + main content -->
+<div class="exam-main-layout">
+    <!-- LEFT FEEDBACK PANEL (explanation + TTS) -->
+    <div class="feedback-panel" id="feedbackPanel">
+        <h3>📘 Answer Assistant</h3>
+        <div class="feedback-status" id="feedbackStatusMsg">Select an option to see feedback</div>
+        <div class="explanation-box" id="explanationBox">
+            <div class="explanation-title">💡 Explanation</div>
+            <div id="explanationText">Your answer evaluation will appear here.</div>
+        </div>
+        <div id="answerResultBox" class="answer-feedback"></div>
+        <button id="ttsExplanationBtn" class="tts-button">🔊 Read Explanation Aloud</button>
+    </div>
+
+    <!-- RIGHT: OBJECTIVES & THEORY SECTIONS -->
+    <div class="exam-content">
+        <div id="objectivesSection">
+            <div class="container">
+                <h5 style="color:#1a472a; text-align:center;">INSTRUCTIONS: READ CAREFULLY & CHOOSE YOUR ANSWER</h5>
+                <div id="questionText"></div>
+                <div id="questionImageContainer"></div>
+                <div class="option-group"><label><strong>A.</strong><input type="radio" name="option" value="A"> <span id="optA"></span></label></div>
+                <div class="option-group"><label><strong>B.</strong><input type="radio" name="option" value="B"> <span id="optB"></span></label></div>
+                <div class="option-group"><label><strong>C.</strong><input type="radio" name="option" value="C"> <span id="optC"></span></label></div>
+                <div class="option-group"><label><strong>D.</strong><input type="radio" name="option" value="D"> <span id="optD"></span></label></div>
+            </div>
+            <div class="nav-buttons">
+                <button onclick="prevQuestion()" class="btn-cool">◀ Previous</button>
+                <button onclick="nextQuestion()" class="btn-cool">Next ▶</button>
+                <button onclick="submitExam()" class="btn-cool">✔ Submit Objectives</button>
+            </div>
+            <div class="container"><div id="questionButtons" class="questionButtons"></div></div>
+        </div>
+
+        <div id="theorySection">
+            <h3 style="text-align:center; color:#1a472a;">THEORY QUESTIONS</h3>
+            <div class="theory-status" id="theoryStatus">Question 1 of 5 | Saved: 0/5</div>
+            <div id="theoryQuestionContainer">
+                <p id="theoryQuestionText">Loading theory questions...</p>
+                <div id="theoryImageContainer"></div>
+                <textarea id="theoryAnswer" rows="6" placeholder="Write your detailed answer here..."></textarea>
+                <div class="theory-nav-buttons">
+                    <button onclick="prevTheoryQuestion()" class="theory-btn">Previous</button>
+                    <button onclick="saveTheoryAnswer()" class="theory-btn">Save Answer</button>
+                    <button onclick="nextTheoryQuestion()" class="theory-btn">Next</button>
+                    <button onclick="submitTheoryExam()" class="theory-btn">Submit Theory</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="userAnswerCount"><p id="answeredLabel">Answered: 0/50</p><p id="unansweredLabel">Unanswered: 50/50</p></div>
+<div class="marquee-container"><span class="marquee-text">NECO BECE MATHEMATICS EXAMINATION 2021 - CANAANLAND MODEL SCHOOLS</span></div>
+<div class="windows-activate"><p>© National Examinations Council (NECO) - BECE 2021 | canaanlandmodelschools.org</p></div>
+
+<script>
+    // ===================== STATIC OBJECTIVE QUESTIONS WITH EXPLANATIONS =====================
+    const staticObjectivesQuestions = [
+        { id:1, question:"What is the sum of ¾ and ⅔?", options:{ A:"1 5/12", B:"1 ¼", C:"1 ⅓", D:"1 ½" }, answer:"A", explanation:"¾ = 9/12, ⅔ = 8/12, sum = 17/12 = 1 5/12.", image:null },
+        { id:2, question:"Subtract 5/8 from 1 ½.", options:{ A:"1 ⅛", B:"1 ⅜", C:"⅞", D:"1" }, answer:"C", explanation:"1½ = 12/8, minus 5/8 = 7/8 = ⅞", image:null },
+        { id:3, question:"The product of 2/5 and 3/4 is ______.", options:{ A:"3/10", B:"5/9", C:"6/20", D:"8/15" }, answer:"A", explanation:"(2×3)/(5×4)=6/20=3/10", image:null },
+        { id:4, question:"Divide ¾ by ½.", options:{ A:"1 ½", B:"1 ¼", C:"2", D:"3/8" }, answer:"A", explanation:"3/4 ÷ 1/2 = 3/4 × 2/1 = 6/4 = 3/2 = 1½", image:null },
+        { id:5, question:"Round 567.389 to the nearest whole number.", options:{ A:"567", B:"568", C:"567.4", D:"567.39" }, answer:"A", explanation:"Tenths digit is 3 (<5), so round down to 567.", image:null },
+        { id:6, question:"How many significant figures are in 0.0405?", options:{ A:"2", B:"3", C:"4", D:"5" }, answer:"B", explanation:"Leading zeros not significant, 4,0,5 → three sig figs.", image:null },
+        { id:7, question:"The binary number 1011₂ is equal to ______ in base ten.", options:{ A:"9", B:"10", C:"11", D:"12" }, answer:"C", explanation:"8+0+2+1 = 11", image:null },
+        { id:8, question:"Add 101₂ and 110₂.", options:{ A:"1001₂", B:"1011₂", C:"1101₂", D:"1111₂" }, answer:"B", explanation:"101₂=5, 110₂=6, sum=11 decimal = 1011₂", image:null },
+        { id:9, question:"Subtract 101₂ from 1110₂.", options:{ A:"1001₂", B:"1101₂", C:"1011₂", D:"111₂" }, answer:"A", explanation:"1110₂=14, 101₂=5, 14-5=9 = 1001₂", image:null },
+        { id:10, question:"Multiply 101₂ by 11₂.", options:{ A:"1111₂", B:"1101₂", C:"1010₂", D:"1001₂" }, answer:"A", explanation:"101₂=5, 11₂=3, 5×3=15 = 1111₂", image:null }
+    ];
+    
+    for(let i=11; i<=50; i++) {
+        let baseQ = {
+            id:i, question:`Sample question ${i}?`, options:{ A:"Option A", B:"Option B", C:"Option C", D:"Option D" }, answer:"A", explanation:`Explanation for question ${i}: review concept carefully.`, image:null
+        };
+        staticObjectivesQuestions.push(baseQ);
+    }
+    
+    const detailedCorrections = [
+        {id:11, q:"In the expression 5x + 3y, the coefficient of y is ______.", opts:{A:"5",B:"3",C:"x",D:"y"}, ans:"B", exp:"Coefficient is the number multiplying variable y → 3."},
+        {id:12, q:"Simplify: 2a + 3b + a – b.", opts:{A:"3a+2b",B:"3a+4b",C:"a+2b",D:"5ab"}, ans:"A", exp:"2a+a=3a, 3b-b=2b → 3a+2b"},
+        {id:13, q:"Expand: 3(x + 4).", opts:{A:"3x+4",B:"3x+12",C:"x+12",D:"7x"}, ans:"B", exp:"Distribute 3: 3*x=3x, 3*4=12 → 3x+12"},
+        {id:14, q:"Collect like terms: 5p – 2q + p + 4q.", opts:{A:"6p+2q",B:"6p-2q",C:"4p+2q",D:"5p+6q"}, ans:"A", exp:"5p+p=6p, -2q+4q=2q => 6p+2q"},
+        {id:15, q:"Solve: x + 7 = 15.", opts:{A:"8",B:"22",C:"9",D:"10"}, ans:"A", exp:"x = 15-7 = 8"}
+    ];
+    
+    detailedCorrections.forEach(c => {
+        let idx = staticObjectivesQuestions.findIndex(q => q.id === c.id);
+        if(idx !== -1) { staticObjectivesQuestions[idx].question = c.q; staticObjectivesQuestions[idx].options = c.opts; staticObjectivesQuestions[idx].answer = c.ans; staticObjectivesQuestions[idx].explanation = c.exp; }
+    });
+    
+    for(let i=16; i<=50; i++) {
+        let qobj = staticObjectivesQuestions.find(q => q.id === i);
+        if(qobj && !qobj.explanation) qobj.explanation = `Correct answer is ${qobj.answer}. Review your class notes for detailed approach.`;
+    }
+    
+    const staticTheoryQuestions = [
+        {id:1, question:"Simplify \na. (i) 2⅔ + 1¾\n(ii) 3½ ÷ 1¼ \n b. A farmer has 5½ hectares...", marks:10, image:null},
+        {id:2, question:"Convert binary numbers...", marks:10, image:null},
+        {id:3, question:"Simplify algebraic expressions...", marks:10, image:null},
+        {id:4, question:"Word problems on fractions...", marks:10, image:null},
+        {id:5, question:"Perimeter, area, angles...", marks:10, image:null}
+    ];
+    
+    let questions = [...staticObjectivesQuestions];
+    let theoryQuestions = staticTheoryQuestions.slice(0,5);
+    let userAnswers = new Array(questions.length);
+    let theoryAnswers = new Array(theoryQuestions.length).fill('');
+    let currentQuestion = 0, currentTheory = 0, currentSection = 'objectives';
+    let timeLeft = 60 * 60;
+
+    function updateFeedbackForCurrentQuestion() {
+        const q = questions[currentQuestion];
+        const selected = userAnswers[currentQuestion];
+        const isAnswered = selected !== undefined;
+        let explanationMsg = q.explanation || "No detailed explanation, but check textbook.";
+        let resultHtml = '';
+        if(!isAnswered) {
+            resultHtml = `<div class="answer-feedback" style="background:#fff3cd;">❓ Not answered yet. Choose an option to check.</div>`;
+            document.getElementById('answerResultBox').innerHTML = resultHtml;
+            document.getElementById('explanationText').innerHTML = explanationMsg;
+            document.getElementById('feedbackStatusMsg').innerHTML = "⚡ Pending answer";
+            return;
+        }
+        const isCorrect = (selected === q.answer);
+        if(isCorrect) {
+            resultHtml = `<div class="answer-feedback correct">✅ Correct! Well done.</div>`;
+            document.getElementById('feedbackStatusMsg').innerHTML = "🎉 Correct answer!";
+        } else {
+            resultHtml = `<div class="answer-feedback wrong">❌ Wrong answer. Correct option is ${q.answer}: ${q.options[q.answer] || q.answer}. ${explanationMsg.substring(0,100)}</div>`;
+            document.getElementById('feedbackStatusMsg').innerHTML = "❌ Incorrect, review explanation.";
+        }
+        document.getElementById('answerResultBox').innerHTML = resultHtml;
+        let fullExplain = `${isCorrect ? '✓ Correct. ' : '✗ Incorrect. '} Explanation: ${explanationMsg}`;
+        if(!isCorrect) fullExplain += ` The correct choice is ${q.answer}.`;
+        document.getElementById('explanationText').innerHTML = fullExplain;
+    }
+
+    function speakExplanation() {
+        let explanationDiv = document.getElementById('explanationText');
+        let textToRead = explanationDiv.innerText || "No explanation available.";
+        if('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+            let utterance = new SpeechSynthesisUtterance(textToRead);
+            utterance.lang = 'en-US';
+            utterance.rate = 0.9;
+            window.speechSynthesis.speak(utterance);
+        } else {
+            alert("Your browser does not support text-to-speech.");
+        }
+    }
+
+    function saveAnswer() {
+        const selected = document.querySelector('input[name="option"]:checked');
+        if(selected) {
+            userAnswers[currentQuestion] = selected.value;
+            countUserSelections();
+            updateFeedbackForCurrentQuestion();
+            renderQuestionButtons();
+        }
+    }
+
+    function displayQuestion() {
+        if(currentQuestion >= questions.length) return;
+        const q = questions[currentQuestion];
+        document.getElementById('questionText').innerHTML = `${currentQuestion+1}. ${mapMathSymbol(q.question)}`;
+        document.getElementById('optA').innerHTML = mapMathSymbol(q.options.A);
+        document.getElementById('optB').innerHTML = mapMathSymbol(q.options.B);
+        document.getElementById('optC').innerHTML = mapMathSymbol(q.options.C);
+        document.getElementById('optD').innerHTML = mapMathSymbol(q.options.D);
+        const radios = document.getElementsByName('option');
+        radios.forEach(r => r.checked = false);
+        if(userAnswers[currentQuestion]) {
+            document.querySelector(`input[name="option"][value="${userAnswers[currentQuestion]}"]`).checked = true;
+        }
+        const imgContainer = document.getElementById('questionImageContainer');
+        if(q.image) imgContainer.innerHTML = `<img src="${q.image}" style="max-width:200px;">`;
+        else imgContainer.innerHTML = '';
+        highlightCurrentButton();
+        updateFeedbackForCurrentQuestion();
+    }
+
+    function nextQuestion() { saveAnswer(); if(currentQuestion < questions.length-1) { currentQuestion++; displayQuestion(); } }
+    function prevQuestion() { saveAnswer(); if(currentQuestion > 0) { currentQuestion--; displayQuestion(); } }
+
+    function renderQuestionButtons() {
+        const container = document.getElementById('questionButtons');
+        container.innerHTML = '';
+        for(let i=0; i<questions.length; i++) {
+            const btn = document.createElement('button');
+            btn.textContent = i+1;
+            btn.className = 'question-btn';
+            btn.onclick = () => { saveAnswer(); currentQuestion = i; displayQuestion(); };
+            container.appendChild(btn);
+        }
+        highlightCurrentButton();
+    }
+    
+    function highlightCurrentButton() {
+        document.querySelectorAll('.question-btn').forEach((btn, idx) => {
+            const answered = userAnswers[idx] !== undefined;
+            const current = idx === currentQuestion;
+            btn.style.backgroundColor = current ? '#2d6a4f' : (answered ? '#d4a843' : '#fef9e6');
+            btn.style.color = current ? '#ffd700' : (answered ? 'white' : '#1a472a');
+            btn.style.border = current ? '2px solid #ffd700' : '1px solid #d4a843';
+        });
+    }
+    
+    function countUserSelections() {
+        let answeredCount = userAnswers.filter(a => a !== undefined).length;
+        document.getElementById("answeredLabel").innerText = `Answered: ${answeredCount}/${questions.length}`;
+        document.getElementById("unansweredLabel").innerText = `Unanswered: ${questions.length - answeredCount}`;
+    }
+
+    function showResult() {
+        clearInterval(timerInterval);
+        let score = 0;
+        questions.forEach((q, i) => { if(userAnswers[i] === q.answer) score++; });
+        const username = sessionStorage.getItem('username') || "Guest";
+        const cls = sessionStorage.getItem('class') || "JSS3";
+        const sub = "MATHEMATICS";
+        localStorage.setItem("examUser", username); 
+        localStorage.setItem("examScore", score);
+        localStorage.setItem("totalQuestions", questions.length);
+        localStorage.setItem("examSubject", "Mathematics");
+        localStorage.setItem("examYear", "2021");
+        alert(`NECO BECE Examination Completed!\nScore: ${score}/${questions.length}\nPercentage: ${((score/questions.length)*100).toFixed(1)}%`);
+        window.location.href = "results.html";
+    }
+    
+    function submitExam() { saveAnswer(); showResult(); }
+
+    function displayTheoryQuestion() {
+        if(theoryQuestions.length===0) return;
+        const tq = theoryQuestions[currentTheory];
+        document.getElementById('theoryQuestionText').innerText = `${currentTheory+1}. ${tq.question} [${tq.marks} marks]`;
+        document.getElementById('theoryAnswer').value = theoryAnswers[currentTheory] || "";
+        updateTheoryStatus();
+    }
+    
+    function updateTheoryStatus() {
+        let saved = theoryAnswers.filter(a=>a.trim()!=="").length;
+        document.getElementById("theoryStatus").innerText = `Question ${currentTheory+1} of ${theoryQuestions.length} | Saved: ${saved}/${theoryQuestions.length}`;
+    }
+    
+    function saveTheoryAnswer() { theoryAnswers[currentTheory] = document.getElementById('theoryAnswer').value; updateTheoryStatus(); alert("Theory answer saved."); }
+    function nextTheoryQuestion() { if(currentTheory < theoryQuestions.length-1) { currentTheory++; displayTheoryQuestion(); } else alert("Last theory question."); }
+    function prevTheoryQuestion() { if(currentTheory > 0) { currentTheory--; displayTheoryQuestion(); } }
+    function submitTheoryExam() { alert("Theory answers recorded. Teacher will grade."); }
+
+    function showSection(section) {
+        currentSection = section;
+        document.getElementById('objectivesBtn').classList.toggle('active', section==='objectives');
+        document.getElementById('theoryBtn').classList.toggle('active', section==='theory');
+        document.getElementById('objectivesSection').style.display = section==='objectives' ? 'block' : 'none';
+        document.getElementById('theorySection').style.display = section==='theory' ? 'block' : 'none';
+        if(section==='theory') displayTheoryQuestion();
+    }
+
+    function mapMathSymbol(text) { if(!text) return ''; return text.replace(/&frac12;/g,'½').replace(/&frac14;/g,'¼').replace(/&frac34;/g,'¾').replace(/\^(\d+)/g,'<sup>$1</sup>'); }
+
+    let timerInterval;
+    function startTimer() {
+        timerInterval = setInterval(() => {
+            let min = Math.floor(timeLeft/60), sec = timeLeft%60;
+            document.getElementById('timer').textContent = `⏱️ Time Remaining: ${min}:${sec<10?'0'+sec:sec}`;
+            if(timeLeft <= 0) { clearInterval(timerInterval); alert("Time's up! Auto-submitting."); submitExam(); }
+            timeLeft--;
+        }, 1000);
+    }
+
+    window.onload = function() {
+        const username = sessionStorage.getItem('username') || 'Student';
+        const userImage = sessionStorage.getItem('image') || 'img/default_user.jpg';
+        document.getElementById('username').innerText = username;
+        document.getElementById('usernameDisplay').innerText = "👋 WELCOME: " + username;
+        document.getElementById('userImage').src = userImage;
+        questions = staticObjectivesQuestions;
+        userAnswers = new Array(questions.length).fill(undefined);
+        theoryAnswers = new Array(theoryQuestions.length).fill('');
+        displayQuestion(); renderQuestionButtons(); countUserSelections(); updateTheoryStatus(); startTimer();
+        setInterval(() => {
+            let now = new Date();
+            document.getElementById("datetime").innerHTML = now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) + " | " + now.toLocaleTimeString();
+        }, 1000);
+        document.getElementById('ttsExplanationBtn').addEventListener('click', speakExplanation);
+        const radioOptions = document.querySelectorAll('input[name="option"]');
+        radioOptions.forEach(radio => radio.addEventListener('change', () => { saveAnswer(); }));
+    };
+
+    function logout() { if(confirm("Are you sure you want to logout?")) window.location.href="index.html"; }
+
+    document.addEventListener('contextmenu', e=>e.preventDefault());
+    document.addEventListener('keydown', e=>{ if(e.key==='F12'||(e.ctrlKey&&e.shiftKey&&e.key==='I')){ e.preventDefault(); alert("Developer tools are disabled during examination."); } });
+</script>
+</body>
+</html>
