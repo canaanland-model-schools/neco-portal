@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WAEC CBT Portal - Login</title>
+    <link rel="icon" type="image/x-icon" href="fav_icon2.ico">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Times New Roman', Times, serif;
+            background: linear-gradient(135deg, #003399, #002266, #001133);
+            position: relative;
+        }
+
+        /* WAEC Watermark Background */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('img/waec2.jpg') no-repeat center center;
+            background-size: 350px 350px;
+            opacity: 0.06;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            width: 100%;
+            max-width: 500px;
+            padding: 20px;
+        }
+
+        /* Logo Section - WAEC Style */
+        .logo-section {
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .logo-section img {
+            width: 80px;
+            height: auto;
+        }
+
+        .council-name {
+            text-align: center;
+            color: #ffcc00;
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-top: 10px;
+            text-transform: uppercase;
+        }
+
+        .waec-motto {
+            text-align: center;
+            color: #ffcc00;
+            font-size: 12px;
+            font-style: italic;
+            margin-top: 5px;
+            letter-spacing: 1px;
+        }
+
+        /* Login Container - WAEC Style */
+        .login-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            padding: 35px 30px;
+            text-align: center;
+            border: 1px solid #ffcc00;
+            position: relative;
+        }
+
+        /* WAEC Header Decoration */
+        .login-container::before {
+            content: "🏛️";
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            color: #003399;
+            font-size: 28px;
+            padding: 0 15px;
+        }
+
+        h1 {
+            color: #003399;
+            margin-bottom: 5px;
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            color: #002266;
+            margin-bottom: 25px;
+            font-size: 14px;
+            font-weight: bold;
+            border-bottom: 2px solid #ffcc00;
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+
+        .exam-badge {
+            background: linear-gradient(135deg, #003399, #002266);
+            color: #ffcc00;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #003399;
+            font-weight: bold;
+            font-size: 14px;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+            background: #fefefe;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        input:focus {
+            border-color: #ffcc00;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 204, 0, 0.2);
+        }
+
+        .checkbox-group {
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .checkbox-group label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            color: #003399;
+            font-size: 14px;
+        }
+
+        .checkbox-group input {
+            width: 18px;
+            height: 18px;
+            accent-color: #003399;
+        }
+
+        .login-btn {
+            background: linear-gradient(135deg, #003399, #002266);
+            color: #ffcc00;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 40px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+            margin-top: 10px;
+            font-family: 'Times New Roman', Times, serif;
+            letter-spacing: 1px;
+        }
+
+        .login-btn:hover {
+            background: linear-gradient(135deg, #002266, #001133);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .error-message {
+            color: #cc0000;
+            margin-top: 15px;
+            font-size: 14px;
+            font-weight: bold;
+            display: none;
+            background: #ffe6e6;
+            padding: 10px;
+            border-radius: 8px;
+            border-left: 4px solid #cc0000;
+        }
+
+        .portal-footer {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #ddd;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .portal-footer a {
+            color: #003399;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .portal-footer a:hover {
+            color: #ffcc00;
+            text-decoration: underline;
+        }
+
+        .cbt-label {
+            font-size: 20px;
+            font-weight: bold;
+            color: #003399;
+            margin: 15px 0 5px;
+            letter-spacing: 2px;
+        }
+
+        /* Responsive */
+        @media (max-width: 550px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .login-container {
+                padding: 25px 20px;
+            }
+            
+            .logo-section img {
+                width: 60px;
+            }
+            
+            h1 {
+                font-size: 22px;
+            }
+            
+            .login-btn {
+                font-size: 16px;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body oncontextmenu="return false;">
+    <div class="container">
+        <!-- WAEC Logo Section -->
+        <div class="logo-section">
+            <img src="img/waec2.jpg" alt="WAEC Logo" onerror="this.src='https://upload.wikimedia.org/wikipedia/en/thumb/2/29/WAEC_logo.png/200px-WAEC_logo.png'">
+        </div>
+        <div class="council-name">
+            WEST AFRICAN EXAMINATIONS COUNCIL
+        </div>
+        <div class="waec-motto">
+            "Excellence, Integrity, Fairness"
+        </div>
+        
+        <div class="login-container">
+            <h1>🏛️ WAEC CBT PORTAL</h1>
+            <div class="subtitle">West African Senior School Certificate Examination</div>
+            <div class="exam-badge">2025/2026 SESSION</div>
+            
+            <form id="loginForm">
+                <div class="input-group">
+                    <label for="username">📌 ENTER YOUR REGISTRATION NUMBER / USERNAME</label>
+                    <input type="text" id="username" placeholder="e.g., WAEC001 or abdullah kehinde" required>
+                </div>
+               
+                <div class="input-group">
+                    <label for="password">🔒 ENTER YOUR PASSWORD</label>
+                    <input type="password" id="password" placeholder="Enter your password" required>
+                </div>
+                
+                <div class="checkbox-group">
+                    <label>
+                        <input type="checkbox" id="altLoginCheck">
+                        <span>✓ I confirm that I have read and understood the examination rules and regulations</span>
+                    </label>
+                </div>
+               
+                <button type="submit" class="login-btn">➤ SIGN IN TO EXAM PORTAL</button>
+
+                <div class="error-message" id="errorMessage">
+                    ❌ Invalid username or password. Please check your credentials and try again.
+                </div>
+                
+                <div class="cbt-label">COMPUTER BASED TEST (CBT)</div>
+                
+                <div class="portal-footer">
+                    <a href="https://canaanland-model-schools.github.io/home/">🏠 Return to School Portal</a>
+                    <p style="margin-top: 10px;">© West African Examinations Council (WAEC) | WAEC CBT</p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // User database with WAEC-style credentials
+        const users = [
+            // WAEC CANDIDATES (JSS3/SS3 Students)
+            {username: "abdullah kehinde", password: "cmgs301", image: "cmgs301.jpg", paid: true},
+            {username: "abiodun paul", password: "cmgs302", image: "cmgs302.jpg", paid: true},
+            {username: "aluko taiwo", password: "cmgs303", image: "cmgs303.jpg", paid: true},
+            {username: "ojo emmanuel", password: "cmgs304", image: "cmgs304.jpg", paid: true},
+            {username: "olajide daniel", password: "cmgs305", image: "cmgs305.jpg", paid: true},
+            {username: "olanrewaju isreal", password: "cmgs306", image: "cmgs306.jpg", paid: true},
+            {username: "olatunji samuel", password: "cmgs307", image: "cmgs307.jpg", paid: true},
+            {username: "harris peace", password: "cmgs308", image: "cmgs308.jpg", paid: true},
+            {username: "abdullah taiwo", password: "cmgs309", image: "cmgs309.jpg", paid: true},
+            {username: "adejumo azeezat", password: "cmgs310", image: "cmgs310.jpg", paid: true},
+            {username: "ajogo esther", password: "cmgs311", image: "cmgs311.jpg", paid: true},
+            {username: "alonge ayanfeoluwa", password: "cmgs312", image: "cmgs312.jpg", paid: true},
+            {username: "aluko kehinde", password: "cmgs313", image: "cmgs313.jpg", paid: true},
+            {username: "asaolu sefunmi", password: "cmgs314", image: "cmgs314.jpg", paid: true},
+            {username: "ayodele sekemi", password: "cmgs315", image: "cmgs315.jpg", paid: true},
+            {username: "isa godiya", password: "cmgs316", image: "cmgs316.jpg", paid: true},
+            {username: "okunola darasimi", password: "cmgs317", image: "cmgs317.jpg", paid: true},
+            {username: "oyinloye ibironke", password: "cmgs318", image: "cmgs318.jpg", paid: true},
+            {username: "sesan ojo wisdom", password: "cmgs319", image: "cmgs319.jpg", paid: true},
+            
+            // ADMIN
+            {username: "admin", password: "admin", image: "admin.png", paid: true},
+            
+            // WAEC Admin
+            {username: "waec_admin", password: "waec2025", image: "admin.png", paid: true}
+        ];
+
+        // Handle form submission
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+           
+            const username = document.getElementById('username').value.toLowerCase().trim();
+            const password = document.getElementById('password').value.trim();
+            const errorMessage = document.getElementById('errorMessage');
+            const altCheck = document.getElementById('altLoginCheck');
+           
+            // Check if credentials match any user
+            const matchedUser = users.find(user =>
+                user.username.toLowerCase() === username && user.password === password
+            );
+            
+            if (matchedUser) {
+                // Check if user has paid
+                if (matchedUser.paid === false) {
+                    alert("⚠️ SCHOOL FEES OUTSTANDING\n\nYou have not completed your school fees payment. Access to the examination portal is restricted.\n\nPlease contact the school administration to regularize your payment.");
+                    window.location.href = 'Debtors.html';
+                    return;
+                }
+               
+                // User has paid, proceed with login
+                sessionStorage.setItem('loggedInUser', JSON.stringify(matchedUser));
+                sessionStorage.setItem('username', matchedUser.username);
+                sessionStorage.setItem('image', `img/${matchedUser.image}`);
+                
+                console.log("✅ Login successful for candidate:", matchedUser.username);
+                
+                // Check if alt login checkbox is checked (verification)
+                if (altCheck.checked) {
+                    console.log("🔐 Verification confirmed - proceeding to exam portal");
+                    validateLoginComparison(username, password);
+                } else {
+                    // Show warning if checkbox not checked
+                    alert("📢 Please confirm that you have read and understood the examination rules by checking the verification box before signing in.");
+                    errorMessage.style.display = 'block';
+                    errorMessage.textContent = "⚠️ You must confirm the examination rules by checking the verification box.";
+                    errorMessage.style.backgroundColor = "#fff3cd";
+                    errorMessage.style.color = "#856404";
+                    errorMessage.style.borderLeftColor = "#ffc107";
+                }
+            } else {
+                // Show error message
+                errorMessage.style.display = 'block';
+                errorMessage.textContent = "❌ Invalid username or password. Please check your credentials and try again.";
+                errorMessage.style.backgroundColor = "#ffe6e6";
+                errorMessage.style.color = "#cc0000";
+                errorMessage.style.borderLeftColor = "#cc0000";
+               
+                // Clear password field
+                document.getElementById('password').value = '';
+            }
+        });
+
+        // Secondary validation method
+        function validateLoginComparison(username, password) {
+            if (!username || !password) {
+                alert("Please enter both username and password.");
+                return;
+            }
+
+            const user = users.find(
+                (u) => u.username.toLowerCase() === username.toLowerCase() && u.password === password
+            );
+
+            if (user) {
+                if (user.paid === false) {
+                    alert("⚠️ SCHOOL FEES OUTSTANDING\n\nYou have not completed your school fees payment. Access is restricted.\n\nPlease contact the school administration.");
+                    window.location.href = "Debtors.html";
+                    return;
+                }
+                
+                sessionStorage.setItem('username', user.username);
+                sessionStorage.setItem('image', `img/${user.image}`);
+                sessionStorage.setItem('registrationNo', user.username.toUpperCase().replace(/\s/g, '_'));
+                console.log("✅ Verification complete - redirecting to examination portal");
+                window.location.href = 'final_instruction.html';
+            } else {
+                alert("❌ Invalid username or password. Please try again.");
+            }
+        }
+
+        // Clear error message when typing
+        document.getElementById('username').addEventListener('input', function() {
+            document.getElementById('errorMessage').style.display = 'none';
+        });
+        
+        document.getElementById('password').addEventListener('input', function() {
+            document.getElementById('errorMessage').style.display = 'none';
+        });
+        
+        // Enter key support
+        document.getElementById('username').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('loginForm').dispatchEvent(new Event('submit'));
+            }
+        });
+        
+        document.getElementById('password').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('loginForm').dispatchEvent(new Event('submit'));
+            }
+        });
+    </script>
+</body>
+</html>
