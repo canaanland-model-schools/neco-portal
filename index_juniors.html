@@ -440,7 +440,7 @@
                     <img src="img/neco-logo.png" alt="NECO Logo" onerror="this.style.display='none'">
                 </div>
             </div>
-            <p>2025/2026 COMPUTER BASED TEST (CBT) EXAMINATION</p>
+            <p>NECO 2014/2026 COMPUTER BASED TEST (CBT) EXAMINATION</p>
         </header>
        
         <div class="welcome-message">
@@ -457,11 +457,11 @@
                     <label>Select Examination Year:</label>
                     <select id="yearSelect" onchange="updateAttemptStatus()">
                         <option value="">-- Select Year --</option>
-                        <option value="2021">2021 (WAEC Past Questions)</option>
-                        <option value="2022">2022 (WAEC Past Questions)</option>
-                        <option value="2023">2023 (WAEC Past Questions)</option>
-                        <option value="2024">2024 (WAEC Past Questions)</option>
-                        <option value="2025">2025 (WAEC Past Questions)</option>
+                        <option value="2010">2010 (NECO Past Questions)</option>
+                        <option value="2011">2011 (NECO Past Questions)</option>
+                        <option value="2012">2012 (NECO Past Questions)</option>
+                        <option value="2013">2013 (NECO Past Questions)</option>
+                        <option value="2014">2014 (NECO Past Questions)</option>
                     </select>
                     <div class="year-note">⚠️ Select the year of examination</div>
                 </div>
@@ -473,13 +473,13 @@
                     <label>Select Subject:</label>
                     <select id="subjectSelect" onchange="updateAttemptStatus()">
                         <option value="">-- Select Subject --</option>
-                        <option value="demo">Demo</option>
+                        
                         <option value="mathematics">Mathematics</option>
                         <option value="english_language">English Language</option>
-                        <option value="english_literature">Literature in English</option>
-                        <option value="intermediate_science">Intermediate Science</option>
-                        <option value="digital_technology">Computer Studies</option>
-                        <option value="food_and_nutrition">Food And Nutrition</option>
+                        <!--<option value="english_literature">Literature in English</option>
+                        <option value="intermediate_science">Intermediate Science</option>-->
+                        <option value="digital_technology">ICT Computer Studies</option>
+                       <!-- <option value="food_and_nutrition">Food And Nutrition</option>
                         <option value="livestock_farming">Livestock Farming</option>
                         <option value="social_studies">Social | Citizenship Studies</option>
                         <option value="business_studies">Business Studies</option>
@@ -493,7 +493,7 @@
                         <option value="nigerian_history">History</option>
                         <option value="agricultural_science">Agricultural Science</option>
                         <option value="fine_art">Fine Art</option>
-                        <option value="ekiti_values">Ekiti Values</option>
+                        <option value="ekiti_values">Ekiti Values</option>-->
                     </select>
                 </div>
             </div>
@@ -546,7 +546,7 @@
 
         // Year-based password configuration
         const yearSubjectPasswords = {
-            "2021": {
+            "2010": {
                 demo: "9b2f7c", mathematics: "x8q3r5", english_language: "p4t9k1",
                 english_literature: "m6v2w8", intermediate_science: "j5h7s3",
                 digital_technology: "n1d4z9", food_and_nutrition: "n2e5y8",
@@ -557,7 +557,7 @@
                 phonetics: "w1b4t8", nigerian_history: "k9j2r7",
                 ekiti_values: "f5v3n6", agricultural_science: "f3n9n4"
             },
-            "2022": {
+            "2011": {
                 demo: "4r9t2x", mathematics: "s7p1k8", english_language: "b3w6m9",
                 english_literature: "d5v2c7", intermediate_science: "h8t4q1",
                 digital_technology: "j2z6r9", food_and_nutrition: "m4t7s6",
@@ -568,7 +568,7 @@
                 phonetics: "n8d2w7", nigerian_history: "p9h4q6",
                 ekiti_values: "k3s8b2", agricultural_science: "x2v5a2"
             },
-            "2023": {
+            "2012": {
                 demo: "7m3q9p", mathematics: "t2v6k8", english_language: "b8w1c5",
                 english_literature: "d4r9s2", intermediate_science: "f7n3m6",
                 digital_technology: "h5x8t1", food_and_nutrition: "g4vji8",
@@ -579,7 +579,7 @@
                 phonetics: "q9b3n6", nigerian_history: "s5m1r8",
                 ekiti_values: "w7k4d2", agricultural_science: "n6t4w3"
             },
-            "2024": {
+            "2013": {
                 demo: "2k8m5p", mathematics: "r9h3w6", english_language: "t4n7x2",
                 english_literature: "y5b8v1", intermediate_science: "u3c6z9",
                 digital_technology: "i7o4a2", food_and_nutrition: "e5s9f3",
@@ -590,7 +590,7 @@
                 phonetics: "c8n1h6", nigerian_history: "p3l9v4",
                 ekiti_values: "x5q7d2", agricultural_science: "k6w2m8"
             },
-            "2025": {
+            "2014": {
                 demo: "5h9k2n", mathematics: "w7t4r8", english_language: "z3b6m1",
                 english_literature: "g8p2c5", intermediate_science: "l4f7j9",
                 digital_technology: "d1v3k6", food_and_nutrition: "r9s5b2",
@@ -676,13 +676,13 @@
             sessionStorage.setItem("year", year);
             sessionStorage.setItem("class", year);
             sessionStorage.setItem("subject", subject);
-            sessionStorage.setItem("examInfo", `${formatSubjectName(subject)} - ${year} WAEC Past Questions`);
+            sessionStorage.setItem("examInfo", `${formatSubjectName(subject)} - ${year} NECO Past Questions`);
 
             localStorage.setItem("examYear", year);
             localStorage.setItem("examClass", year);
             localStorage.setItem("examSubject", formatSubjectName(subject));
 
-            const redirectUrl = `${year}_${subject}_waec_exam.html`;
+            const redirectUrl = `${year}_${subject}_NECO_exam.html`;
 
             fetch(redirectUrl, { method: "HEAD" })
                 .then(response => {
@@ -691,6 +691,7 @@
                         window.location.href = redirectUrl;
                     } else {
                         alert(`📌 The exam for ${formatSubjectName(subject)} (${year}) is being prepared.`);
+                        window.location.href = 'landing.html';
                     }
                 })
                 .catch(() => {

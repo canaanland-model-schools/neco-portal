@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="fav_icon2.ico">
+    <title>NECO CBT Portal - Examination</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            position: relative;
+            z-index: 1;
+            font-family: 'Times New Roman', Times, serif;
+            background: #d4c9a8;
+            min-height: 100vh;
+        }
+
+        /* NECO Watermark Background */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('img/neco-logo.png') no-repeat center center;
+            background-size: 350px 350px;
+            opacity: 0.08;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        :root {
+            --neco-green: #1a472a;
+            --neco-gold: #ffd700;
+            --neco-dark: #0d3320;
+            --neco-light: #fef9e6;
+            --text-color: #1a472a;
+            --card-bg: #fef9e6;
+            --border-color: #d4a843;
+            --error-red: #8b0000;
+        }
+
+        .dark-theme {
+            --neco-green: #2d6a4f;
+            --neco-gold: #e6b800;
+            --neco-dark: #1a472a;
+            --neco-light: #2c2c2c;
+            --text-color: #f0f0f0;
+            --card-bg: #3c3c3c;
+            --border-color: #555;
+            --error-red: #cc0000;
+        }
+
+        body {
+            background-color: var(--neco-light);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header - NECO Style */
+        header {
+            background: linear-gradient(135deg, #1a472a, #2d6a4f);
+            color: #ffd700;
+            padding: 25px;
+            text-align: center;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            border: 1px solid #ffd700;
+            position: relative;
+        }
+
+        .logout-btn {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            background-color: #8b0000;
+            color: #ffd700;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            font-family: 'Times New Roman', Times, serif;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            background-color: #6b0000;
+            transform: translateY(-2px);
+        }
+
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid #ffd700;
+            padding: 5px;
+        }
+
+        .logo img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: contain;
+        }
+
+        .council-badge {
+            font-size: 16px;
+            letter-spacing: 2px;
+            font-weight: bold;
+            margin-top: 8px;
+            color: #ffd700;
+        }
+
+        header p {
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        /* Welcome Message - NECO Style */
+        .welcome-message {
+            background: #fef9e6;
+            padding: 25px;
+            border-left: 6px solid #ffd700;
+            margin: 20px 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            border: 1px solid #d4a843;
+        }
+
+        .dark-theme .welcome-message {
+            background: #3c3c3c;
+        }
+
+        .welcome-message img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: block;
+            margin: 0 auto;
+            border: 3px solid #ffd700;
+            object-fit: cover;
+        }
+
+        .welcome-message h2 {
+            color: #1a472a;
+            margin-top: 10px;
+            font-size: 24px;
+        }
+
+        .dark-theme .welcome-message h2 {
+            color: #ffd700;
+        }
+
+        /* Message Card - NECO Style */
+        .message-card {
+            background: #fef9e6;
+            border-radius: 12px;
+            padding: 40px 30px;
+            text-align: center;
+            margin: 30px 0;
+            border: 1px solid #d4a843;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .dark-theme .message-card {
+            background: #3c3c3c;
+        }
+
+        .message-icon {
+            font-size: 80px;
+            color: #8b0000;
+            margin-bottom: 20px;
+        }
+
+        .message-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #8b0000;
+            margin-bottom: 15px;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        .message-text {
+            font-size: 18px;
+            color: #1a472a;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .dark-theme .message-text {
+            color: #ffd700;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #2d6a4f, #1a472a);
+            color: #ffd700;
+            border: none;
+            padding: 14px 40px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.3s;
+            font-family: 'Times New Roman', Times, serif;
+            letter-spacing: 1px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn:hover {
+            background: linear-gradient(135deg, #1a472a, #0d3320);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .neco-seal {
+            text-align: center;
+            margin: 30px 0 20px;
+            font-size: 13px;
+            color: #b8860b;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #6b5a3e;
+            font-size: 12px;
+            padding: 20px;
+            background: #fef9e6;
+            border-radius: 8px;
+            border: 1px solid #d4a843;
+        }
+
+        .dark-theme footer {
+            background: #3c3c3c;
+            color: #aaa;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .logo-container {
+                flex-direction: column;
+            }
+            
+            .message-title {
+                font-size: 22px;
+            }
+            
+            .message-text {
+                font-size: 16px;
+            }
+            
+            .btn {
+                font-size: 16px;
+                padding: 12px 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <button class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            <div class="logo-container">
+                <div class="logo">
+                    <img src="img/neco-logo.png" alt="NECO Logo" onerror="this.style.display='none'">
+                </div>
+                <div>
+                    <h1>🏛️ NATIONAL EXAMINATIONS COUNCIL</h1>
+                    <div class="council-badge">🔰 Excellence in Assessment 🔰</div>
+                </div>
+                <div class="logo">
+                    <img src="img/neco-logo.png" alt="NECO Logo" onerror="this.style.display='none'">
+                </div>
+            </div>
+            <p>2025/2026 COMPUTER BASED TEST (CBT) EXAMINATION</p>
+        </header>
+       
+        <div class="welcome-message">
+            <img id="userImage" src="img/default_user.jpg" alt="Student Photo">
+            <h2>👋 WELCOME: <span id="user">Student</span></h2>
+            <div id="attemptStatus" class="attempt-status"></div>
+        </div>
+
+        <!-- Message Card - NECO Style -->
+        <div class="message-card">
+            <div class="message-icon">
+                <i class="fas fa-file-alt"></i>
+            </div>
+            <div class="message-title">
+                📌 CONTENT UNDER PREPARATION
+            </div>
+            <div class="message-text">
+                Questions for the selected subject have not been uploaded yet.<br>
+                Please check back later or contact your examination officer.
+            </div>
+            <button class="btn" onclick="logout()">
+                <i class="fas fa-check-circle"></i> RETURN TO LOGIN
+            </button>
+        </div>
+        
+        <div class="neco-seal">
+            <i class="fas fa-certificate"></i> NECO BECE | NECO SSCE | Computer Based Test
+        </div>
+       
+        <footer>
+            <p>© National Examinations Council (NECO) - CBT Portal | canaanlandmodelschools.org</p>
+            <p style="margin-top: 8px; font-size: 11px;">Integrity, Excellence, and Fairness in Assessment</p>
+        </footer>
+    </div>
+
+    <script>
+        const username = sessionStorage.getItem('username');
+        const imageName = sessionStorage.getItem('image');
+       
+        // Redirect if not logged in
+        if (!username) {
+            alert("⚠️ Session expired. Please log in first.");
+            window.location.href = "index.html";
+        }
+        
+        document.getElementById('user').innerText = username || 'Student';
+        document.getElementById('userImage').src = imageName || 'img/default_user.jpg';
+        
+        // Display time-based greeting
+        const hour = new Date().getHours();
+        let greeting = "";
+        if (hour < 12) greeting = "Good Morning";
+        else if (hour < 17) greeting = "Good Afternoon";
+        else greeting = "Good Evening";
+        
+        const welcomeDiv = document.querySelector('.welcome-message h2');
+        if (welcomeDiv) {
+            welcomeDiv.innerHTML = `👋 ${greeting}, <span id="user">${username || 'Student'}</span>`;
+        }
+
+        function logout() {
+            const confirmLogout = confirm("Are you sure you want to logout? Your progress may be lost.");
+            if (confirmLogout) {
+                sessionStorage.clear();
+                window.location.href = "index.html";
+            }
+        }
+        
+        // Theme toggle functionality (optional)
+        function toggleTheme() {
+            document.body.classList.toggle('dark-theme');
+        }
+        
+        // Add keyboard support for Enter key on button
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                logout();
+            }
+        });
+    </script>
+</body>
+</html>

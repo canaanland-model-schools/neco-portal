@@ -1,50 +1,27 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="fav_icon2.ico">
-    <title>cbt.canaanlandmodelschools.org</title>
+    <title>NECO SSCE CBT Portal - Exam Selection</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Keep all your existing styles intact */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-       
-        :root {
-            --primary-color: #008000;
-            --secondary-color: #d90000;
-            --background-color: rgb(50,125,50);
-            --text-color: #333;
-            --card-bg: white;
-            --header-bg: rgb(50,125,50);
-            --header-text: white;
-            --nav-bg: #006400;
-            --input-border: #ddd;
-        }
-       
-        .dark-theme {
-            --primary-color: #4CAF50;
-            --secondary-color: #ff5252;
-            --background-color: #2c2c2c;
-            --text-color: #f0f0f0;
-            --card-bg: #3c3c3c;
-            --header-bg: rgb(50,125,50);
-            --header-text: #f0f0f0;
-            --nav-bg: #1b5e20;
-            --input-border: #555;
-        }
-       
+
         body {
             position: relative;
             z-index: 1;
+            font-family: 'Times New Roman', Times, serif;
+            background: #d4c9a8;
+            min-height: 100vh;
         }
-       
+
+        /* NECO Watermark Background */
         body::before {
             content: "";
             position: fixed;
@@ -52,55 +29,159 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: url('img/Ctemplogo.png') no-repeat center center;
-            background-size: 300px 300px;
-            opacity: 0.1;
+            background: url('img/neco-logo.png') no-repeat center center;
+            background-size: 350px 350px;
+            opacity: 0.08;
             z-index: 0;
             pointer-events: none;
-            background-color: white;
-            align-items: center;
-            text-align: center;
         }
-       
+
+        :root {
+            --primary-color: #1a472a;
+            --secondary-color: #ffd700;
+            --accent-color: #2d6a4f;
+            --background-color: #d4c9a8;
+            --text-color: #1a472a;
+            --card-bg: #fef9e6;
+            --header-bg: linear-gradient(135deg, #1a472a, #2d6a4f);
+            --header-text: #ffd700;
+            --nav-bg: #1a472a;
+            --input-border: #d4a843;
+            --border-color: #d4a843;
+            --error-color: #8b0000;
+            --success-color: #2d6a4f;
+        }
+
+        .dark-theme {
+            --primary-color: #4CAF50;
+            --secondary-color: #ffd700;
+            --accent-color: #2d6a4f;
+            --background-color: #2c2c2c;
+            --text-color: #f0f0f0;
+            --card-bg: #3c3c3c;
+            --header-bg: linear-gradient(135deg, #1a472a, #0d3320);
+            --header-text: #ffd700;
+            --nav-bg: #1b5e20;
+            --input-border: #555;
+            --border-color: #555;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
+            position: relative;
+            z-index: 1;
         }
-       
+
+        /* Navigation Bar - NECO Style */
         nav {
-            background-color: var(--nav-bg);
+            background: linear-gradient(135deg, #1a472a, #2d6a4f);
             padding: 15px 0;
             margin-bottom: 25px;
             border-radius: 8px;
+            border-bottom: 3px solid #ffd700;
         }
-       
-        #student-image {
-            width: 75px;
-            height: 75px;
-            border-radius: 50%;
-            display: block;
+
+        .nav-container {
+            max-width: 1200px;
             margin: 0 auto;
-            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            flex-wrap: wrap;
         }
-       
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        .nav-links li {
+            margin-right: 20px;
+        }
+
+        .nav-links a {
+            color: #ffd700;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            padding: 8px 15px;
+            border-radius: 30px;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 15px;
+        }
+
+        .nav-links a:hover {
+            background-color: rgba(255, 215, 0, 0.2);
+            color: white;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: 2px solid #ffd700;
+            color: #ffd700;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 8px 15px;
+            border-radius: 30px;
+            transition: all 0.3s;
+        }
+
+        .theme-toggle:hover {
+            background: #ffd700;
+            color: #1a472a;
+        }
+
+        /* Header - NECO Style */
         header {
-            background-color: blue;
+            background: linear-gradient(135deg, #1a472a, #2d6a4f);
             color: var(--header-text);
             padding: 20px;
             text-align: center;
-            border-radius: 8px;
+            border-radius: 12px;
             margin-bottom: 25px;
+            border: 1px solid #ffd700;
             position: relative;
         }
-       
+
+        .logout-btn {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            background-color: #8b0000;
+            color: #ffd700;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            font-family: 'Times New Roman', Times, serif;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            background-color: #6b0000;
+            transform: translateY(-2px);
+        }
+
         .logo-container {
             display: flex;
             justify-content: center;
             align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
             margin-bottom: 15px;
         }
-       
+
         .logo {
             width: 80px;
             height: 80px;
@@ -109,206 +190,285 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-right: 15px;
-            font-weight: bold;
-            color: var(--primary-color);
-            border: 2px solid var(--secondary-color);
+            border: 2px solid #ffd700;
+            padding: 5px;
         }
-       
-        .welcome-message {
-            background-color: var(--card-bg);
-            padding: 15px;
-            border-left: 5px solid var(--secondary-color);
-            margin: 20px 0;
+
+        .logo img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+        }
+
+        .council-badge {
             font-size: 16px;
-            border-radius: 4px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            text-align: center;
+            letter-spacing: 2px;
+            font-weight: bold;
+            margin-top: 8px;
+            color: #ffd700;
         }
-       
+
+        header p {
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        /* Welcome Message - NECO Style */
+        .welcome-message {
+            background: linear-gradient(135deg, #fef9e6, #fffef7);
+            padding: 20px;
+            border-left: 6px solid #ffd700;
+            margin: 20px 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            border: 1px solid #d4a843;
+        }
+
         .welcome-message img {
-            width: 120px;
-            height: 120px;
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
             display: block;
             margin: 0 auto;
-            border: 3px solid var(--primary-color);
+            border: 3px solid #ffd700;
+            object-fit: cover;
         }
-       
+
+        .welcome-message h2 {
+            color: #1a472a;
+            margin-top: 10px;
+            font-size: 24px;
+        }
+
+        .attempt-status {
+            background-color: #f5f0e0;
+            border-left: 4px solid #ffd700;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 15px auto;
+            text-align: center;
+            font-weight: bold;
+            max-width: 400px;
+        }
+
+        .completed {
+            background-color: #d4edda;
+            border-left-color: #2d6a4f;
+            color: #1a472a;
+        }
+
+        .available {
+            background-color: #e8f0e8;
+            border-left-color: #2d6a4f;
+            color: #1a472a;
+        }
+
+        /* Exam Sections - NECO Style */
         .exam-sections {
             display: flex;
             gap: 25px;
             margin-bottom: 25px;
             flex-wrap: wrap;
         }
-       
+
         .exam-section {
-            background-color: var(--card-bg);
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            background: #fef9e6;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
             flex: 1;
             overflow: hidden;
-            min-width: 300px;
+            min-width: 280px;
+            border: 1px solid #d4a843;
+            transition: transform 0.3s;
         }
-       
+
+        .exam-section:hover {
+            transform: translateY(-3px);
+        }
+
         .section-header {
-            background-color: blue;
-            color: var(--header-text);
+            background: linear-gradient(135deg, #1a472a, #2d6a4f);
+            color: #ffd700;
             padding: 15px 20px;
             font-size: 18px;
             font-weight: bold;
+            text-align: center;
+            letter-spacing: 1px;
         }
-       
+
         .section-body {
             padding: 25px;
         }
-       
+
+        .section-body label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #1a472a;
+            font-size: 14px;
+        }
+
         select, input[type="password"] {
             width: 100%;
-            max-width: 400px;
             padding: 12px 15px;
-            border: 1px solid var(--input-border);
-            border-radius: 4px;
-            font-size: 16px;
+            border: 2px solid #d4a843;
+            border-radius: 40px;
+            font-size: 15px;
             margin-bottom: 15px;
             text-align: center;
-            background-color: var(--card-bg);
-            color: var(--text-color);
-        }
-       
-        .btn {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
+            background-color: #fffef7;
+            color: #1a472a;
+            font-family: 'Times New Roman', Times, serif;
             font-weight: bold;
-            transition: background-color 0.3s;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        select:focus, input[type="password"]:focus {
+            border-color: #ffd700;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2);
+        }
+
+        .year-note {
+            font-size: 11px;
+            color: #b8860b;
+            margin-top: 5px;
+            text-align: center;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #2d6a4f, #1a472a);
+            color: #ffd700;
+            border: none;
+            padding: 14px 35px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.3s;
             margin: 5px;
+            font-family: 'Times New Roman', Times, serif;
+            letter-spacing: 1px;
         }
-       
+
         .btn:hover {
-            background-color: var(--nav-bg);
+            background: linear-gradient(135deg, #1a472a, #0d3320);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
-       
-        .btn-secondary {
-            background-color: #007bff;
-        }
-       
-        .btn-secondary:hover {
-            background-color: #0056b3;
-        }
-       
-        .btn-danger {
-            background-color: #dc3545;
-        }
-       
-        .btn-danger:hover {
-            background-color: #c82333;
-        }
-       
+
         .windows-activate {
             text-align: center;
             margin-top: 30px;
-            color: var(--text-color);
-            font-size: 14px;
-            padding: 15px;
-            background-color: var(--card-bg);
+            color: #6b5a3e;
+            font-size: 13px;
+            padding: 20px;
+            background: #fef9e6;
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border: 1px solid #d4a843;
         }
-       
+
         @media (max-width: 900px) {
             .exam-sections {
                 flex-direction: column;
             }
+            
+            .nav-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-links {
+                justify-content: center;
+            }
         }
-       
-        .logout-btn {
-            position: absolute;
-            right: 20px;
-            top: 20px;
-            background-color: crimson;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-       
-        .admin-btn {
-            position: absolute;
-            left: 20px;
-            top: 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-       
-        .attempt-status {
-            background-color: #fff3cd;
-            border: 1px solid #ffeaa7;
-            border-radius: 4px;
-            padding: 10px;
-            margin: 10px 0;
-            text-align: center;
-            font-weight: bold;
-        }
-       
-        .completed {
-            background-color: #d4edda;
-            border-color: #c3e6cb;
-            color: #155724;
-        }
-       
-        .available {
-            background-color: #d1ecf1;
-            border-color: #bee5eb;
-            color: #0c5460;
+
+        @media (max-width: 600px) {
+            .logo-container {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 90%;
+                font-size: 16px;
+                padding: 12px;
+            }
+            
+            .logout-btn {
+                position: relative;
+                margin-bottom: 10px;
+                display: inline-block;
+            }
         }
     </style>
 </head>
-<body>
+<body oncontextmenu="return false;">
+    <nav>
+        <div class="nav-container">
+            <ul class="nav-links">
+                <li><a href="https://canaanland-model-schools.github.io/home/"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="https://canaanland-model-schools.github.io/home/"><i class="fas fa-info-circle"></i> About NECO</a></li>
+                <li><a href="https://canaanland-model-schools.github.io/home/"><i class="fas fa-question-circle"></i> Help</a></li>
+                <li><a href="Exam_Reset_Validation.html"><i class="fas fa-cogs"></i> Reset</a></li>
+                <li><a href="https://canaanland-model-schools.github.io/home/"><i class="fas fa-envelope"></i> Contact</a></li>
+                <li><a href="Show_records.html"><i class="fas fa-chart-line"></i> Records</a></li>
+            </ul>
+            <div>
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i> 🌙
+                </button>
+            </div>
+        </div>
+    </nav>
+   
     <div class="container">
         <header>
-        
-            <button class="logout-btn" onclick="logout()">Logout</button>
+            <button class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
             <div class="logo-container">
                 <div class="logo">
-                    <img src="img/Ctemplogo.png" alt="School Logo">
+                    <img src="img/neco-logo.png" alt="NECO Logo" onerror="this.style.display='none'">
+                </div>
+                <div>
+                    <h1>🏛️ NATIONAL EXAMINATIONS COUNCIL</h1>
+                    <div class="council-badge">🔰 Excellence in Assessment 🔰</div>
+                </div>
+                <div class="logo">
+                    <img src="img/neco-logo.png" alt="NECO Logo" onerror="this.style.display='none'">
                 </div>
             </div>
-            <p>2025/2026 SECOND TERM COMPUTER BASED TEST EXAMINATION</p>
+            <p>NECO 2014-2018 COMPUTER BASED TEST (CBT) EXAMINATION | SENIOR SECONDARY (SSCE)</p>
         </header>
        
         <div class="welcome-message">
-            <img id="userImage" src="img/default_user.jpg" alt="Student Photo"><br>
-            <h2>WELCOME: <span id="user">Student</span></h2>
-            <div id="attemptStatus" class="attempt-status"></div>
+            <img id="userImage" src="img/default_user.jpg" alt="Student Photo">
+            <h2>👋 WELCOME: <span id="user">Student</span></h2>
+            <div id="attemptStatus" class="attempt-status">📋 Select year and subject to begin</div>
         </div>
 
-        <!-- 3 selection boxes side by side -->
+        <!-- Selection Boxes -->
         <div class="exam-sections">
             <div class="exam-section">
-                <div class="section-header">SELECT CLASS □</div>
+                <div class="section-header"><i class="fas fa-calendar-alt"></i> SELECT YEAR</div>
                 <div class="section-body">
-                    <label>Select Class:</label>
-                    <select id="classSelect" onchange="updateAttemptStatus()">
-                        <option value="">-- Select Class --</option>
-                        <option value="ss1">SS1 (Senior Secondary School 1)</option>
-                        <option value="ss2">SS2 (Senior Secondary School 2)</option>
-                        <option value="ss3">SS3 (Senior Secondary School 3)</option>
+                    <label>Select Examination Year:</label>
+                    <select id="yearSelect" onchange="updateAttemptStatus()">
+                        <option value="">-- Select Year --</option>
+                        <option value="2014">2014 (NECO Past Questions)</option>
+                        <option value="2015">2015 (NECO Past Questions)</option>
+                        <option value="2016">2016 (NECO Past Questions)</option>
+                        <option value="2017">2017 (NECO Past Questions)</option>
+                        <option value="2018">2018 (NECO Past Questions)</option>
                     </select>
+                    <div class="year-note">⚠️ Select the year of examination</div>
                 </div>
             </div>
            
             <div class="exam-section">
-                <div class="section-header">SELECT SUBJECT □</div>
+                <div class="section-header"><i class="fas fa-book-open"></i> SELECT SUBJECT</div>
                 <div class="section-body">
                     <label>Select Subject:</label>
                     <select id="subjectSelect" onchange="updateAttemptStatus()">
@@ -318,329 +478,278 @@
                         <option value="english_language">English Language</option>
                         <option value="chemistry">Chemistry</option>
                         <option value="biology">Biology</option>
-                        <!--<option value="cultural_art">Cultural & Creative Art</option>-->
-                        <option value="yoruba">Yoruba</option>
-                        <option value="citizenship_education">Citizenship | Heritage Studies </option>
-                        <option value="livestock_farming">Livestock Farming</option>
-                       <!-- <option value="agricultural_science">Agricultural Science</option>-->
-                        <option value="literature_in_english">Literature in English</option>  
-                        <option value="crs">Christian Religious Studies</option>
                         <option value="physics">Physics</option>
-                        <option value="digital_technology">Digital Technology</option>
                         <option value="economics">Economics</option>
-                       
-                      
                         <option value="geography">Geography</option>
-                      
-                        <option value="account">Financial Acounting</option>
+                        <option value="account">Financial Accounting</option>
                         <option value="government">Government</option>
                         <option value="commerce">Commerce</option>
-                       
+                        <option value="literature_in_english">Literature in English</option>
+                        <option value="crs">Christian Religious Studies</option>
+                        <option value="yoruba">Yoruba</option>
+                        <option value="history">Nigerian History</option>
+                        <option value="agricultural_science">Agricultural Science</option>
+                        <option value="further_mathematics">Further Mathematics</option>
+                        <option value="citizenship_education">Citizenship | Civic Education</option>
+                        <option value="digital_technology">Digital Technology</option>
+                        <option value="livestock_farming">Livestock Farming</option>
                         <option value="marketing">Marketing</option>
                         <option value="fine_art">Fine Art</option>
-                        <option value="further_mathematics">Further Mathematics</option>
-                        <option value="history">Nigerian History</option>
                         <option value="phonetics">Phonetics</option>
-                        <!--<option value="garment_making">Garment Making</option>-->
-                        <!--<option value="book_keeping">Book Keeping</option>-->
-                        <option value="agricultural_science">Agric sciences</option>
                     </select>
                 </div>
             </div>
            
             <div class="exam-section">
-                <div class="section-header">SELECT EXAM TYPE □</div>
+                <div class="section-header"><i class="fas fa-file-alt"></i> EXAM TYPE</div>
                 <div class="section-body">
                     <label>Select Exam Type:</label>
                     <select id="typeSelect">
-                        <option value="objectives">Objectives/Theory</option>
+                        <option value="objectives">Objectives & Theory (SSCE)</option>
                     </select>
                 </div>
             </div>
         </div>
 
-        <!-- ✅ PASSWORD SECTION MOVED BELOW -->
+        <!-- Password Section -->
         <div class="exam-section" style="max-width: 500px; margin: 0 auto;">
-            <div class="section-header">ENTER PASSWORD □</div>
+            <div class="section-header"><i class="fas fa-key"></i> ENTER ACCESS CODE</div>
             <div class="section-body">
-                <label style="color: var(--secondary-color);">Enter Password:</label>
-                <input type="password" id="examPassword" placeholder="Enter subject password">
+                <label>Enter Subject Password:</label>
+                <input type="password" id="examPassword" placeholder="Enter your access code">
+                <div class="year-note">🔒 Contact your examination officer for the correct code</div>
             </div>
         </div>
        
         <center>
             <button class="btn" id="startExamBtn" onclick="startExam()">
-                <i class="fa-solid fa-play"></i> Start Exam
+                <i class="fas fa-play"></i> START EXAMINATION
             </button>
         </center>
        
         <div class="windows-activate">
-            <p>&copy; 2026 cbt.canaanlandmodelschools.org</p>
+            <p>© National Examinations Council (NECO) - CBT Portal | canaanlandmodelschools.org</p>
+            <p style="margin-top: 8px; font-size: 11px;">Integrity, Excellence, and Fairness in Assessment</p>
         </div>
     </div>
 
-<script>
-  const username = sessionStorage.getItem('username');
-    const imageName = sessionStorage.getItem('image');
-    const password = sessionStorage.getItem('password');
-    
-    // Redirect if not logged in
-    if (!username) {
-        alert("Please log in first.");
-        window.location.href = "index.html";
-    }
-    
-    document.getElementById('user').innerText = username || 'Student';
-    /* 🔧 CHANGE: Use imageName directly (already contains 'img/') instead of adding extra 'img/' prefix */
-    document.getElementById('userImage').src = imageName || 'img/default_user.jpg';
-
-    // ✅ UPDATED: Different passwords for each class and subject combination
-    const classSubjectPasswords = {
-        ss1: {
-            demo: "9b2f7c",
-            mathematics: "x8q3r5",
-            english_language: "p4t9k1",
-            citizenship_education: "m6v2w8",
-            physics: "j5h7s3",
-            digital_technology: "n1d4z9",
-            economics: "l8c6b2",
-            livestock_farming: "a3f5y7",
-            chemistry: "e9g2q4",
-            biology: "r7k1m6",
-            cultural_art: "t2w8p3",
-            yoruba: "y5n7b9",
-            geography: "v4c2x6",
-            crs: "s8d1f3",
-            account: "z6h9l5",
-            government: "q3m7p2",
-            commerce: "w1b4t8",
-            phonetics: "5h9c4b",
-            literature_in_english: "k9j2r7",
-            marketing: "f5v3n6",
-            fine_art: "d7p4t2",
-            book_keeping: "b3m8q6",
-            further_mathematics: "g2n7k4",
-            garment_making: "h8t1w5",
-            history: "j6r3m9",
-            agricultural_science: "00000",
-            default: "11111"
-        },
-        ss2: {
-            demo: "4r9t2x",
-            mathematics: "s7p1k8",
-            english_language: "b3w6m9",
-            citizenship_education: "d5v2c7",
-            physics: "h8t4q1",
-            digital_technology: "j2z6r9",
-            economics: "l7x3p5",
-            livestock_farming: "m9b1w4",
-            chemistry: "q5k8t2",
-            biology: "r3n6v9",
-            cultural_art: "t8f1c4",
-            yoruba: "w2y7m5",
-            geography: "x6g9s3",
-            crs: "z4b8p1",
-            account: "c1m7t6",
-            government: "v5r3k9",
-            commerce: "n8d2w7",
-            phonetics: "8s3je1",
-            literature_in_english: "p9h4q6",
-            marketing: "k3s8b2",
-            fine_art: "m2t7v1",
-            book_keeping: "q6b4n9",
-            further_mathematics: "w3j8k5",
-            garment_making: "f7d2r4",
-            history: "h5n1t8",
-            agricultural_science: "00000",
-            default: "11111"
-        },
-        ss3: {
-            demo: "7m3q9p",
-            mathematics: "t2v6k8",
-            english_language: "b8w1c5",
-            citizenship_education: "d4r9s2",
-            physics: "f7n3m6",
-            digital_technology: "h5x8t1",
-            economics: "j2q7b9",
-            livestock_farming: "l6v4p8",
-            chemistry: "n9m2c3",
-            biology: "p5t8r4",
-            cultural_art: "r1w6s9",
-            yoruba: "t3k7v2",
-            geography: "v8d4b1",
-            crs: "x6f9m5",
-            account: "z2p7q3",
-            government: "c4h8t9",
-            commerce: "q9b3n6",
-            phonetics: "y5v6x3",
-            literature_in_english: "s5m1r8",
-            marketing: "w7k4d2",
-            fine_art: "g3p6t1",
-            book_keeping: "j8m4w2",
-            further_mathematics: "v5t9r3",
-            garment_making: "n2b7k4",
-            history: "f8d3q6",
-            agricultural_science: "00000",
-            default: "11111"
-        }
-    };
-
-    // ✅ Mark exam as completed
-    function markExamCompleted(cls, sub, username) {
-        const attempts = getExamAttempts(cls);
-        if (!attempts[username]) {
-            attempts[username] = {};
-        }
-        attempts[username][sub] = true;
-        saveExamAttempts(cls, attempts);
-    }
-
-    // ✅ Enhanced attempt tracking system
-    function getExamAttempts(cls) {
-        const key = `${cls}_exam_attempts`;
-        const stored = localStorage.getItem(key);
-        return stored ? JSON.parse(stored) : {};
-    }
-
-    function saveExamAttempts(cls, data) {
-        const key = `${cls}_exam_attempts`;
-        localStorage.setItem(key, JSON.stringify(data));
-    }
-
-    function hasCompletedExam(cls, sub, username) {
-        const attempts = getExamAttempts(cls);
-        return attempts[username] && attempts[username][sub] === true;
-    }
-
-    function updateAttemptStatus() {
-        const cls = document.getElementById("classSelect").value.toLowerCase();
-        const sub = document.getElementById("subjectSelect").value.toLowerCase();
-        const statusElement = document.getElementById("attemptStatus");
+    <script>
+        const username = sessionStorage.getItem('username');
+        const imageName = sessionStorage.getItem('image');
         
-        if (!cls || !sub) {
-            statusElement.innerHTML = "Please select both class and subject";
-            statusElement.className = "attempt-status";
-            return;
+        // Redirect if not logged in
+        if (!username) {
+            alert("⚠️ Session expired. Please login first.");
+            window.location.href = "index.html";
         }
         
-        if (hasCompletedExam(cls, sub, username)) {
-            statusElement.innerHTML = "❌ You have already completed this exam.";
-            statusElement.className = "attempt-status completed";
-        } else {
-            statusElement.innerHTML = "✅ This exam is available for you to take";
-            statusElement.className = "attempt-status available";
-        }
-    }
+        document.getElementById('user').innerText = username || 'Student';
+        document.getElementById('userImage').src = imageName || 'img/default_user.jpg';
 
-    function startExam() {
-        const cls = document.getElementById("classSelect").value.toLowerCase();
-        const sub = document.getElementById("subjectSelect").value.toLowerCase();
-        const type = document.getElementById("typeSelect").value.toLowerCase();
-        const pass = document.getElementById("examPassword").value.trim();
-
-        if (!cls || !sub || !pass) {
-            alert("Please complete all selections before starting your exam.");
-            return;
-        }
-
-        // ✅ UPDATED: Get password for specific class and subject
-        const classPasswords = classSubjectPasswords[cls];
-        if (!classPasswords) {
-            alert("❌ Invalid class selected!");
-            return;
-        }
-
-        const correctPassword = classPasswords[sub];
-        if (!correctPassword) {
-            alert("❌ No password configured for this subject in the selected class!");
-            return;
-        }
-
-        if (pass !== correctPassword) {
-            alert("❌ Incorrect password for this class and subject combination!");
-            return;
-        }
-
-        // Check completed exam
-        if (hasCompletedExam(cls, sub, username)) {
-            alert("⚠️ You have already completed this exam.");
-            window.location.href = "exam_attempted.html";
-            return;
-        }
-
-        // Save data
-        sessionStorage.setItem("class", cls);
-        sessionStorage.setItem("subject", sub);
-        sessionStorage.setItem("type", type);
-        sessionStorage.setItem("examInfo", `${formatSubjectName(sub)} - ${cls.toUpperCase()} (FIRST TERM)`);
-
-        localStorage.setItem("examClass", cls);
-        localStorage.setItem("examSubject", formatSubjectName(sub));
-        localStorage.setItem("pendingAttempt", "true");
-
-        const redirectUrl = `${cls}_${sub}_exam.html`;
-
-        // 🔍 CHECK IF THE FILE EXISTS BEFORE REDIRECTING
-        fetch(redirectUrl, { method: "HEAD" })
-            .then(response => {
-                if (response.ok) {
-                    // File exists → redirect normally
-                    alert(`✅ Access granted! Redirecting to exam...`);
-                    window.location.href = redirectUrl;
-                } else {
-                    // File missing → send user to landing page
-                    alert("⚠️ Exam page not available yet. Redirecting...");
-                    window.location.href = "landing.html";
-                }
-            })
-            .catch(() => {
-                // If fetch fails completely
-                alert("⚠️ Exam page not available yet. Redirecting...");
-                window.location.href = "landing.html";
-            });
-    }
-
-    function formatSubjectName(subject) {
-        const subjectMap = {
-            'demo': 'Demo',
-            'mathematics': 'Mathematics',
-            'english_language': 'English Language',
-            'citizenship_education': 'Citizenship Education',
-            'physics': 'Physics',
-            'digital_technology': 'Digital & Computer Technology',
-            'economics': 'Economics',
-            'livestock_farming': 'Livestock Farming',
-            'chemistry': 'Chemistry',
-            'biology': 'Biology',
-            'cultural_art': 'Cultural & Creative Art',
-            'yoruba': 'Yoruba',
-            'geography': 'Geography',
-            'crs': 'Christian Religious Studies',
-            'account': 'Financial Accounting',
-            'government': 'Government',
-            'commerce': 'Commerce',
-            'literature_in_english': 'Literature in English',
-            'marketing': 'Marketing',
-            'fine_art': 'Fine Art',
-            'book_keeping': 'book_keeping',
-            'further_mathematics': 'Further Mathematics',
-            'garment_making': 'garment_making',
-            'history': 'Nigerian History',
-            'phonetics': 'Phonetics',
-            'agricultural_science' : 'Office Practices'
+        // Year-based password configuration for NECO SSCE
+        const yearSubjectPasswords = {
+            "2014": {
+                demo: "9b2f7c", mathematics: "x8q3r5", english_language: "p4t9k1",
+                literature_in_english: "m6v2w8", physics: "j5h7s3",
+                digital_technology: "n1d4z9", livestock_farming: "n2e5y8",
+                citizenship_education: "e9g2q4", economics: "r7k1b6",
+                government: "t2w8p3", yoruba: "y5n7b9", commerce: "v4c2x6",
+                crs: "s8d1f3", geography: "z6h9l5", marketing: "q3m7p2",
+                fine_art: "t7u8e4", phonetics: "w1b4t8", history: "k9j2r7",
+                agricultural_science: "f5v3n6", further_mathematics: "f3n9n4",
+                account: "a7c9m2", biology: "b4h8s1", chemistry: "c2k6l9"
+            },
+            "2015": {
+                demo: "4r9t2x", mathematics: "s7p1k8", english_language: "b3w6m9",
+                literature_in_english: "d5v2c7", physics: "h8t4q1",
+                digital_technology: "j2z6r9", livestock_farming: "m9b1w4",
+                citizenship_education: "q5k8t2", economics: "r3n6v9",
+                government: "t8f1c4", yoruba: "w2y7m5", commerce: "x6g9s3",
+                crs: "z4b8p1", geography: "c1m7t6", marketing: "v5r3k9",
+                fine_art: "d4g5m3", phonetics: "n8d2w7", history: "p9h4q6",
+                agricultural_science: "k3s8b2", further_mathematics: "x2v5a2",
+                account: "b7s3h1", biology: "n4k9m2", chemistry: "p1w6r8"
+            },
+            "2016": {
+                demo: "7m3q9p", mathematics: "t2v6k8", english_language: "b8w1c5",
+                literature_in_english: "d4r9s2", physics: "f7n3m6",
+                digital_technology: "h5x8t1", livestock_farming: "g4vji8",
+                citizenship_education: "n9m2c3", economics: "p5t8r4",
+                government: "r1w6s9", yoruba: "t3k7v2", commerce: "v8d4b1",
+                crs: "x6f9m5", geography: "z2p7q3", marketing: "c4h8t9",
+                fine_art: "b6k8s4", phonetics: "q9b3n6", history: "s5m1r8",
+                agricultural_science: "w7k4d2", further_mathematics: "n6t4w3",
+                account: "h3r9p5", biology: "t7y2u4", chemistry: "l5k8m1"
+            },
+            "2017": {
+                demo: "2k8m5p", mathematics: "r9h3w6", english_language: "t4n7x2",
+                literature_in_english: "y5b8v1", physics: "u3c6z9",
+                digital_technology: "i7o4a2", livestock_farming: "e5s9f3",
+                citizenship_education: "w2p7m5", economics: "j9l4r6",
+                government: "q1t8n3", yoruba: "v6h2x9", commerce: "f3y7c4",
+                crs: "b5k1d8", geography: "m2z6w7", marketing: "a4e9r2",
+                fine_art: "s7t3g5", phonetics: "c8n1h6", history: "p3l9v4",
+                agricultural_science: "x5q7d2", further_mathematics: "k6w2m8",
+                account: "d9g4u1", biology: "q2e7r5", chemistry: "w6u8i3"
+            },
+            "2018": {
+                demo: "5h9k2n", mathematics: "w7t4r8", english_language: "z3b6m1",
+                literature_in_english: "g8p2c5", physics: "l4f7j9",
+                digital_technology: "d1v3k6", livestock_farming: "r9s5b2",
+                citizenship_education: "u6m1c9", economics: "i3p7a5",
+                government: "e8k2t6", yoruba: "o5f9q1", commerce: "n7b3r4",
+                crs: "c9d1y8", geography: "a4g6l2", marketing: "p2s7w5",
+                fine_art: "h1x8m3", phonetics: "k6t4v9", history: "j5l2d7",
+                agricultural_science: "b8n3c4", further_mathematics: "v7f9p2",
+                account: "m3s5y8", biology: "f2t9r4", chemistry: "n1o6p7"
+            }
         };
+
+        function getSelectedYear() {
+            return document.getElementById("yearSelect").value;
+        }
+
+        function getExamAttempts(year) {
+            const key = `${year}_exam_attempts`;
+            const stored = localStorage.getItem(key);
+            return stored ? JSON.parse(stored) : {};
+        }
+
+        function saveExamAttempts(year, data) {
+            const key = `${year}_exam_attempts`;
+            localStorage.setItem(key, JSON.stringify(data));
+        }
+
+        function hasCompletedExam(year, subject, username) {
+            if (!year || !subject) return false;
+            const attempts = getExamAttempts(year);
+            return attempts[username] && attempts[username][subject] === true;
+        }
+
+        function updateAttemptStatus() {
+            const year = document.getElementById("yearSelect").value;
+            const subject = document.getElementById("subjectSelect").value.toLowerCase();
+            const statusElement = document.getElementById("attemptStatus");
+            
+            if (!year) {
+                statusElement.innerHTML = "📅 Please select an examination year first";
+                statusElement.className = "attempt-status";
+                return;
+            }
+            
+            if (!subject) {
+                statusElement.innerHTML = "📚 Please select a subject";
+                statusElement.className = "attempt-status";
+                return;
+            }
+            
+            if (hasCompletedExam(year, subject, username)) {
+                statusElement.innerHTML = "❌ You have already completed this exam for year " + year;
+                statusElement.className = "attempt-status completed";
+            } else {
+                statusElement.innerHTML = "✅ This exam is available for you to take (Year: " + year + ")";
+                statusElement.className = "attempt-status available";
+            }
+        }
+
+        function startExam() {
+            const year = document.getElementById("yearSelect").value;
+            const subject = document.getElementById("subjectSelect").value.toLowerCase();
+            const enteredPassword = document.getElementById("examPassword").value.trim();
+
+            if (!year) { alert("⚠️ Please select an examination year"); return; }
+            if (!subject) { alert("⚠️ Please select a subject"); return; }
+            if (!enteredPassword) { alert("⚠️ Please enter the exam password"); return; }
+
+            const yearPasswords = yearSubjectPasswords[year];
+            if (!yearPasswords) { alert("❌ Invalid year selected!"); return; }
+
+            const correctPassword = yearPasswords[subject];
+            if (!correctPassword) { alert("❌ No password configured for this subject in " + year); return; }
+
+            if (enteredPassword !== correctPassword) { alert("❌ Incorrect password!"); return; }
+
+            if (hasCompletedExam(year, subject, username)) {
+                alert("⚠️ You have already completed this exam for year " + year);
+                window.location.href = "exam_attempted.html";
+                return;
+            }
+
+            sessionStorage.setItem("year", year);
+            sessionStorage.setItem("class", year);
+            sessionStorage.setItem("subject", subject);
+            sessionStorage.setItem("examInfo", `${formatSubjectName(subject)} - ${year} NECO SSCE Past Questions`);
+
+            localStorage.setItem("examYear", year);
+            localStorage.setItem("examClass", year);
+            localStorage.setItem("examSubject", formatSubjectName(subject));
+
+            const redirectUrl = `${year}_${subject}_neco_ssce_exam.html`;
+
+            fetch(redirectUrl, { method: "HEAD" })
+                .then(response => {
+                    if (response.ok) {
+                        alert(`✅ Access granted for ${formatSubjectName(subject)} (${year}) SSCE!`);
+                        window.location.href = redirectUrl;
+                    } else {
+                        alert(`📌 The SSCE exam for ${formatSubjectName(subject)} (${year}) is being prepared.`);
+                        window.location.href = 'landing.html';
+                    }
+                })
+                .catch(() => {
+                    alert(`📌 Exam content currently unavailable. Please contact administrator.`);
+                });
+        }
+
+        function formatSubjectName(subject) {
+            const map = {
+                'demo': 'Demo',
+                'mathematics': 'Mathematics',
+                'english_language': 'English Language',
+                'citizenship_education': 'Citizenship Education',
+                'physics': 'Physics',
+                'digital_technology': 'Digital Technology',
+                'economics': 'Economics',
+                'livestock_farming': 'Livestock Farming',
+                'chemistry': 'Chemistry',
+                'biology': 'Biology',
+                'cultural_art': 'Cultural & Creative Art',
+                'yoruba': 'Yoruba',
+                'geography': 'Geography',
+                'crs': 'Christian Religious Studies',
+                'account': 'Financial Accounting',
+                'government': 'Government',
+                'commerce': 'Commerce',
+                'literature_in_english': 'Literature in English',
+                'marketing': 'Marketing',
+                'fine_art': 'Fine Art',
+                'further_mathematics': 'Further Mathematics',
+                'history': 'Nigerian History',
+                'phonetics': 'Phonetics',
+                'agricultural_science': 'Agricultural Science'
+            };
+            return map[subject] || subject.charAt(0).toUpperCase() + subject.slice(1).replace(/_/g, ' ');
+        }
+
+        function logout() {
+            if (confirm("Are you sure you want to logout?")) {
+                sessionStorage.clear();
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Event listeners
+        document.getElementById('yearSelect').addEventListener('change', updateAttemptStatus);
+        document.getElementById('subjectSelect').addEventListener('change', updateAttemptStatus);
         
-        return subjectMap[subject] || subject.charAt(0).toUpperCase() + subject.slice(1).replace(/_/g, ' ');
-    }
-
-    function logout() {
-        sessionStorage.clear();
-        window.location.href = 'index.html';
-    }
-
-    function goToAdmin() {
-        window.location.href = 'admin.html';
-    }
-</script>
+        // Theme toggle
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-theme');
+            themeToggle.innerHTML = document.body.classList.contains('dark-theme') ? '<i class="fas fa-sun"></i> ☀️' : '<i class="fas fa-moon"></i> 🌙';
+        });
+        
+        updateAttemptStatus();
+    </script>
 </body>
 </html>
