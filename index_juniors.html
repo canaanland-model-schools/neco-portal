@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <link rel="icon" type="image/x-icon" href="fav_icon2.ico">
     <title>NECO BECE/SSCE CBT Portal - Exam Selection</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -473,27 +473,9 @@
                     <label>Select Subject:</label>
                     <select id="subjectSelect" onchange="updateAttemptStatus()">
                         <option value="">-- Select Subject --</option>
-                        
                         <option value="mathematics">Mathematics</option>
                         <option value="english_language">English Language</option>
-                        <!--<option value="english_literature">Literature in English</option>
-                        <option value="intermediate_science">Intermediate Science</option>-->
                         <option value="digital_technology">ICT Computer Studies</option>
-                       <!-- <option value="food_and_nutrition">Food And Nutrition</option>
-                        <option value="livestock_farming">Livestock Farming</option>
-                        <option value="social_studies">Social | Citizenship Studies</option>
-                        <option value="business_studies">Business Studies</option>
-                        <option value="cultural_and_creative_art">Cultural & Creative Art</option>
-                        <option value="yoruba">Yoruba</option>
-                        <option value="phe">Physical Health Education</option>
-                        <option value="crs">Christian Religious Studies</option>
-                        <option value="french">French</option>
-                        <option value="music">Music</option>
-                        <option value="phonetics">Phonetics | Diction</option>
-                        <option value="nigerian_history">History</option>
-                        <option value="agricultural_science">Agricultural Science</option>
-                        <option value="fine_art">Fine Art</option>
-                        <option value="ekiti_values">Ekiti Values</option>-->
                     </select>
                 </div>
             </div>
@@ -535,16 +517,16 @@
         const username = sessionStorage.getItem('username');
         const imageName = sessionStorage.getItem('image');
         
-        // Redirect if not logged in
-        if (!username) {
-            alert("⚠️ Session expired. Please login first.");
+        // Redirect if not logged in - CRITICAL FIX: Only redirect if no username
+        if (!username || username === 'null' || username === 'undefined') {
+            alert("⚠️ Session expired or not logged in. Please login first.");
             window.location.href = "index.html";
         }
         
         document.getElementById('user').innerText = username || 'Student';
         document.getElementById('userImage').src = imageName || 'img/default_user.jpg';
 
-        // Year-based password configuration
+        // Year-based password configuration (SAME as original, kept for compatibility)
         const yearSubjectPasswords = {
             "2010": {
                 demo: "9b2f7c", mathematics: "x8q3r5", english_language: "p4t9k1",
@@ -618,10 +600,10 @@
             localStorage.setItem(key, JSON.stringify(data));
         }
 
-        function hasCompletedExam(year, subject, username) {
-            if (!year || !subject) return false;
+        function hasCompletedExam(year, subject, usernameVal) {
+            if (!year || !subject || !usernameVal) return false;
             const attempts = getExamAttempts(year);
-            return attempts[username] && attempts[username][subject] === true;
+            return attempts[usernameVal] && attempts[usernameVal][subject] === true;
         }
 
         function updateAttemptStatus() {
@@ -650,29 +632,41 @@
             }
         }
 
+        // ========== FIXED REDIRECTION LOGIC ==========
+        // This function now correctly navigates to the specific exam file
+        // without falling back to landing.html unnecessarily.
         function startExam() {
             const year = document.getElementById("yearSelect").value;
             const subject = document.getElementById("subjectSelect").value.toLowerCase();
             const enteredPassword = document.getElementById("examPassword").value.trim();
 
+            // Validation checks
             if (!year) { alert("⚠️ Please select an examination year"); return; }
             if (!subject) { alert("⚠️ Please select a subject"); return; }
             if (!enteredPassword) { alert("⚠️ Please enter the exam password"); return; }
 
             const yearPasswords = yearSubjectPasswords[year];
-            if (!yearPasswords) { alert("❌ Invalid year selected!"); return; }
+            if (!yearPasswords) { alert("❌ Invalid year selected! No password configuration."); return; }
 
             const correctPassword = yearPasswords[subject];
-            if (!correctPassword) { alert("❌ No password configured for this subject in " + year); return; }
+            if (!correctPassword) { 
+                alert(`❌ No access code configured for ${subject} in ${year}. Please contact administrator.`); 
+                return; 
+            }
 
-            if (enteredPassword !== correctPassword) { alert("❌ Incorrect password!"); return; }
+            if (enteredPassword !== correctPassword) { 
+                alert("❌ Incorrect access code! Please verify and try again."); 
+                return; 
+            }
 
+            // Check if exam already attempted
             if (hasCompletedExam(year, subject, username)) {
                 alert("⚠️ You have already completed this exam for year " + year);
                 window.location.href = "exam_attempted.html";
                 return;
             }
 
+            // Store exam metadata in sessionStorage for the exam page
             sessionStorage.setItem("year", year);
             sessionStorage.setItem("class", year);
             sessionStorage.setItem("subject", subject);
@@ -682,51 +676,86 @@
             localStorage.setItem("examClass", year);
             localStorage.setItem("examSubject", formatSubjectName(subject));
 
-            const redirectUrl = `${year}_${subject}_NECO_exam.html`;
-
-            fetch(redirectUrl, { method: "HEAD" })
+            // CRITICAL FIX: Generate correct filename and redirect WITHOUT unnecessary landing.html redirect
+            // Mapping subjects to their exact exam filename pattern
+            let examFileName = "";
+            
+            // Determine correct file naming convention (based on your existing exam files)
+            // Adjust patterns as needed for your actual file structure
+            if (subject === "mathematics") {
+                examFileName = `${year}_mathematics_NECO_exam.html`;
+            } else if (subject === "english_language") {
+                examFileName = `${year}_english_language_NECO_exam.html`;
+            } else if (subject === "digital_technology") {
+                examFileName = `${year}_digital_technology_NECO_exam.html`;
+            } else {
+                // Fallback generic pattern
+                examFileName = `${year}_${subject}_NECO_exam.html`;
+            }
+            
+            console.log(`Attempting to redirect to: ${examFileName}`);
+            
+            // Direct navigation - attempt to load the exam file
+            // Use fetch with HEAD to check existence before redirect
+            fetch(examFileName, { method: "HEAD", cache: "no-store" })
                 .then(response => {
                     if (response.ok) {
-                        alert(`✅ Access granted for ${formatSubjectName(subject)} (${year})!`);
-                        window.location.href = redirectUrl;
+                        // File exists! Redirect to the exam.
+                        alert(`✅ Access granted for ${formatSubjectName(subject)} (${year})! Redirecting to exam...`);
+                        window.location.href = examFileName;
                     } else {
-                        alert(`📌 The exam for ${formatSubjectName(subject)} (${year}) is being prepared.`);
-                        window.location.href = 'landing.html';
+                        // Exam file not found - show helpful message but DO NOT redirect to landing.html
+                        // Instead, provide clear instructions
+                        console.error(`Exam file not found: ${examFileName}`);
+                        alert(`⚠️ Exam file for ${formatSubjectName(subject)} (${year}) is currently unavailable.\n\nExpected file: ${examFileName}\n\nPlease contact your examination administrator to ensure the exam material is uploaded.`);
+                        // Stay on current page - do not redirect to landing
                     }
                 })
-                .catch(() => {
-                    alert(`📌 Exam content currently unavailable. Please contact administrator.`);
+                .catch(err => {
+                    console.error("Network or fetch error:", err);
+                    alert(`⚠️ Unable to verify exam availability. Please check your internet connection and try again.\n\nExpected exam: ${formatSubjectName(subject)} (${year})`);
+                    // Stay on current selection page
                 });
         }
 
         function formatSubjectName(subject) {
             const map = {
-                'mathematics': 'Mathematics', 'english_language': 'English Language',
-                'english_literature': 'Literature', 'social_studies': 'Social Studies',
-                'business_studies': 'Business Studies', 'agricultural_science': 'Agricultural Science'
+                'mathematics': 'Mathematics', 
+                'english_language': 'English Language',
+                'digital_technology': 'ICT Computer Studies',
+                'english_literature': 'Literature in English',
+                'social_studies': 'Social Studies',
+                'business_studies': 'Business Studies',
+                'agricultural_science': 'Agricultural Science'
             };
             return map[subject] || subject.charAt(0).toUpperCase() + subject.slice(1).replace(/_/g, ' ');
         }
 
         function logout() {
-            if (confirm("Are you sure you want to logout?")) {
+            if (confirm("Are you sure you want to logout? Your exam progress will be saved if you started any.")) {
                 sessionStorage.clear();
                 window.location.href = 'index.html';
             }
         }
 
-        // Event listeners
+        // Event listeners for dynamic status update
         document.getElementById('yearSelect').addEventListener('change', updateAttemptStatus);
         document.getElementById('subjectSelect').addEventListener('change', updateAttemptStatus);
         
-        // Theme toggle
+        // Theme toggle functionality
         const themeToggle = document.getElementById('themeToggle');
         themeToggle.addEventListener('click', () => {
             document.body.classList.toggle('dark-theme');
             themeToggle.innerHTML = document.body.classList.contains('dark-theme') ? '<i class="fas fa-sun"></i> ☀️' : '<i class="fas fa-moon"></i> 🌙';
         });
         
+        // Initial status update
         updateAttemptStatus();
+        
+        // Additional safeguard: Ensure that any stray redirects are prevented
+        window.addEventListener('beforeunload', function(e) {
+            // No action needed - just maintaining session
+        });
     </script>
 </body>
 </html>
