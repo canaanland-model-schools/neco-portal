@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>NECO BECE English Language Examination 2010</title>
+    <style>
+        /* RESET & GLOBAL */
+        * {
+            box-sizing: border-box;
+            user-select: none;
+        }
+        
+        body {
+            position: relative;
+            z-index: 1;
+            font-family: 'Times New Roman', Times, serif;
+            margin: 0;
+            padding: 0;
+            background-color: #d4c9a8;
+        }
+        
+        /* NECO Watermark Background */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('img/neco-logo.png') no-repeat center center;
+            background-size: 350px 350px;
+            opacity: 0.08;
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        /* LAYOUT: main wrapper with feedback panel on left */
+        .exam-main-layout {
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+            max-width: 1400px;
+            margin: 20px auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* LEFT SIDEBAR - FEEDBACK PANEL (NECO Style) */
+        .feedback-panel {
+            width: 320px;
+            background: #fef9e6;
+            border-radius: 8px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            padding: 18px;
+            position: sticky;
+            top: 20px;
+            height: fit-content;
+            border-left: 6px solid #ffd700;
+            transition: all 0.2s;
+        }
+        
+        .feedback-panel h3 {
+            margin: 0 0 10px 0;
+            color: #1a472a;
+            border-bottom: 2px solid #ffd700;
+            display: inline-block;
+            font-size: 1.3rem;
+        }
+        
+        .feedback-status {
+            font-size: 1rem;
+            margin: 12px 0;
+            font-weight: bold;
+            color: #1a472a;
+            background: #e8f0e8;
+            padding: 8px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .explanation-box {
+            background: #fffef7;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 15px 0;
+            border: 1px solid #d4a843;
+            max-height: 280px;
+            overflow-y: auto;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #1e1e2a;
+        }
+        
+        .explanation-title {
+            font-weight: bold;
+            color: #1a472a;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .tts-button {
+            background: #2d6a4f;
+            border: none;
+            color: #ffd700;
+            padding: 6px 12px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 13px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: 0.2s;
+            margin-top: 8px;
+        }
+        
+        .tts-button:hover {
+            background: #1a472a;
+        }
+        
+        .answer-feedback {
+            margin-top: 12px;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+        
+        .answer-feedback.correct {
+            background: #d4edda;
+            color: #1a472a;
+            border-left: 5px solid #2d6a4f;
+        }
+        
+        .answer-feedback.wrong {
+            background: #f8d7da;
+            color: #8b0000;
+            border-left: 5px solid #8b0000;
+        }
+        
+        /* Right content area */
+        .exam-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        /* Header Styles - NECO Colors */
+        #logout-container {
+            text-align: right;
+            padding: 10px;
+            background: #1a472a;
+        }
+        
+        #datetime {
+            color: #ffd700;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            margin: 10px 0;
+        }
+        
+        #logout {
+            background-color: #8b0000;
+            color: #ffd700;
+            border: none;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        
+        #logout:hover {
+            background-color: #6b0000;
+        }
+        
+        #header {
+            padding: 20px;
+            background: linear-gradient(135deg, #1a472a, #2d6a4f);
+            color: white;
+            border-bottom: 5px solid #ffd700;
+        }
+        
+        .logo-wrapper {
+            text-align: center;
+        }
+        
+        #student-info {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        #welcome-message {
+            color: #ffd700;
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        #userAnswerCount {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: rgba(26, 71, 42, 0.9);
+            padding: 15px;
+            border-radius: 8px;
+            color: #ffd700;
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            width: 200px;
+            z-index: 100;
+            border: 1px solid #ffd700;
+        }
+        
+        .container {
+            margin: 20px auto;
+            width: 100%;
+            padding: 20px;
+            background-color: #fef9e6;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border: 1px solid #d4a843;
+        }
+        
+        /* FIXED: Changed from textarea to div for question display */
+        #questionDisplay {
+            width: 98%;
+            min-height: 100px;
+            padding: 15px;
+            font-size: 18px;
+            color: #1a472a;
+            background-color: #fffef7;
+            border-radius: 5px;
+            border: 2px solid #d4a843;
+            margin-bottom: 15px;
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: bold;
+            line-height: 1.5;
+        }
+        
+        .option-group {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            padding: 12px;
+            background-color: #fffef7;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            border: 1px solid #e0d5b0;
+            cursor: pointer;
+        }
+        
+        .option-group:hover {
+            background-color: #f5f0e0;
+        }
+        
+        .option-group input {
+            margin-right: 12px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        
+        .option-group label {
+            flex: 1;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .btn-cool {
+            padding: 12px 25px;
+            font-size: 16px;
+            border: none;
+            border-radius: 30px;
+            background: #2d6a4f;
+            color: #ffd700;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        
+        .btn-cool:hover {
+            background: #1a472a;
+        }
+        
+        .questionButtons {
+            margin: 15px 0;
+            text-align: center;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 5px;
+        }
+        
+        .question-btn {
+            margin: 3px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid #d4a843;
+            cursor: pointer;
+            font-weight: bold;
+            background-color: #fef9e6;
+            min-width: 40px;
+            font-family: 'Times New Roman', Times, serif;
+        }
+        
+        #timer {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ffd700;
+            text-align: center;
+            margin: 10px 0;
+            background-color: #1a472a;
+            padding: 10px;
+            border-radius: 8px;
+        }
+        
+        .section-toggle {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .section-btn {
+            padding: 12px 24px;
+            margin: 0 10px;
+            font-weight: bold;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            background: #fef9e6;
+            color: #1a472a;
+            font-family: 'Times New Roman', Times, serif;
+        }
+        
+        .section-btn.active {
+            background-color: #2d6a4f;
+            color: #ffd700;
+        }
+        
+        #theorySection {
+            display: none;
+            background: #fef9e6;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border: 1px solid #d4a843;
+        }
+        
+        #theoryAnswer {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 2px solid #d4a843;
+            font-family: 'Times New Roman', Times, serif;
+            resize: vertical;
+        }
+        
+        .marquee-container {
+            width: 100%;
+            overflow: hidden;
+            background: #1a472a;
+            padding: 10px 0;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+        
+        .marquee-text {
+            display: inline-block;
+            color: #ffd700;
+            font-size: 20px;
+            font-weight: bold;
+            animation: marquee 15s linear infinite;
+            font-family: 'Times New Roman', Times, serif;
+        }
+        
+        @keyframes marquee {
+            from { transform: translateX(100%); }
+            to { transform: translateX(-100%); }
+        }
+        
+        .windows-activate {
+            text-align: center;
+            margin: 20px;
+            font-size: 12px;
+            color: #5a4a2a;
+        }
+        
+        .theory-nav-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        
+        .theory-btn {
+            padding: 8px 16px;
+            border-radius: 30px;
+            border: none;
+            font-weight: bold;
+            background: #2d6a4f;
+            color: #ffd700;
+            cursor: pointer;
+        }
+        
+        .theory-btn:hover {
+            background: #1a472a;
+        }
+        
+        /* Student image styling */
+        #userImage {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 3px solid #ffd700;
+            object-fit: cover;
+        }
+        
+        #username {
+            color: #ffd700;
+        }
+        
+        h3 {
+            color: #ffd700;
+        }
+        
+        .exam-info {
+            color: #ffd700;
+            font-weight: bold;
+        }
+        
+        .theory-status {
+            text-align: center;
+            padding: 10px;
+            background: #e8f0e8;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-weight: bold;
+            color: #1a472a;
+        }
+        
+        @media (max-width: 780px) {
+            .exam-main-layout { flex-direction: column; }
+            .feedback-panel { width: 100%; position: relative; }
+        }
+    </style>
+</head>
+<body oncontextmenu="return false">
+<div id="header">
+    <div id="logout-container">
+        <button id="logout" onclick="logout()">🚪 Logout</button>
+        <div class="marquee-container"><span class="marquee-text">NATIONAL EXAMINATIONS COUNCIL - BECE English Language 2010 - INTEGRITY & EXCELLENCE</span></div>
+    </div>
+    <div class="logo-wrapper">
+        <img src="img/neco-logo.png" alt="NECO Logo" style="max-width: 80px; vertical-align: middle;" onerror="this.style.display='none'">
+        <span style="font-size: 24px; font-weight: bold; vertical-align: middle;">NATIONAL EXAMINATIONS COUNCIL</span>
+        <img src="img/neco-logo.png" alt="NECO Logo" style="max-width: 80px; vertical-align: middle;" onerror="this.style.display='none'">
+    </div>
+    <div id="student-info">
+        <center><strong style="color: #ffd700;">⚠️ CLICK ON SUBMIT BEFORE TIME ELAPSES ⚠️</strong></center>
+        <center><p id="datetime"></p></center>
+        <div id="welcome-message"><label id="usernameDisplay"></label></div>
+        <div><img id="userImage" src="img/default_user.jpg" alt="Student" onerror="this.src='https://via.placeholder.com/120?text=Student'"></div>
+        <h2 id="username">Student Name</h2>
+        <center><h3>CANAANLAND GROUP OF SCHOOLS - EKUTE QUARTERS, ADO EKITI</h3></center>
+        <center><h3>BECE JUNIOR WAEC EXAMINATION 2010</h3></center>
+        <div class="section-toggle">
+            <button id="objectivesBtn" class="section-btn active" onclick="showSection('objectives')">OBJECTIVE QUESTIONS</button>
+            <button id="theoryBtn" class="section-btn" onclick="showSection('theory')">THEORY QUESTIONS</button>
+        </div>
+        <div class="exam-info">Exam: <span id="examInfo" style="color: #ffd700;">English Language - 2010 (BECE EXAMINATION)</span></div>
+        <div id="timer"></div>
+    </div>
+</div>
+
+<!-- NEW LAYOUT: sidebar + main content -->
+<div class="exam-main-layout">
+    <!-- LEFT FEEDBACK PANEL (explanation + TTS) -->
+    <div class="feedback-panel" id="feedbackPanel">
+        <h3>📘 Answer Assistant</h3>
+        <div class="feedback-status" id="feedbackStatusMsg">Select an option to see feedback</div>
+        <div class="explanation-box" id="explanationBox">
+            <div class="explanation-title">💡 Explanation</div>
+            <div id="explanationText">Your answer evaluation will appear here.</div>
+        </div>
+        <div id="answerResultBox" class="answer-feedback"></div>
+        <button id="ttsExplanationBtn" class="tts-button">🔊 Read Explanation Aloud</button>
+    </div>
+
+    <!-- RIGHT: OBJECTIVES & THEORY SECTIONS -->
+    <div class="exam-content">
+        <div id="objectivesSection">
+            <div class="container">
+                <h5 style="color:#1a472a; text-align:center;">INSTRUCTIONS: READ CAREFULLY & CHOOSE YOUR ANSWER</h5>
+                <!-- FIXED: Changed from textarea to div for question display -->
+                <div id="questionDisplay"></div>
+                <div id="questionImageContainer"></div>
+                <div class="option-group" onclick="this.querySelector('input').click()">
+                    <input type="radio" name="option" value="A" id="optARadio">
+                    <label for="optARadio"><strong>A.</strong> <span id="optA"></span></label>
+                </div>
+                <div class="option-group" onclick="this.querySelector('input').click()">
+                    <input type="radio" name="option" value="B" id="optBRadio">
+                    <label for="optBRadio"><strong>B.</strong> <span id="optB"></span></label>
+                </div>
+                <div class="option-group" onclick="this.querySelector('input').click()">
+                    <input type="radio" name="option" value="C" id="optCRadio">
+                    <label for="optCRadio"><strong>C.</strong> <span id="optC"></span></label>
+                </div>
+                <div class="option-group" onclick="this.querySelector('input').click()">
+                    <input type="radio" name="option" value="D" id="optDRadio">
+                    <label for="optDRadio"><strong>D.</strong> <span id="optD"></span></label>
+                </div>
+            </div>
+            <div class="nav-buttons">
+                <button onclick="prevQuestion()" class="btn-cool">◀ Previous</button>
+                <button onclick="nextQuestion()" class="btn-cool">Next ▶</button>
+                <button onclick="submitExam()" class="btn-cool">✔ Submit Objectives</button>
+            </div>
+            <div class="container"><div id="questionButtons" class="questionButtons"></div></div>
+        </div>
+
+        <div id="theorySection">
+            <h3 style="text-align:center; color:#1a472a;">THEORY QUESTIONS</h3>
+            <div class="theory-status" id="theoryStatus">Question 1 of 5 | Saved: 0/5</div>
+            <div id="theoryQuestionContainer">
+                <p id="theoryQuestionText" style="font-size: 16px; line-height: 1.6;">Loading theory questions...</p>
+                <div id="theoryImageContainer"></div>
+                <textarea id="theoryAnswer" rows="8" placeholder="Write your detailed answer here..."></textarea>
+                <div class="theory-nav-buttons">
+                    <button onclick="prevTheoryQuestion()" class="theory-btn">◀ Previous</button>
+                    <button onclick="saveTheoryAnswer()" class="theory-btn">💾 Save Answer</button>
+                    <button onclick="nextTheoryQuestion()" class="theory-btn">Next ▶</button>
+                    <button onclick="submitTheoryExam()" class="theory-btn">📤 Submit Theory</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="userAnswerCount"><p id="answeredLabel">Answered: 0/40</p><p id="unansweredLabel">Unanswered: 40/40</p></div>
+<div class="marquee-container"><span class="marquee-text">NECO BECE English Language EXAMINATION 2010 - CANAANLAND MODEL SCHOOLS</span></div>
+<div class="windows-activate"><p>© National Examinations Council (NECO) - BECE 2010 | canaanlandmodelschools.org</p></div>
+
+<script>
+    const TOTAL_OBJECTIVES = 40;
+    
+    const staticObjectivesQuestions = [
+        { "id": 1, "question": "Our teacher was late for school because he …….. a flat tyre.", "options": { "A": "had", "B": "will have", "C": "is having", "D": "has" }, "answer": "A", "explanation": "Past tense 'was' requires past perfect 'had' to show earlier action.", "image": null },
+        { "id": 2, "question": "We had dinner at a Chinese restaurant where I …………. fried chicken.", "options": { "A": "am enjoying", "B": "will enjoy", "C": "enjoyed", "D": "would enjoy" }, "answer": "C", "explanation": "Past tense 'had dinner' requires past tense 'enjoyed'.", "image": null },
+        { "id": 3, "question": "Ama's father asked her to choose ………… John and William.", "options": { "A": "among", "B": "from", "C": "with", "D": "between" }, "answer": "D", "explanation": "'Between' is used for two choices; 'among' for more than two.", "image": null },
+        { "id": 4, "question": "Willie has malaria and is not ……….. enough to go to school.", "options": { "A": "good", "B": "well", "C": "fine", "D": "free" }, "answer": "B", "explanation": "'Well' refers to health; 'good' refers to character or quality.", "image": null },
+        { "id": 5, "question": "The school band ………… two days a week.", "options": { "A": "practise", "B": "are practicing", "C": "practices", "D": "were practising" }, "answer": "C", "explanation": "Collective noun 'band' is singular; present simple for routine.", "image": null },
+        { "id": 6, "question": "Philomena ………… passed the examination if she had tried harder.", "options": { "A": "could have", "B": "will have", "C": "may have", "D": "could" }, "answer": "A", "explanation": "Third conditional: 'could have + past participle' for unreal past.", "image": null },
+        { "id": 7, "question": "The law was passed according to strict legal ………….", "options": { "A": "cases", "B": "principles", "C": "rules", "D": "issues" }, "answer": "C", "explanation": "Laws are passed according to legal 'rules'.", "image": null },
+        { "id": 8, "question": "The book, as well as several others, ……….. interesting reading.", "options": { "A": "makes", "B": "are to make", "C": "are making", "D": "make" }, "answer": "A", "explanation": "Subject 'The book' (singular) with 'as well as' doesn't change verb.", "image": null },
+        { "id": 9, "question": "………… Joe scored the first goal, he was injured in the process.", "options": { "A": "But", "B": "Nevertheless", "C": "Although", "D": "Furthermore" }, "answer": "C", "explanation": "'Although' shows contrast: scoring goal vs being injured.", "image": null },
+        { "id": 10, "question": "Neither Kojo nor his friend ………… the issue clearly.", "options": { "A": "understands", "B": "have understood", "C": "understand", "D": "is understanding" }, "answer": "A", "explanation": "With 'neither...nor', verb agrees with the nearer subject (friend - singular).", "image": null },
+        { "id": 11, "question": "The ……….. centre is located on the hill.", "options": { "A": "womens'", "B": "woman", "C": "womans'", "D": "women's" }, "answer": "D", "explanation": "Plural possessive of 'women' is 'women's'.", "image": null },
+        { "id": 12, "question": "One of the cows ………… from the herd.", "options": { "A": "has strayed", "B": "have strayed", "C": "have been strayed", "D": "has been strayed" }, "answer": "A", "explanation": "'One of the cows' is singular, so 'has strayed' (active voice).", "image": null },
+        { "id": 13, "question": "At the party, the guests placed an order for a large ………… of drinks.", "options": { "A": "count", "B": "total", "C": "quantity", "D": "sum" }, "answer": "C", "explanation": "'Quantity' is used for uncountable or large amounts of drinks.", "image": null },
+        { "id": 14, "question": "The hall was so small that it could ………… contain all of us.", "options": { "A": "rarely", "B": "comfortably", "C": "conveniently", "D": "hardly" }, "answer": "D", "explanation": "'Hardly' means 'almost not', fitting the small hall context.", "image": null },
+        { "id": 15, "question": "If I were a manager, I ………… satisfy my customers.", "options": { "A": "will", "B": "shall", "C": "would", "D": "must" }, "answer": "C", "explanation": "Second conditional: 'If I were... I would...'", "image": null },
+        { "id": 16, "question": "Florence performs creditably in all examinations. (Nearest in meaning)", "options": { "A": "fairly", "B": "well", "C": "graciously", "D": "good" }, "answer": "B", "explanation": "'Creditably' means praiseworthily or well.", "image": null },
+        { "id": 17, "question": "The choir sang some melodious songs at the function. (Nearest in meaning)", "options": { "A": "loud", "B": "pleasant", "C": "soft", "D": "musical" }, "answer": "B", "explanation": "'Melodious' means pleasant to hear.", "image": null },
+        { "id": 18, "question": "Jane is always immaculately dressed. (Nearest in meaning)", "options": { "A": "modestly", "B": "correctly", "C": "neatly", "D": "scantily" }, "answer": "C", "explanation": "'Immaculately' means perfectly clean and neat.", "image": null },
+        { "id": 19, "question": "The village was enveloped in a thick fog. (Nearest in meaning)", "options": { "A": "built", "B": "put", "C": "shaped", "D": "covered" }, "answer": "D", "explanation": "'Enveloped' means completely covered or surrounded.", "image": null },
+        { "id": 20, "question": "The inquisitive stranger asked many questions. (Nearest in meaning)", "options": { "A": "curious", "B": "pompous", "C": "intelligent", "D": "cowardly" }, "answer": "A", "explanation": "'Inquisitive' means eager to know, curious.", "image": null },
+        { "id": 21, "question": "Whenever Kweku goes to Kumasi, he puts up with his uncle. This means Kweku ...", "options": { "A": "helps", "B": "stays with", "C": "converses with", "D": "avoids" }, "answer": "B", "explanation": "'Puts up with' in this context means 'stays with' (accommodation).", "image": null },
+        { "id": 22, "question": "I glanced over the papers as I walked home. This means I quickly ………. the papers.", "options": { "A": "wrote", "B": "analysed", "C": "saw", "D": "read" }, "answer": "D", "explanation": "'Glanced over' means quickly read or skimmed.", "image": null },
+        { "id": 23, "question": "The woman found her daughter with her eyes glued to the television. This means her daughter was ………… the television.", "options": { "A": "smiling at", "B": "dismantling", "C": "intently watching", "D": "cleaning" }, "answer": "C", "explanation": "'Eyes glued to' means watching very intently.", "image": null },
+        { "id": 24, "question": "Kojo was dragged to the farm like a lamb to the slaughter. This means Kojo was dragged …….", "options": { "A": "with difficulty", "B": "without resistance", "C": "with a lamb on his shoulder", "D": "without anything on him" }, "answer": "B", "explanation": "Idiom means going helplessly or without resistance.", "image": null },
+        { "id": 25, "question": "The bully was ordered to leave his younger brother alone. This means the bully was told …….", "options": { "A": "not to accompany him anywhere", "B": "to accompany him everywhere", "C": "not to disturb him", "D": "to teach him well" }, "answer": "C", "explanation": "'Leave him alone' means stop disturbing him.", "image": null },
+        { "id": 26, "question": "Some of the guests at the party were rude. (Opposite in meaning)", "options": { "A": "courteous", "B": "bold", "C": "friendly", "D": "shy" }, "answer": "A", "explanation": "The opposite of 'rude' is 'courteous' (polite).", "image": null },
+        { "id": 27, "question": "The lawyer supported his argument with copious evidence. (Opposite)", "options": { "A": "inconsistent", "B": "scanty", "C": "bad", "D": "unconvincing" }, "answer": "B", "explanation": "'Copious' means abundant; opposite is 'scanty' (little).", "image": null },
+        { "id": 28, "question": "If you want to be believed, you must be objective. (Opposite)", "options": { "A": "subjective", "B": "positive", "C": "active", "D": "emotive" }, "answer": "A", "explanation": "'Objective' (unbiased) opposite is 'subjective' (personal bias).", "image": null },
+        { "id": 29, "question": "In all boarding schools, going out in the night is prohibited. (Opposite)", "options": { "A": "advised", "B": "ignored", "C": "permitted", "D": "admitted" }, "answer": "C", "explanation": "'Prohibited' means forbidden; opposite is 'permitted' (allowed).", "image": null },
+        { "id": 30, "question": "The surest way to avoid defeat is to strive for …….", "options": { "A": "position", "B": "victory", "C": "knowledge", "D": "ability" }, "answer": "B", "explanation": "Defeat is losing; opposite is victory (winning).", "image": null },
+        { "id": 31, "question": "Suddenly the sky became dark and there was a rainstorm. (Opposite)", "options": { "A": "Continuously", "B": "Gradually", "C": "Heavily", "D": "Immediately" }, "answer": "B", "explanation": "'Suddenly' means quickly; opposite is 'gradually' (slowly).", "image": null },
+        { "id": 32, "question": "The athlete looked dejected at the end of the race. (Opposite)", "options": { "A": "angry", "B": "calm", "C": "strong", "D": "excited" }, "answer": "D", "explanation": "'Dejected' means sad/depressed; opposite is 'excited' (happy/thrilled).", "image": null },
+        { "id": 33, "question": "The extract 'Young lady, you are like the moon that walks beautifully across the sky' is an example of ……….", "options": { "A": "prose", "B": "poetry", "C": "drama", "D": "dialogue" }, "answer": "B", "explanation": "The extract uses rhythmic and figurative language characteristic of poetry.", "image": null },
+        { "id": 34, "question": "The extract is about …………", "options": { "A": "a mirror", "B": "an eagle feather", "C": "the moon", "D": "a beautiful young lady" }, "answer": "D", "explanation": "The poet addresses 'Young lady', praising her beauty.", "image": null },
+        { "id": 35, "question": "'The moon that walks beautifully across the sky' is an example of", "options": { "A": "metaphor", "B": "hyperbole", "C": "alliteration", "D": "personification" }, "answer": "D", "explanation": "The moon is given human action 'walks', which is personification.", "image": null },
+        { "id": 36, "question": "'Young lady, you are like ... an eagle feather worn by a husband' is an example of", "options": { "A": "simile", "B": "metaphor", "C": "alliteration", "D": "assonance" }, "answer": "A", "explanation": "The use of 'like' makes this a simile (direct comparison).", "image": null },
+        { "id": 37, "question": "The writer of a poem is called", "options": { "A": "a novelist", "B": "a poet", "C": "a playwright", "D": "an actor" }, "answer": "B", "explanation": "A poet writes poems.", "image": null },
+        { "id": 38, "question": "'The potter puts the pots in the pans' is an example of", "options": { "A": "metaphor", "B": "simile", "C": "alliteration", "D": "personification" }, "answer": "C", "explanation": "Repetition of 'p' sound (potter, puts, pots, pans) is alliteration.", "image": null },
+        { "id": 39, "question": "The rhyme scheme of the verse (assuming abab pattern) is", "options": { "A": "abab", "B": "aabc", "C": "abcc", "D": "aabb" }, "answer": "A", "explanation": "Typical rhyme scheme for alternating rhyming lines is abab.", "image": null },
+        { "id": 40, "question": "'Afua Bonsu is the apple of my eye' is an example of", "options": { "A": "metaphor", "B": "simile", "C": "alliteration", "D": "personification" }, "answer": "A", "explanation": "Direct comparison without 'like' or 'as' is a metaphor.", "image": null }
+    ];
+    
+    const staticTheoryQuestions = [
+        { "id": 1, "question": "INSTRUCTION: Answer one question only from this part. Your composition should be about 250 words long.\n\nWrite a letter to your father asking permission to join your schoolmates who are going on an excursion.", "marks": 20, "explanation": "Include: proper letter format (address, date, salutation, body, subscription). Politely request permission, state details of excursion (destination, date, cost, educational benefits), and promise to be responsible.", "image": null },
+        { "id": 2, "question": "INSTRUCTION: Answer one question only from this part. Your composition should be about 250 words long.\n\nWrite an article for publication in a local newspaper on the topic: 'Every school should have a library.'", "marks": 20, "explanation": "Include: catchy headline, writer's name, introduction, benefits of libraries (research, reading culture, academic improvement), call to action.", "image": null },
+        { "id": 3, "question": "INSTRUCTION: Answer one question only from this part. Your composition should be about 250 words long.\n\nWrite a short story illustrating the saying: 'All that glitters is not gold.'", "marks": 20, "explanation": "Include: engaging title, setting, characters, plot showing something attractive but deceptive, moral lesson at the end.", "image": null },
+        { "id": 4, "question": "INSTRUCTION: Read the following passage carefully and answer all the questions which follow.\n\nWhen I was about eleven years old, I was unable to stay at one place for long; I was always on the move. Many people thought and said I was troublesome. Prominent among those who described me as such was my aunt, Araba Oboshea.\n\nAunt Araba was particularly mean. She would sit on her stool under the gum tree in front of the house and wait for me to return from wherever I had gone. As soon as I arrived she would call me and, without asking me any question or telling me anything, take my left ear between the forefinger and the thumb of her right hand and give my ear a silent, violent and painful twist. I cannot describe the pain I endured. She would do the same to my right ear. She explained that she was paying for my absence that I had sold to her! Aunt Araba would continue to twist both ears of mine simultaneously with her forefingers and thumbs.\n\nI would scream silently, gritting my teeth so that I could not utter any sound because of pain. That way I was spared the next stage of being given countless strokes of any stick she could lay hands on. One strange thing about Aunt Araba was that she would never hit me with her hands.\n\nAunt Araba went on treating me this way because she could hardly understand why I was always on the move. I could also not have the courage to explain why it was so because I was afraid of her and began to hate her.\n\nOne Thursday evening when I was going through my usual ordeal, an elderly man, Agya Manu who usually visited her appeared on the scene. He pleaded with her to leave me, and asked for the reason for such punishment. After he had been told of my 'sin', Agya Manu, who knew me very well, explained to my auntie that I was always on the move not because I was in any bad company, but because I was favourite for any errand. I had been running several errands for him and many other people. Agya Manu then advised me not to spend all my time running errands for others but rather, do all my duties at home.\n\nQUESTIONS:\n\na) What was the writer's behaviour when he was about eleven years old?\n\nb) 'I was always on the move.' What is the meaning of this expression?\n\nc) From the passage, what is the character of Aunt Araba?\n\nd) Why did Aunt Araba keep punishing the writer?\n\ne) How did Agya Manu rescue the writer?\n\nf) For each of the following words, give one word or phrase which means the same:\n(i) endured\n(ii) countless", "marks": 20, "explanation": "a) He was unable to stay at one place for long / always on the move.\nb) He was constantly going from place to place / restless.\nc) She was mean, cruel, and punishing (accept: strict, harsh).\nd) Because she didn't understand why he was always away from home.\ne) By explaining to Aunt Araba that the boy ran errands for people, not bad company.\nf)(i) suffered / bore / withstood (ii) numerous / many / infinite.", "image": null },
+        { "id": 5, "question": "INSTRUCTION: Answer one question only from this part. Your composition should be about 250 words long.\n\nWrite a letter to your District Director of Education giving at least two reasons why caning should be banned in schools.", "marks": 20, "explanation": "Include: formal letter format (your address, date, Director's address, salutation, subject line). Give two clear reasons (e.g., physical harm, fear affecting learning). Use formal language and polite tone.", "image": null }
+    ];
+    
+    let questions = [...staticObjectivesQuestions];
+    let theoryQuestions = [...staticTheoryQuestions];
+    let userAnswers = new Array(questions.length).fill(undefined);
+    let theoryAnswers = new Array(theoryQuestions.length).fill('');
+    let currentQuestion = 0;
+    let currentTheory = 0;
+    let currentSection = 'objectives';
+    let timeLeft = 60 * 60;
+    let timerInterval;
+
+    function updateFeedbackForCurrentQuestion() {
+        const q = questions[currentQuestion];
+        const selected = userAnswers[currentQuestion];
+        const isAnswered = selected !== undefined;
+        let explanationMsg = q.explanation || "No detailed explanation available.";
+        let resultHtml = '';
+        
+        if(!isAnswered) {
+            resultHtml = `<div class="answer-feedback" style="background:#fff3cd;">❓ Not answered yet. Choose an option to check.</div>`;
+            document.getElementById('answerResultBox').innerHTML = resultHtml;
+            document.getElementById('explanationText').innerHTML = explanationMsg;
+            document.getElementById('feedbackStatusMsg').innerHTML = "⚡ Pending answer";
+            return;
+        }
+        
+        const isCorrect = (selected === q.answer);
+        if(isCorrect) {
+            resultHtml = `<div class="answer-feedback correct">✅ Correct! Well done.</div>`;
+            document.getElementById('feedbackStatusMsg').innerHTML = "🎉 Correct answer!";
+        } else {
+            resultHtml = `<div class="answer-feedback wrong">❌ Wrong answer. Correct option is ${q.answer}: ${q.options[q.answer] || q.answer}. ${explanationMsg.substring(0,100)}</div>`;
+            document.getElementById('feedbackStatusMsg').innerHTML = "❌ Incorrect, review explanation.";
+        }
+        document.getElementById('answerResultBox').innerHTML = resultHtml;
+        let fullExplain = `${isCorrect ? '✓ Correct. ' : '✗ Incorrect. '} Explanation: ${explanationMsg}`;
+        if(!isCorrect) fullExplain += ` The correct choice is ${q.answer}.`;
+        document.getElementById('explanationText').innerHTML = fullExplain;
+    }
+
+    function speakExplanation() {
+        let explanationDiv = document.getElementById('explanationText');
+        let textToRead = explanationDiv.innerText || "No explanation available.";
+        if('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+            let utterance = new SpeechSynthesisUtterance(textToRead);
+            utterance.lang = 'en-US';
+            utterance.rate = 0.9;
+            window.speechSynthesis.speak(utterance);
+        } else {
+            alert("Your browser does not support text-to-speech.");
+        }
+    }
+
+    function saveAnswer() {
+        const selected = document.querySelector('input[name="option"]:checked');
+        if(selected) {
+            userAnswers[currentQuestion] = selected.value;
+            countUserSelections();
+            updateFeedbackForCurrentQuestion();
+            renderQuestionButtons();
+        }
+    }
+
+    // FIXED: displayQuestion function - now using questionDisplay div instead of textarea
+    function displayQuestion() {
+        if(currentQuestion >= questions.length) return;
+        const q = questions[currentQuestion];
+        document.getElementById('questionDisplay').innerHTML = `${currentQuestion+1}. ${mapMathSymbol(q.question)}`;
+        document.getElementById('optA').innerHTML = mapMathSymbol(q.options.A);
+        document.getElementById('optB').innerHTML = mapMathSymbol(q.options.B);
+        document.getElementById('optC').innerHTML = mapMathSymbol(q.options.C);
+        document.getElementById('optD').innerHTML = mapMathSymbol(q.options.D);
+        
+        const radios = document.getElementsByName('option');
+        radios.forEach(r => r.checked = false);
+        if(userAnswers[currentQuestion]) {
+            document.querySelector(`input[name="option"][value="${userAnswers[currentQuestion]}"]`).checked = true;
+        }
+        
+        const imgContainer = document.getElementById('questionImageContainer');
+        if(q.image && q.image !== null && q.image !== "") {
+            imgContainer.innerHTML = `<img src="${q.image}" style="max-width:200px; margin-top:10px;">`;
+        } else {
+            imgContainer.innerHTML = '';
+        }
+        
+        highlightCurrentButton();
+        updateFeedbackForCurrentQuestion();
+    }
+
+    function nextQuestion() { saveAnswer(); if(currentQuestion < questions.length-1) { currentQuestion++; displayQuestion(); } }
+    function prevQuestion() { saveAnswer(); if(currentQuestion > 0) { currentQuestion--; displayQuestion(); } }
+
+    function renderQuestionButtons() {
+        const container = document.getElementById('questionButtons');
+        if(!container) return;
+        container.innerHTML = '';
+        for(let i=0; i<questions.length; i++) {
+            const btn = document.createElement('button');
+            btn.textContent = i+1;
+            btn.className = 'question-btn';
+            btn.onclick = () => { saveAnswer(); currentQuestion = i; displayQuestion(); };
+            container.appendChild(btn);
+        }
+        highlightCurrentButton();
+    }
+    
+    function highlightCurrentButton() {
+        const btns = document.querySelectorAll('.question-btn');
+        btns.forEach((btn, idx) => {
+            const answered = userAnswers[idx] !== undefined;
+            const current = idx === currentQuestion;
+            btn.style.backgroundColor = current ? '#2d6a4f' : (answered ? '#d4a843' : '#fef9e6');
+            btn.style.color = current ? '#ffd700' : (answered ? 'white' : '#1a472a');
+            btn.style.border = current ? '2px solid #ffd700' : '1px solid #d4a843';
+        });
+    }
+    
+    function countUserSelections() {
+        let answeredCount = userAnswers.filter(a => a !== undefined && a !== null).length;
+        document.getElementById("answeredLabel").innerText = `Answered: ${answeredCount}/${questions.length}`;
+        document.getElementById("unansweredLabel").innerText = `Unanswered: ${questions.length - answeredCount}/${questions.length}`;
+    }
+
+    function showResult() {
+        clearInterval(timerInterval);
+        let score = 0;
+        questions.forEach((q, i) => { if(userAnswers[i] === q.answer) score++; });
+        const username = sessionStorage.getItem('username') || "Guest";
+        localStorage.setItem("examUser", username); 
+        localStorage.setItem("examScore", score);
+        localStorage.setItem("totalQuestions", questions.length);
+        localStorage.setItem("examSubject", "English Language");
+        localStorage.setItem("examYear", "2010");
+        alert(`NECO BECE Examination Completed!\nScore: ${score}/${questions.length}\nPercentage: ${((score/questions.length)*100).toFixed(1)}%`);
+        window.location.href = "results.html";
+    }
+    
+    function submitExam() { saveAnswer(); showResult(); }
+
+    function displayTheoryQuestion() {
+        if(theoryQuestions.length === 0) return;
+        const tq = theoryQuestions[currentTheory];
+        document.getElementById('theoryQuestionText').innerHTML = `${currentTheory+1}. ${tq.question} [${tq.marks} marks]`;
+        document.getElementById('theoryAnswer').value = theoryAnswers[currentTheory] || "";
+        updateTheoryStatus();
+    }
+    
+    function updateTheoryStatus() {
+        let saved = theoryAnswers.filter(a => a && a.trim() !== "").length;
+        document.getElementById("theoryStatus").innerHTML = `Question ${currentTheory+1} of ${theoryQuestions.length} | Saved: ${saved}/${theoryQuestions.length}`;
+    }
+    
+    function saveTheoryAnswer() { 
+        theoryAnswers[currentTheory] = document.getElementById('theoryAnswer').value; 
+        updateTheoryStatus(); 
+        alert("Theory answer saved."); 
+    }
+    
+    function nextTheoryQuestion() { 
+        if(currentTheory < theoryQuestions.length - 1) { 
+            saveTheoryAnswer();
+            currentTheory++; 
+            displayTheoryQuestion(); 
+        } else { 
+            alert("You are at the last theory question."); 
+        } 
+    }
+    
+    function prevTheoryQuestion() { 
+        if(currentTheory > 0) { 
+            saveTheoryAnswer();
+            currentTheory--; 
+            displayTheoryQuestion(); 
+        } 
+    }
+    
+    function submitTheoryExam() { 
+        saveTheoryAnswer();
+        alert("Theory answers recorded. Teacher will grade them manually.\n\nYour answers have been saved to browser storage."); 
+        console.log("Theory answers saved:", theoryAnswers);
+    }
+
+    function showSection(section) {
+        currentSection = section;
+        document.getElementById('objectivesBtn').classList.toggle('active', section === 'objectives');
+        document.getElementById('theoryBtn').classList.toggle('active', section === 'theory');
+        document.getElementById('objectivesSection').style.display = section === 'objectives' ? 'block' : 'none';
+        document.getElementById('theorySection').style.display = section === 'theory' ? 'block' : 'none';
+        if(section === 'theory') displayTheoryQuestion();
+    }
+
+    function mapMathSymbol(text) { 
+        if(!text) return ''; 
+        return text.replace(/&frac12;/g,'½').replace(/&frac14;/g,'¼').replace(/&frac34;/g,'¾').replace(/\^(\d+)/g,'<sup>$1</sup>'); 
+    }
+
+    function startTimer() {
+        timerInterval = setInterval(() => {
+            if(timeLeft <= 0) { 
+                clearInterval(timerInterval); 
+                alert("Time's up! Auto-submitting."); 
+                submitExam(); 
+            } else {
+                timeLeft--;
+                let min = Math.floor(timeLeft/60);
+                let sec = timeLeft%60;
+                document.getElementById('timer').textContent = `⏱️ Time Remaining: ${min}:${sec<10?'0'+sec:sec}`;
+            }
+        }, 1000);
+    }
+
+    window.onload = function() {
+        const username = sessionStorage.getItem('username') || 'Student';
+        const userImage = sessionStorage.getItem('image') || 'img/default_user.jpg';
+        document.getElementById('username').innerText = username;
+        document.getElementById('usernameDisplay').innerHTML = "👋 WELCOME: " + username;
+        document.getElementById('userImage').src = userImage;
+        
+        displayQuestion(); 
+        renderQuestionButtons(); 
+        countUserSelections(); 
+        updateTheoryStatus(); 
+        startTimer();
+        
+        setInterval(() => {
+            let now = new Date();
+            document.getElementById("datetime").innerHTML = now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) + " | " + now.toLocaleTimeString();
+        }, 1000);
+        
+        document.getElementById('ttsExplanationBtn').addEventListener('click', speakExplanation);
+        
+        const radioOptions = document.querySelectorAll('input[name="option"]');
+        radioOptions.forEach(radio => radio.addEventListener('change', () => { saveAnswer(); }));
+    };
+
+    function logout() { 
+        if(confirm("Are you sure you want to logout?")) {
+            clearInterval(timerInterval);
+            window.location.href = "index.html";
+        }
+    }
+
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('keydown', e => { 
+        if(e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) { 
+            e.preventDefault(); 
+            alert("Developer tools are disabled during examination."); 
+        } 
+    });
+</script>
+</body>
+</html>
